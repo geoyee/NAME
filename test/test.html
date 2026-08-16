@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>名典 — 自测页</title>
+<style>
+  body { font-family: "KaiTi","STKaiti","SimSun",serif; background:#f6f1e5; color:#2b2b2b; padding:24px; }
+  h1 { color:#b03a2e; }
+  .pass { color:#2e7d32; } .fail { color:#b03a2e; }
+  #summary { font-size:18px; margin:12px 0; }
+  li { margin:2px 0; }
+</style>
+</head>
+<body>
+<h1>「名典」规则断言（自测页）</h1>
+<p>本页与 <code>node test/run.js</code> 共用同一套 <code>test/fixtures.js</code> 断言。直接双击打开即可运行（file:// 下 script 加载可用）。</p>
+<div id="summary"></div>
+<ul id="results"></ul>
+
+<script src="../data/config.js"></script>
+<script src="../data/surnames.js"></script>
+<script src="../data/bad_homophones.js"></script>
+<script src="../data/chars.js"></script>
+<script src="../data/names.js"></script>
+<script src="../js/phonetics.js"></script>
+<script src="../js/calligraphy.js"></script>
+<script src="../js/meaning.js"></script>
+<script src="../js/scoring.js"></script>
+<script src="../js/candidate.js"></script>
+<script src="fixtures.js"></script>
+<script>
+(function () {
+  var cases = window.NamesApp.TestFixtures.cases;
+  var pass = 0, fail = 0;
+  var ul = document.getElementById("results");
+  cases.forEach(function (c) {
+    var li = document.createElement("li");
+    try {
+      c.fn();
+      pass++;
+      li.className = "pass";
+      li.textContent = "✓ " + c.name;
+    } catch (e) {
+      fail++;
+      li.className = "fail";
+      li.textContent = "✗ " + c.name + " — " + e.message;
+    }
+    ul.appendChild(li);
+  });
+  var s = document.getElementById("summary");
+  s.textContent = pass + " 通过 / " + fail + " 失败 / 共 " + cases.length;
+  s.className = fail ? "fail" : "pass";
+})();
+</script>
+</body>
+</html>

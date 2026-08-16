@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>名典 · 中国风宝宝取名</title>
+<!-- 可选：网络可用时加载霞鹜文楷，不可用自动回退系统楷体/宋体（不影响核心功能） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.7.0/style.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo-seal">名</div>
+    <div class="site-title">
+      <h1>名典</h1>
+      <p class="motto">小满胜万全 · 取名取于诗</p>
+    </div>
+    <button id="btn-fav" class="btn-ghost" title="查看收藏">♥ 我的收藏 <span id="fav-count" class="fav-badge">0</span></button>
+  </header>
+
+  <main class="layout">
+    <!-- ============ 表单区 ============ -->
+    <aside class="form-panel">
+      <div class="field">
+        <label for="father">父亲姓氏 <span class="req">*</span></label>
+        <input id="father" type="text" maxlength="2" placeholder="如：王 / 欧阳">
+        <div id="father-hint" class="hint"></div>
+      </div>
+
+      <div class="field">
+        <label for="mother">母亲姓氏 <span class="opt">（可选）</span></label>
+        <input id="mother" type="text" maxlength="2" placeholder="如：林">
+        <div id="mother-hint" class="hint"></div>
+        <label class="check-line"><input type="checkbox" id="use-mother"> 母姓入名（勾选后可用四字名：父姓+母姓+双字）</label>
+      </div>
+
+      <div class="field">
+        <label>性别</label>
+        <div class="pill-group" id="gender-group">
+          <button type="button" class="pill" data-value="m">男</button>
+          <button type="button" class="pill" data-value="f">女</button>
+          <button type="button" class="pill active" data-value="any">不限</button>
+        </div>
+      </div>
+
+      <div class="field field-row">
+        <div>
+          <label for="birth-year">出生年份</label>
+          <select id="birth-year"><option value="">—</option></select>
+        </div>
+        <div>
+          <label for="birth-month">出生月份</label>
+          <select id="birth-month"><option value="">—</option></select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>名字长度</label>
+        <div class="chip-group" id="mode-group">
+          <button type="button" class="chip active" data-value="double">双字名</button>
+          <button type="button" class="chip" data-value="single">单字名</button>
+          <button type="button" class="chip" data-value="quad" id="mode-quad" disabled>四字名（父姓+母姓+双字）</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>风格偏好（可多选，「不限」与其余互斥）</label>
+        <div class="chip-group" id="style-group">
+          <button type="button" class="chip active" data-value="any">不限</button>
+          <button type="button" class="chip" data-value="poetry">诗词曲赋</button>
+          <button type="button" class="chip" data-value="classics">诗经楚辞</button>
+          <button type="button" class="chip" data-value="medicine">中药名</button>
+          <button type="button" class="chip" data-value="nature">节气自然</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>期望的祝福方向（可多选，不选则不限）</label>
+        <div class="chip-group" id="blessing-group"></div>
+      </div>
+
+      <div class="field">
+        <label for="taboo">避讳字 <span class="opt">（如长辈名讳，用顿号或逗号分隔）</span></label>
+        <input id="taboo" type="text" placeholder="如：春、梅">
+      </div>
+
+      <div class="field">
+        <label for="count">候选数量</label>
+        <select id="count">
+          <option value="10">10 个</option>
+          <option value="15" selected>15 个</option>
+          <option value="20">20 个</option>
+        </select>
+      </div>
+
+      <div class="field actions">
+        <button id="btn-generate" class="btn-primary">起 名</button>
+        <button id="btn-example" class="btn-ghost">填入示例</button>
+      </div>
+    </aside>
+
+    <!-- ============ 结果区 ============ -->
+    <section class="results-panel">
+      <div id="summary" class="summary hidden"></div>
+      <div class="sort-row hidden" id="sort-row">
+        <span>排序：</span>
+        <div class="chip-group" id="sort-group">
+          <button type="button" class="chip active" data-value="total">综合分</button>
+          <button type="button" class="chip" data-value="phonetic">音律优先</button>
+          <button type="button" class="chip" data-value="shape">书写优先</button>
+          <button type="button" class="chip" data-value="meaning">寓意优先</button>
+        </div>
+      </div>
+      <div id="cards" class="cards"></div>
+      <div id="empty" class="empty hidden">
+        <p>暂无结果。可以试试：</p>
+        <ul>
+          <li>取消避讳字，或风格选「不限」</li>
+          <li>换用四字名（勾选「母姓入名」）</li>
+          <li>减少所选风格类别</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    名典 · 名字出处可溯源 · 中药名仅取字面雅意，不构成任何用药建议
+  </footer>
+
+  <!-- 收藏抽屉 -->
+  <div id="fav-overlay" class="fav-overlay hidden">
+    <div class="fav-drawer">
+      <div class="fav-head">
+        <span>♥ 我的收藏</span>
+        <button id="btn-fav-close" class="btn-ghost">✕</button>
+      </div>
+      <div id="fav-list" class="fav-list"></div>
+      <div class="fav-foot">
+        <button id="btn-fav-clear" class="btn-ghost">清空收藏</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 数据与脚本：加载顺序即架构（file:// 下无模块化，按依赖顺序挂全局） -->
+  <script src="data/config.js"></script>
+  <script src="data/surnames.js"></script>
+  <script src="data/bad_homophones.js"></script>
+  <script src="data/chars.js"></script>
+  <script src="data/names.js"></script>
+  <script src="js/phonetics.js"></script>
+  <script src="js/calligraphy.js"></script>
+  <script src="js/meaning.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/candidate.js"></script>
+  <script src="js/ui/form.js"></script>
+  <script src="js/ui/results.js"></script>
+  <script src="js/ui/detail.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
