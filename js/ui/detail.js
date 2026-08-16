@@ -35,7 +35,9 @@ window.NamesApp.UI.Detail = (function () {
     catch (e) { return []; }
   }
   function setFavs(list) {
-    localStorage.setItem(FAV_KEY, JSON.stringify(list));
+    try {
+      localStorage.setItem(FAV_KEY, JSON.stringify(list));
+    } catch (e) { /* 隐私模式/存储满时静默降级，不阻断主流程 */ }
     window.NamesApp.UI.Detail.refreshFavBadge();
   }
   function isFaved(fullName) { return getFavs().some(f => f.fullName === fullName); }
@@ -175,6 +177,64 @@ window.NamesApp.UI.Detail = (function () {
       .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
 
+  // ---------- 配对卡片（双胞胎/龙凤胎） ----------
+  function buildPairCard(p, input, index) {
+    const el = document.createElement("div");
+    el.className = "card card-pair";
+    const pair = p.pair;
+
+    el.innerHTML =
+      '<div class="card-head">' +
+        '<span class="card-pair-names"><span class="pair-name">' + escapeHtml(p.a.fullName) + '</span>' +
+        '<span class="pair-dot">·</span>' +
+        '<span class="pair-name">' + escapeHtml(p.b.fullName) + '</span></span>' +
+        '<span class="card-badges"><span class="score-badge" title="对均分">' + p.totalInt + '</span></span>' +
+      '</div>' +
+      '<div class="detail-quote pair-note">「' + escapeHtml(pair.note) + '」' +
+        '<span class="q-title">—— ' + escapeHtml(pair.source) + '</span></div>' +
+      '<div class="card-detail"></div>' +
+      '<div class="card-actions">' +
+        '<button class="act-fav">♥ 收藏</button>' +
+        '<button class="act-copy">📋 复制</button>' +
+      '</div>';
+
+    el.addEventListener("click", function (e) {
+      if (e.target.closest(".card-actions")) return;
+      const open = el.classList.toggle("open");
+      if (open) fillPairDetail(el, p);
+    });
+
+    el.querySelector(".act-fav").addEventListener("click", function () {
+      const faved = toggleFav({ fullName: p.a.fullName + " · " + p.b.fullName, entry: { given: pair.a.given + "·" + pair.b.given, category: p.a.entry.category, source: { title: pair.source } }, totalInt: p.totalInt });
+      this.textContent = faved ? "♥ 已收藏" : "♥ 收藏";
+      this.classList.toggle("faved", faved);
+    });
+
+    el.querySelector(".act-copy").addEventListener("click", function () {
+      copyText(p.a.fullName + " · " + p.b.fullName + "（" + pair.note + "）", this);
+    });
+
+    return el;
+  }
+
+  function fillPairDetail(el, p) {
+    const d = el.querySelector(".card-detail");
+    if (d.dataset.filled) return;
+    d.dataset.filled = "1";
+    d.innerHTML =
+      '<div class="detail-section"><b>老大</b>' + escapeHtml(p.a.fullName) + '（' + escapeHtml(p.a.pinyins.join(" ")) + '）' +
+        ' · 出处：' + escapeHtml(p.a.entry.source.title) + ' · ' + escapeHtml(p.a.entry.meaning) + '</div>' +
+      '<div class="detail-section"><b>老二</b>' + escapeHtml(p.b.fullName) + '（' + escapeHtml(p.b.pinyins.join(" ")) + '）' +
+        ' · 出处：' + escapeHtml(p.b.entry.source.title) + ' · ' + escapeHtml(p.b.entry.meaning) + '</div>' +
+      '<div class="dim-bars">' + halfBars("老大", p.a) + halfBars("老二", p.b) + '</div>';
+  }
+
+  function halfBars(label, c) {
+    return '<div class="dim-bar"><span class="dim-label">' + label + '</span>' +
+      '<span class="dim-track"><span class="dim-fill" style="width:' + c.totalInt + '%"></span></span>' +
+      '<span class="dim-val">' + c.totalInt + '</span></div>';
+  }
+
   // 收藏抽屉渲染
   function renderFavList() {
     const list = document.getElementById("fav-list");
@@ -199,7 +259,7 @@ window.NamesApp.UI.Detail = (function () {
   }
 
   return {
-    buildCard: buildCard, renderNote: renderNote,
+    buildCard: buildCard, buildPairCard: buildPairCard, renderNote: renderNote,
     getFavs: getFavs, toggleFav: toggleFav, isFaved: isFaved,
     refreshFavBadge: refreshFavBadge, renderFavList: renderFavList
   };

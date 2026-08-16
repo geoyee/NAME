@@ -22,11 +22,13 @@ load("data/surnames.js");
 load("data/bad_homophones.js");
 load("data/chars.js");
 load("data/names.js");
+load("data/pairs.js");
 load("js/phonetics.js");
 load("js/calligraphy.js");
 load("js/meaning.js");
 load("js/scoring.js");
 load("js/candidate.js");
+load("js/pairs.js");
 load("test/fixtures.js");
 
 const cases = window.NamesApp.TestFixtures.cases;

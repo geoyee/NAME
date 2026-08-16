@@ -37,8 +37,8 @@ function loadFile(filename) {
 }
 
 // 各文件自带 window.NAMES_DB = { key: ... }，逐个加载后合并
-const DB = { chars: null, names: null, surnames: null, badHomo: null, config: null };
-for (const f of ["config.js", "surnames.js", "bad_homophones.js", "chars.js", "names.js"]) {
+const DB = { chars: null, names: null, surnames: null, badHomo: null, config: null, pairs: null };
+for (const f of ["config.js", "surnames.js", "bad_homophones.js", "chars.js", "names.js", "pairs.js"]) {
   const db = loadFile(f);
   if (db) Object.assign(DB, db);
 }
@@ -119,7 +119,7 @@ if (DB.config) {
 }
 
 // ---------- names ----------
-const CATEGORIES = ["shijing", "chuci", "tangshi", "songci", "yuanqu", "hanfu", "medicine", "solar", "nature", "wenyan"];
+const CATEGORIES = ["shijing", "chuci", "tangshi", "songci", "yuanqu", "hanfu", "medicine", "solar", "nature", "wenyan", "jindai"];
 if (DB.names) {
   const seenId = new Set(), seenGiven = new Set();
   const catCount = {};
@@ -178,6 +178,25 @@ if (charKeys.length) {
   for (const ch of surnameChars) {
     if (!DB.chars[ch]) errors.push(`[chars] 姓氏用字「${ch}」不在 chars.js`);
   }
+}
+
+// ---------- pairs 配对库 ----------
+if (DB.pairs) {
+  const nameSet = new Set((DB.names || []).map(n => n.given + "|" + n.length));
+  const seenPairId = new Set();
+  for (const p of DB.pairs) {
+    if (!p.id) { errors.push("[pairs] 缺 id"); continue; }
+    if (seenPairId.has(p.id)) errors.push(`[pairs] 重复 id: ${p.id}`);
+    seenPairId.add(p.id);
+    if (!p.a || !p.b || !p.a.given || !p.b.given) { errors.push(`[pairs] ${p.id}: 缺 a/b.given`); continue; }
+    if (!p.note || !p.source) errors.push(`[pairs] ${p.id}: 缺 note/source`);
+    for (const half of [p.a, p.b]) {
+      if (!["m", "f", "u"].includes(half.gender)) errors.push(`[pairs] ${p.id} (${half.given}): 非法 gender「${half.gender}」`);
+      const entry = (DB.names || []).find(n => n.given === half.given);
+      if (!entry) errors.push(`[pairs] ${p.id} (${half.given}): 词条不在 names.js`);
+    }
+  }
+  console.log(`[pairs] 配对总数: ${DB.pairs.length}`);
 }
 
 // ---------- 汇总 ----------

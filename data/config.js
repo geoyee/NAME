@@ -2,8 +2,10 @@
 // 所有可调数字集中于此，调参不改代码
 window.NAMES_DB = window.NAMES_DB || {};
 window.NAMES_DB.config = {
-  // 五维权重（合计 1.00）
+  // 五维权重（合计 1.00；UI 滑杆按比例覆盖，打分时自动归一）
   weights: { phonetic: 0.30, shape: 0.25, meaning: 0.35, gender: 0.05, freq: 0.05 },
+  // 滑杆默认值（百分比显示）
+  defaultWeights: { phonetic: 30, shape: 25, meaning: 35, gender: 5, freq: 5 },
 
   // 祝福方向标签（表单选项 + 词条 tags 取值空间）
   blessingTags: ["平安", "聪慧", "风雅", "健康", "爱情", "富贵", "坚韧", "仁善", "清朗", "自然", "事业", "福寿"],
@@ -30,7 +32,8 @@ window.NAMES_DB.config = {
   // 类别展示名
   categoryLabels: {
     shijing: "诗经", chuci: "楚辞", tangshi: "唐诗", songci: "宋词", yuanqu: "元曲",
-    hanfu: "汉魏", medicine: "中药", solar: "节气", nature: "自然", wenyan: "雅词"
+    hanfu: "汉魏", medicine: "中药", solar: "节气", nature: "自然", wenyan: "雅词",
+    jindai: "近代"
   },
 
   // 生肖（出生年 → 徽章）

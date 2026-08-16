@@ -56,26 +56,40 @@ window.NamesApp.Candidate = (function () {
    * 生成候选（未过滤）
    * modes: double 双字名 / single 单字名 / quad 父姓+母姓+单字
    */
+  // 是否纯汉字（姓氏/母姓校验用）
+  function isCJK(s) {
+    return /^[一-龥]+$/.test(s || "");
+  }
+
   function buildCandidates(input) {
     const out = [];
     const sur = resolveSurname(input.fatherSurname);
     if (!sur) return out;
+    // 非汉字姓氏直接返回空（乱输入防护）
+    if (!isCJK(sur.text)) return out;
+    const modes = Array.isArray(input.modes) ? input.modes : ["double"];
     const cats = stylesToCategories(input.styles);
     const entries = (window.NAMES_DB.names || []).filter(n => !cats || cats.has(n.category));
-    // 母姓入名要求母姓存在且与父姓不同（「王王×」无意义）
-    const motherOk = input.motherSurname &&
+    // 母姓入名要求母姓为汉字、存在且与父姓不同（「王王×」无意义）
+    const motherOk = input.motherSurname && isCJK(input.motherSurname) &&
       input.motherSurname.trim() !== (input.fatherSurname || "").trim();
 
     for (const entry of entries) {
-      if (input.modes.includes("double") && entry.length === 2) {
+      if (modes.includes("double") && entry.length === 2) {
         out.push(makeCandidate(entry, sur, input, "double"));
       }
-      if (input.modes.includes("single") && entry.length === 1) {
+      if (modes.includes("single") && entry.length === 1) {
         out.push(makeCandidate(entry, sur, input, "single"));
       }
-      // 四字名 = 父姓+母姓+双字（4 字全名）；父姓为复姓时该模式在表单层禁用
-      if (input.modes.includes("quad") && entry.length === 2 && motherOk) {
-        out.push(makeCandidate(entry, sur, input, "quad"));
+      // 母姓入名四式（父姓为复姓时表单层禁用）：
+      // tri   父姓+母姓+单字（3 字）  quad  父姓+母姓+双字（4 字）
+      // trimf 母姓+父姓+单字（3 字）  quadmf 母姓+父姓+双字（4 字）
+      const motherFirst = !!input.motherFirst;
+      if (modes.includes("tri") && entry.length === 1 && motherOk) {
+        out.push(makeCandidate(entry, sur, input, motherFirst ? "trimf" : "tri"));
+      }
+      if (modes.includes("quad") && entry.length === 2 && motherOk) {
+        out.push(makeCandidate(entry, sur, input, motherFirst ? "quadmf" : "quad"));
       }
     }
     return out;
@@ -83,14 +97,17 @@ window.NamesApp.Candidate = (function () {
 
   function makeCandidate(entry, sur, input, mode) {
     let surnameText, surnamePinyin, surnameTones, surnameStrokes, surnameStructures, compatSurname;
-    if (mode === "quad") {
+    if (mode === "quad" || mode === "quadmf" || mode === "tri" || mode === "trimf") {
       const mother = resolveSurname(input.motherSurname);
-      surnameText = sur.text + mother.text;
-      surnamePinyin = sur.pinyin.concat(mother.pinyin);
-      surnameTones = sur.tones.concat(mother.tones);
-      surnameStrokes = sur.strokes.concat(mother.strokes);
-      surnameStructures = sur.structures.concat(mother.structures);
-      compatSurname = input.motherSurname.trim();   // 四字名优先查「母姓+单字」妙配
+      const motherFirst = mode === "quadmf" || mode === "trimf";
+      const first = motherFirst ? mother : sur;
+      const second = motherFirst ? sur : mother;
+      surnameText = first.text + second.text;
+      surnamePinyin = first.pinyin.concat(second.pinyin);
+      surnameTones = first.tones.concat(second.tones);
+      surnameStrokes = first.strokes.concat(second.strokes);
+      surnameStructures = first.structures.concat(second.structures);
+      compatSurname = input.motherSurname.trim();   // 母姓入名优先查「母姓+名首字」妙配
     } else {
       surnameText = sur.text;
       surnamePinyin = sur.pinyin;
@@ -164,6 +181,8 @@ window.NamesApp.Candidate = (function () {
    */
   function generate(input) {
     const t0 = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
+    // count 防御：非数字/负数/超大 → clamp 到 [1, 100]
+    input.count = Math.max(1, Math.min(100, parseInt(input.count, 10) || 15));
     const raw = buildCandidates(input);
     const filtered = filterCandidates(raw, input);
     const scored = filtered.map(c => window.NamesApp.Scoring.scoreCandidate(c, input));
@@ -183,14 +202,27 @@ window.NamesApp.Candidate = (function () {
       deduped.push(s);
     }
 
+    // 多样性：同一首字最多 3 个（避免「清×」「×月」扎堆），其余按原序递补
+    // 生成多批（最多 90 个）供「换一批」翻页；candidates 为首批
+    const diversified = [];
+    const firstCount = {};
+    for (const s of deduped) {
+      const key = s.entry.given[0];
+      if ((firstCount[key] || 0) >= 3) continue;
+      firstCount[key] = (firstCount[key] || 0) + 1;
+      diversified.push(s);
+    }
+    const BATCH_CAP = 90;
+
     const t1 = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
     return {
-      candidates: deduped.slice(0, input.count || 15),
+      candidates: diversified.slice(0, input.count),
+      all: diversified.slice(0, BATCH_CAP),
       totalGenerated: raw.length,
       totalFiltered: filtered.length,
       ms: Math.round((t1 - t0) * 10) / 10
     };
   }
 
-  return { charInfo, resolveSurname, stylesToCategories, buildCandidates, makeCandidate, filterCandidates, generate };
+  return { charInfo, resolveSurname, stylesToCategories, buildCandidates, makeCandidate, filterCandidates, generate, isCJK };
 })();

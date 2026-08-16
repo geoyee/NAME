@@ -1,3336 +1,977 @@
-// 「名典」名字词条主库
-// 每个词条自带出处与寓意（名字质量 = 词库质量）。编写规范见 README：
-// ①一字一验（用字必须存在于 chars.js）②出处可溯源（无法确证标 verified:false）
-// ③双关优先（与常见姓构成妙配的词条同步录入 config.surnameCompat）
-// gender: f 女 / m 男 / u 中性；frequency: legend 千古名句 / classic 名篇 / common 雅词
 window.NAMES_DB = window.NAMES_DB || {};
 window.NAMES_DB.names = [
-  // ==================== 《诗经》 ====================
-  {
-    id: "hui-yin", given: "徽音", length: 2, pinyin: "hui yin", tones: [1, 1],
-    category: "shijing", gender: "f",
-    source: { text: "大姒嗣徽音，则百斯男", title: "《诗经·大雅·思齐》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "徽：美好。徽音：美好的声誉、美德，为母仪之范。",
-    tags: ["仁善", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "you-you", given: "呦呦", length: 2, pinyin: "you you", tones: [1, 1],
-    category: "shijing", gender: "u",
-    source: { text: "呦呦鹿鸣，食野之苹。我有嘉宾，鼓瑟吹笙", title: "《诗经·小雅·鹿鸣》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "鹿鸣呦呦，呼朋引伴之声，和乐而欢喜。",
-    tags: ["自然", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "jing-shu", given: "静姝", length: 2, pinyin: "jing shu", tones: [4, 1],
-    category: "shijing", gender: "f",
-    source: { text: "静女其姝，俟我于城隅", title: "《诗经·邶风·静女》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "静：娴静；姝：美好。娴静而美好的女子。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "yao-tiao", given: "窈窕", length: 2, pinyin: "yao tiao", tones: [3, 3],
-    category: "shijing", gender: "f",
-    source: { text: "窈窕淑女，君子好逑", title: "《诗经·周南·关雎》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "窈窕：体态美好、仪容娴雅。淑女之典范。",
-    tags: ["风雅", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "jian-jia", given: "蒹葭", length: 2, pinyin: "jian jia", tones: [1, 1],
-    category: "shijing", gender: "u",
-    source: { text: "蒹葭苍苍，白露为霜。所谓伊人，在水一方", title: "《诗经·秦风·蒹葭》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "蒹葭：芦苇。秋日水畔，苍苍蒹葭，含蓄隽永的追寻之美。",
-    tags: ["自然", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "yao-yao", given: "夭夭", length: 2, pinyin: "yao yao", tones: [1, 1],
-    category: "shijing", season: [1], gender: "f",
-    source: { text: "桃之夭夭，灼灼其华", title: "《诗经·周南·桃夭》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "夭夭：草木初生之态，生机勃勃、含苞待放。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhuo-hua", given: "灼华", length: 2, pinyin: "zhuo hua", tones: [2, 2],
-    category: "shijing", season: [1], gender: "f",
-    source: { text: "桃之夭夭，灼灼其华", title: "《诗经·周南·桃夭》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "灼华：花朵明艳如火。取其明丽照人之意。",
-    tags: ["风雅", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "tao-yao", given: "桃夭", length: 2, pinyin: "tao yao", tones: [2, 1],
-    category: "shijing", season: [1], gender: "f",
-    source: { text: "桃之夭夭，灼灼其华。之子于归，宜其室家", title: "《诗经·周南·桃夭》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "桃夭：桃花盛开。贺新娘之诗，寓婚姻美满、宜室宜家。",
-    tags: ["爱情", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "yan-wan", given: "燕婉", length: 2, pinyin: "yan wan", tones: [4, 3],
-    category: "shijing", gender: "f",
-    source: { text: "燕婉之求，籧篨不鲜", title: "《诗经·邶风·新台》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "燕婉：温柔和顺、美好。",
-    tags: ["风雅", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "ru-yun", given: "如云", length: 2, pinyin: "ru yun", tones: [2, 2],
-    category: "shijing", gender: "f",
-    source: { text: "出其东门，有女如云", title: "《诗经·郑风·出其东门》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "如云：如云般众多而美好。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "zi-jin", given: "子衿", length: 2, pinyin: "zi jin", tones: [3, 1],
-    category: "shijing", gender: "u",
-    source: { text: "青青子衿，悠悠我心", title: "《诗经·郑风·子衿》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "子衿：你的衣领，后指学子。青青子衿，青春好学之象。",
-    tags: ["聪慧", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "zi-pei", given: "子佩", length: 2, pinyin: "zi pei", tones: [3, 4],
-    category: "shijing", gender: "u",
-    source: { text: "青青子佩，悠悠我思", title: "《诗经·郑风·子衿》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "子佩：你的玉佩。佩玉鸣鸾，君子之饰。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-yang", given: "清扬", length: 2, pinyin: "qing yang", tones: [1, 2],
-    category: "shijing", gender: "u",
-    source: { text: "有美一人，清扬婉兮", title: "《诗经·郑风·野有蔓草》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "清扬：眉目清秀。亦谐「轻扬」，神采飞扬。",
-    tags: ["清朗", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "wan-xi", given: "婉兮", length: 2, pinyin: "wan xi", tones: [3, 1],
-    category: "shijing", gender: "f",
-    source: { text: "有美一人，清扬婉兮", title: "《诗经·郑风·野有蔓草》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "婉：温婉。婉兮，温婉美好之貌。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "ling-lu", given: "零露", length: 2, pinyin: "ling lu", tones: [2, 4],
-    category: "shijing", gender: "u",
-    source: { text: "野有蔓草，零露漙兮", title: "《诗经·郑风·野有蔓草》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "零露：晶莹的露珠。清澈纯净，不染纤尘。",
-    tags: ["清朗", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "jing-hao", given: "静好", length: 2, pinyin: "jing hao", tones: [4, 3],
-    category: "shijing", gender: "f",
-    source: { text: "琴瑟在御，莫不静好", title: "《诗经·郑风·女曰鸡鸣》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "静好：安静美好。「岁月静好」之出处，愿岁月温柔、现世安稳。",
-    tags: ["平安", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "qin-se", given: "琴瑟", length: 2, pinyin: "qin se", tones: [2, 4],
-    category: "shijing", gender: "u",
-    source: { text: "窈窕淑女，琴瑟友之", title: "《诗经·周南·关雎》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "琴瑟：弦乐之合。「琴瑟和鸣」喻夫妻和谐。",
-    tags: ["爱情", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "qiong-yao", given: "琼瑶", length: 2, pinyin: "qiong yao", tones: [2, 2],
-    category: "shijing", gender: "f",
-    source: { text: "投我以木桃，报之以琼瑶", title: "《诗经·卫风·木瓜》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "琼瑶：美玉。知恩图报，情比美玉。",
-    tags: ["爱情", "仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "qiong-jiu", given: "琼玖", length: 2, pinyin: "qiong jiu", tones: [2, 3],
-    category: "shijing", gender: "u",
-    source: { text: "投我以木李，报之以琼玖", title: "《诗经·卫风·木瓜》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "琼玖：美玉。与「琼瑶」同源，取酬报之意。",
-    tags: ["仁善", "富贵"], frequency: "classic", verified: true
-  },
-  {
-    id: "ru-yue", given: "如月", length: 2, pinyin: "ru yue", tones: [2, 4],
-    category: "shijing", gender: "f",
-    source: { text: "如月之恒，如日之升", title: "《诗经·小雅·天保》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "如月：如月渐盈，日日向好。祝福之辞。",
-    tags: ["福寿", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "gu-feng", given: "谷风", length: 2, pinyin: "gu feng", tones: [3, 1],
-    category: "shijing", season: [1], gender: "u",
-    source: { text: "习习谷风，以阴以雨", title: "《诗经·邶风·谷风》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "谷风：山谷间的和风，习习而来。",
-    tags: ["自然", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "kai-feng", given: "凯风", length: 2, pinyin: "kai feng", tones: [3, 1],
-    category: "shijing", season: [1, 2], gender: "u",
-    source: { text: "凯风自南，吹彼棘心", title: "《诗经·邶风·凯风》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "凯风：和煦的南风，喻母爱之温润。",
-    tags: ["仁善", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhen-zhen", given: "蓁蓁", length: 2, pinyin: "zhen zhen", tones: [1, 1],
-    category: "shijing", season: [1], gender: "f",
-    source: { text: "桃之夭夭，其叶蓁蓁", title: "《诗经·周南·桃夭》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "蓁蓁：枝叶繁茂。生机勃发，家业兴旺。",
-    tags: ["自然", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "cai-wei", given: "采薇", length: 2, pinyin: "cai wei", tones: [3, 1],
-    category: "shijing", season: [1], gender: "u",
-    source: { text: "采薇采薇，薇亦作止。曰归曰归，岁亦莫止", title: "《诗经·小雅·采薇》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "采薇：采摘薇菜。古之名篇，含乡思与坚韧。",
-    tags: ["坚韧", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "yang-liu", given: "杨柳", length: 2, pinyin: "yang liu", tones: [2, 3],
-    category: "shijing", season: [1], gender: "u",
-    source: { text: "昔我往矣，杨柳依依", title: "《诗经·小雅·采薇》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "杨柳：春风中的垂柳，依依惜别之情。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "yi-yi", given: "依依", length: 2, pinyin: "yi yi", tones: [1, 1],
-    category: "shijing", season: [1], gender: "f",
-    source: { text: "昔我往矣，杨柳依依", title: "《诗经·小雅·采薇》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "依依：轻柔依恋之貌。",
-    tags: ["爱情"], frequency: "classic", verified: true
-  },
-  {
-    id: "fei-fei", given: "霏霏", length: 2, pinyin: "fei fei", tones: [1, 1],
-    category: "shijing", gender: "f",
-    source: { text: "今我来思，雨雪霏霏", title: "《诗经·小雅·采薇》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "霏霏：雨雪纷飞之貌。",
-    tags: ["自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "si-qi", given: "思齐", length: 2, pinyin: "si qi", tones: [1, 2],
-    category: "shijing", gender: "u",
-    source: { text: "思齐大任，文王之母", title: "《诗经·大雅·思齐》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "思齐：见贤思齐（《论语》）。亦出《诗经·思齐》，取向善向贤之意。",
-    tags: ["聪慧", "仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "yan-yan", given: "燕燕", length: 2, pinyin: "yan yan", tones: [4, 4],
-    category: "shijing", season: [1], gender: "f",
-    source: { text: "燕燕于飞，差池其羽", title: "《诗经·邶风·燕燕》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "燕燕：春燕双飞。轻盈自在。",
-    tags: ["自然", "爱情"], frequency: "classic", verified: true
-  },
-  {
-    id: "yu-fei", given: "于飞", length: 2, pinyin: "yu fei", tones: [2, 1],
-    category: "shijing", season: [1], gender: "u",
-    source: { text: "凤凰于飞，翙翙其羽", title: "《诗经·大雅·卷阿》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "于飞：凤凰比翼双飞。吉庆之象，喻夫妻和顺、事业腾飞。",
-    tags: ["爱情", "事业"], frequency: "legend", verified: true
-  },
-  {
-    id: "jing-jing", given: "菁菁", length: 2, pinyin: "jing jing", tones: [1, 1],
-    category: "shijing", season: [1], gender: "f",
-    source: { text: "菁菁者莪，在彼中阿", title: "《诗经·小雅·菁菁者莪》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "菁菁：草木茂盛，亦喻人才济济。",
-    tags: ["聪慧", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "lu-ming", given: "鹿鸣", length: 2, pinyin: "lu ming", tones: [4, 2],
-    category: "shijing", gender: "u",
-    source: { text: "呦呦鹿鸣，食野之苹。我有嘉宾，鼓瑟吹笙", title: "《诗经·小雅·鹿鸣》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "鹿鸣：宴乐嘉宾之诗。「鹿鸣宴」为新科举人设，寓功名有成。",
-    tags: ["事业", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "zhan-lu", given: "湛露", length: 2, pinyin: "zhan lu", tones: [4, 4],
-    category: "shijing", gender: "u",
-    source: { text: "湛湛露斯，匪阳不晞", title: "《诗经·小雅·湛露》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "湛露：浓重的露水。湛亦含清澈之意。",
-    tags: ["清朗", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "he-ming", given: "鹤鸣", length: 2, pinyin: "he ming", tones: [4, 2],
-    category: "shijing", gender: "u",
-    source: { text: "鹤鸣于九皋，声闻于天", title: "《诗经·小雅·鹤鸣》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "鹤鸣：仙鹤长鸣，声闻于天。喻才华终将显于世。",
-    tags: ["事业", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "jiu-gao", given: "九皋", length: 2, pinyin: "jiu gao", tones: [3, 1],
-    category: "shijing", gender: "m",
-    source: { text: "鹤鸣于九皋，声闻于天", title: "《诗经·小雅·鹤鸣》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "九皋：深远的水泽。鹤鸣九皋，深藏不露、一鸣惊人。",
-    tags: ["风雅", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "mu-qing", given: "穆清", length: 2, pinyin: "mu qing", tones: [4, 1],
-    category: "shijing", gender: "u",
-    source: { text: "吉甫作诵，穆如清风", title: "《诗经·大雅·烝民》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "穆清：和美如清风，天清气和之象。",
-    tags: ["清朗", "仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "qing-feng", given: "清风", length: 2, pinyin: "qing feng", tones: [1, 1],
-    category: "shijing", gender: "u",
-    source: { text: "吉甫作诵，穆如清风", title: "《诗经·大雅·烝民》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "清风：穆如清风。苏轼《赤壁赋》亦有「清风徐来」，两美并收。",
-    tags: ["清朗", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "qiao-mu", given: "乔木", length: 2, pinyin: "qiao mu", tones: [2, 4],
-    category: "shijing", gender: "m",
-    source: { text: "南有乔木，不可休思", title: "《诗经·周南·汉广》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "乔木：高大的树木。顶天立地，可为栋梁。",
-    tags: ["事业", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "bai-zhou", given: "柏舟", length: 2, pinyin: "bai zhou", tones: [3, 1],
-    category: "shijing", gender: "m",
-    source: { text: "泛彼柏舟，亦泛其流", title: "《诗经·邶风·柏舟》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "柏舟：柏木之舟。坚贞自守、不随波逐流。",
-    tags: ["坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "jing-nv", given: "静女", length: 2, pinyin: "jing nv", tones: [4, 3],
-    category: "shijing", gender: "f",
-    source: { text: "静女其姝，俟我于城隅", title: "《诗经·邶风·静女》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "静女：娴静美好的女子。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "tong-guan", given: "彤管", length: 2, pinyin: "tong guan", tones: [2, 3],
-    category: "shijing", gender: "f",
-    source: { text: "静女其娈，贻我彤管", title: "《诗经·邶风·静女》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "彤管：红色的笔管，古代女史记事之笔。取文采之意。",
-    tags: ["爱情", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "lv-zhu", given: "绿竹", length: 2, pinyin: "lv zhu", tones: [4, 2],
-    category: "shijing", gender: "u",
-    source: { text: "瞻彼淇奥，绿竹猗猗", title: "《诗经·卫风·淇奥》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "绿竹：淇水之畔的翠竹。君子如竹，虚心有节。",
-    tags: ["坚韧", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "ru-gui", given: "如圭", length: 2, pinyin: "ru gui", tones: [2, 1],
-    category: "shijing", gender: "m",
-    source: { text: "如圭如璋，令闻令望", title: "《诗经·大雅·卷阿》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "如圭：如圭璧般端方温润。",
-    tags: ["仁善", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "rou-ti", given: "柔荑", length: 2, pinyin: "rou ti", tones: [2, 2],
-    category: "shijing", gender: "f",
-    source: { text: "手如柔荑，肤如凝脂", title: "《诗经·卫风·硕人》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "柔荑：初生白茅的嫩芽，喻女子纤柔之美。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "nan-shan", given: "南山", length: 2, pinyin: "nan shan", tones: [2, 1],
-    category: "shijing", gender: "m",
-    source: { text: "如南山之寿，不骞不崩", title: "《诗经·小雅·天保》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "南山：如南山之寿。福寿绵长之祝。",
-    tags: ["福寿", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "ru-song", given: "如松", length: 2, pinyin: "ru song", tones: [2, 1],
-    category: "shijing", gender: "m",
-    source: { text: "如松柏之茂，无不尔或承", title: "《诗经·小雅·天保》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "如松：如松柏之长青。健康长寿、岁寒不凋。",
-    tags: ["坚韧", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "san-qiu", given: "三秋", length: 2, pinyin: "san qiu", tones: [1, 1],
-    category: "shijing", season: [3], gender: "u",
-    source: { text: "一日不见，如三秋兮", title: "《诗经·王风·采葛》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "三秋：「一日不见，如隔三秋」，深情而风雅。",
-    tags: ["爱情", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "tao-li", given: "桃李", length: 2, pinyin: "tao li", tones: [2, 3],
-    category: "shijing", season: [1], gender: "u",
-    source: { text: "何彼襛矣，华如桃李", title: "《诗经·召南·何彼襛矣》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "桃李：桃李芳华。「桃李满天下」，亦寓育人成材。",
-    tags: ["事业", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "yi-ren", given: "伊人", length: 2, pinyin: "yi ren", tones: [1, 2],
-    category: "shijing", gender: "f",
-    source: { text: "蒹葭苍苍，白露为霜。所谓伊人，在水一方", title: "《诗经·秦风·蒹葭》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "伊人：那个人。水畔佳人，可望而思之。",
-    tags: ["风雅", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "jiao-jiao", given: "皎皎", length: 2, pinyin: "jiao jiao", tones: [3, 3],
-    category: "shijing", gender: "f",
-    source: { text: "月出皎兮，佼人僚兮", title: "《诗经·陈风·月出》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "皎皎：月光洁白明亮。亦见《古诗十九首》「皎皎河汉女」。",
-    tags: ["清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "jiang-han", given: "江汉", length: 2, pinyin: "jiang han", tones: [1, 4],
-    category: "shijing", gender: "m",
-    source: { text: "江汉浮浮，武夫滔滔", title: "《诗经·大雅·江汉》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "江汉：长江与汉水。雄浑壮阔，川流不息。",
-    tags: ["事业", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "yun-han", given: "云汉", length: 2, pinyin: "yun han", tones: [2, 4],
-    category: "shijing", gender: "m",
-    source: { text: "倬彼云汉，昭回于天", title: "《诗经·大雅·云汉》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "云汉：天河、银河。浩瀚高远。",
-    tags: ["清朗", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "ling-yu", given: "灵雨", length: 2, pinyin: "ling yu", tones: [2, 3],
-    category: "shijing", season: [1], gender: "f",
-    source: { text: "灵雨既零，命彼倌人", title: "《诗经·鄘风·定之方中》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "灵雨：好雨、及时之雨。润物无声。",
-    tags: ["自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "jing-hang", given: "景行", length: 2, pinyin: "jing hang", tones: [3, 2],
-    category: "shijing", gender: "m",
-    source: { text: "高山仰止，景行行止", title: "《诗经·小雅·车舝》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "景行：光明大道。高山仰止，景行行止，德行之范。",
-    tags: ["仁善", "事业"], frequency: "legend", verified: true
-  },
-  {
-    id: "gao-shan", given: "高山", length: 2, pinyin: "gao shan", tones: [1, 1],
-    category: "shijing", gender: "m",
-    source: { text: "高山仰止，景行行止", title: "《诗经·小雅·车舝》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "高山：高山仰止。亦「高山流水」知音之典。",
-    tags: ["坚韧", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "jia-yu", given: "嘉鱼", length: 2, pinyin: "jia yu", tones: [1, 2],
-    category: "shijing", gender: "u",
-    source: { text: "南有嘉鱼，烝然罩罩", title: "《诗经·小雅·南有嘉鱼》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "嘉鱼：美鱼。「嘉」为美善，年年有余。",
-    tags: ["仁善", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "yuan-fei", given: "鸢飞", length: 2, pinyin: "yuan fei", tones: [1, 1],
-    category: "shijing", gender: "m",
-    source: { text: "鸢飞戾天，鱼跃于渊", title: "《诗经·大雅·旱麓》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "鸢飞：鹰击长空。各得其所，志在高远。",
-    tags: ["事业", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "yu-yue", given: "鱼跃", length: 2, pinyin: "yu yue", tones: [2, 4],
-    category: "shijing", gender: "u",
-    source: { text: "鸢飞戾天，鱼跃于渊", title: "《诗经·大雅·旱麓》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "鱼跃：鱼跃于渊。「鱼跃龙门」之吉。",
-    tags: ["事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "lie-wen", given: "烈文", length: 2, pinyin: "lie wen", tones: [4, 2],
-    category: "shijing", gender: "m",
-    source: { text: "烈文辟公，锡兹祉福", title: "《诗经·周颂·烈文》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "烈文：功业与文章。文武相济。",
-    tags: ["事业", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "feng-nian", given: "丰年", length: 2, pinyin: "feng nian", tones: [1, 2],
-    category: "shijing", gender: "u",
-    source: { text: "丰年多黍多稌", title: "《诗经·周颂·丰年》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "丰年：五谷丰登之年。富足安康。",
-    tags: ["福寿", "富贵"], frequency: "classic", verified: true
-  },
-
-  // ==================== 《楚辞》 ====================
-  {
-    id: "ling-jun", given: "灵均", length: 2, pinyin: "ling jun", tones: [2, 1],
-    category: "chuci", gender: "m",
-    source: { text: "名余曰正则兮，字余曰灵均", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "灵均：屈原之字。灵：善；均：平。秉善持平，光风霁月。",
-    tags: ["风雅", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "zheng-ze", given: "正则", length: 2, pinyin: "zheng ze", tones: [4, 2],
-    category: "chuci", gender: "m",
-    source: { text: "名余曰正则兮，字余曰灵均", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "正则：屈原之名。公正而有法则。",
-    tags: ["仁善", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "xiu-yuan", given: "修远", length: 2, pinyin: "xiu yuan", tones: [1, 3],
-    category: "chuci", gender: "m",
-    source: { text: "路漫漫其修远兮，吾将上下而求索", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "修远：路漫漫其修远。求索不息，志存高远。",
-    tags: ["坚韧", "事业"], frequency: "legend", verified: true
-  },
-  {
-    id: "jiang-li", given: "江离", length: 2, pinyin: "jiang li", tones: [1, 2],
-    category: "chuci", gender: "u",
-    source: { text: "扈江离与辟芷兮，纫秋兰以为佩", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "江离：楚辞香草，生于江畔，清芬自远。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "pi-zhi", given: "辟芷", length: 2, pinyin: "pi zhi", tones: [4, 3],
-    category: "chuci", gender: "u",
-    source: { text: "扈江离与辟芷兮，纫秋兰以为佩", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "辟芷：幽处之白芷。生于幽谷，不以无人而不芳。",
-    tags: ["坚韧", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "qiu-lan", given: "秋兰", length: 2, pinyin: "qiu lan", tones: [1, 2],
-    category: "chuci", season: [3], gender: "f",
-    source: { text: "扈江离与辟芷兮，纫秋兰以为佩", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "秋兰：秋日之兰，纫以为佩。幽芳自守。",
-    tags: ["风雅", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "mu-lan", given: "木兰", length: 2, pinyin: "mu lan", tones: [4, 2],
-    category: "chuci", gender: "f",
-    source: { text: "朝饮木兰之坠露兮，夕餐秋菊之落英", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "木兰：饮木兰之坠露。亦花木兰之英名，柔中带刚。",
-    tags: ["坚韧", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "fu-rong", given: "芙蓉", length: 2, pinyin: "fu rong", tones: [2, 2],
-    category: "chuci", season: [2], gender: "f",
-    source: { text: "制芰荷以为衣兮，集芙蓉以为裳", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "芙蓉：荷花。「清水出芙蓉」，出淤泥而不染。",
-    tags: ["风雅", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "du-ruo", given: "杜若", length: 2, pinyin: "du ruo", tones: [4, 4],
-    category: "chuci", season: [3], gender: "f",
-    source: { text: "搴汀洲兮杜若，将以遗兮远者", title: "《九歌·湘夫人》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "杜若：香草，赠远人之花。芬芳而深情。",
-    tags: ["风雅", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "xiang-jun", given: "湘君", length: 2, pinyin: "xiang jun", tones: [1, 1],
-    category: "chuci", gender: "f",
-    source: { text: "君不行兮夷犹，蹇谁留兮中洲", title: "《九歌·湘君》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "湘君：湘水之神。婉约而深情。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "ruo-ying", given: "若英", length: 2, pinyin: "ruo ying", tones: [4, 1],
-    category: "chuci", gender: "f",
-    source: { text: "浴兰汤兮沐芳，华采衣兮若英", title: "《九歌·云中君》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "若英：如花般明艳。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhao-zhao", given: "昭昭", length: 2, pinyin: "zhao zhao", tones: [1, 1],
-    category: "chuci", gender: "u",
-    source: { text: "灵连蜷兮既留，烂昭昭兮未央", title: "《九歌·云中君》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "昭昭：光明灿烂。「以其昭昭，使人昭昭」，明达之象。",
-    tags: ["清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "wei-yang", given: "未央", length: 2, pinyin: "wei yang", tones: [4, 1],
-    category: "chuci", gender: "u",
-    source: { text: "灵连蜷兮既留，烂昭昭兮未央", title: "《九歌·云中君》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "未央：无穷无尽。汉宫名未央，取福泽绵长之意。",
-    tags: ["福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "qi-ji", given: "骐骥", length: 2, pinyin: "qi ji", tones: [2, 4],
-    category: "chuci", gender: "m",
-    source: { text: "乘骐骥以驰骋兮，来吾道夫先路", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "骐骥：千里马。骐骥一跃，志在千里。",
-    tags: ["事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "lan-gao", given: "兰皋", length: 2, pinyin: "lan gao", tones: [2, 1],
-    category: "chuci", gender: "m",
-    source: { text: "步余马于兰皋兮，驰椒丘且焉止息", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "兰皋：长满兰草的水边高地。清雅之地。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "ji-he", given: "芰荷", length: 2, pinyin: "ji he", tones: [4, 2],
-    category: "chuci", season: [2], gender: "f",
-    source: { text: "制芰荷以为衣兮，集芙蓉以为裳", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "芰荷：菱叶与荷叶。清雅脱俗。",
-    tags: ["风雅", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "ruo-mu", given: "若木", length: 2, pinyin: "ruo mu", tones: [4, 4],
-    category: "chuci", gender: "u",
-    source: { text: "折若木以拂日兮，聊逍遥以相羊", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "若木：神话中的神树，生于西极，灼灼其华。",
-    tags: ["坚韧", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "fu-sang", given: "扶桑", length: 2, pinyin: "fu sang", tones: [2, 1],
-    category: "chuci", gender: "u",
-    source: { text: "饮余马于咸池兮，总余辔乎扶桑", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "扶桑：日出之处的神树。旭日初升，朝气蓬勃。",
-    tags: ["事业", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "xi-he", given: "羲和", length: 2, pinyin: "xi he", tones: [1, 2],
-    category: "chuci", gender: "f",
-    source: { text: "吾令羲和弭节兮，望崦嵫而勿迫", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "羲和：为日驾车之神。驭日而行，光明在望。",
-    tags: ["事业", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "wang-shu", given: "望舒", length: 2, pinyin: "wang shu", tones: [4, 1],
-    category: "chuci", gender: "u",
-    source: { text: "前望舒使先驱兮，后飞廉使奔属", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "望舒：为月驾车之神。月色清辉，皎洁如许。",
-    tags: ["清朗", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "du-heng", given: "杜蘅", length: 2, pinyin: "du heng", tones: [4, 2],
-    category: "chuci", gender: "u",
-    source: { text: "畦留夷与揭车兮，杂杜衡与芳芷", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "杜蘅：楚辞香草，叶似马蹄，幽香清远。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "fang-zhi", given: "芳芷", length: 2, pinyin: "fang zhi", tones: [1, 3],
-    category: "chuci", gender: "f",
-    source: { text: "畦留夷与揭车兮，杂杜衡与芳芷", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "芳芷：芬芳的白芷。德馨如兰。",
-    tags: ["风雅", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "lu-li", given: "陆离", length: 2, pinyin: "lu li", tones: [4, 2],
-    category: "chuci", gender: "u",
-    source: { text: "高余冠之岌岌兮，长余佩之陆离", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "陆离：光彩斑斓、绚丽夺目。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "geng-jie", given: "耿介", length: 2, pinyin: "geng jie", tones: [3, 4],
-    category: "chuci", gender: "m",
-    source: { text: "彼尧舜之耿介兮，既遵道而得路", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "耿介：光明磊落，正直不阿。",
-    tags: ["仁善", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "he-yi", given: "荷衣", length: 2, pinyin: "he yi", tones: [2, 1],
-    category: "chuci", season: [2], gender: "f",
-    source: { text: "制芰荷以为衣兮，集芙蓉以为裳", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "荷衣：荷叶为衣。出尘之姿，不染俗尘。",
-    tags: ["风雅", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "luo-ying", given: "落英", length: 2, pinyin: "luo ying", tones: [4, 1],
-    category: "chuci", season: [3], gender: "u",
-    source: { text: "朝饮木兰之坠露兮，夕餐秋菊之落英", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "落英：落花。「落英缤纷」，芳华满地。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "qiong-zhi", given: "琼枝", length: 2, pinyin: "qiong zhi", tones: [2, 1],
-    category: "chuci", gender: "f",
-    source: { text: "溘吾游此春宫兮，折琼枝以继佩", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "琼枝：玉树琼枝。华美而珍贵。",
-    tags: ["风雅", "富贵"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhao-zhi", given: "昭质", length: 2, pinyin: "zhao zhi", tones: [1, 4],
-    category: "chuci", gender: "u",
-    source: { text: "芳与泽其杂糅兮，唯昭质其犹未亏", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "昭质：光明纯洁的品质。历劫不亏。",
-    tags: ["仁善", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "fang-fei", given: "芳菲", length: 2, pinyin: "fang fei", tones: [1, 1],
-    category: "chuci", season: [1], gender: "f",
-    source: { text: "佩缤纷其繁饰兮，芳菲菲其弥章", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "芳菲：花草芬芳。「人间四月芳菲尽」，春光正好。",
-    tags: ["自然", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "mi-zhang", given: "弥章", length: 2, pinyin: "mi zhang", tones: [2, 1],
-    category: "chuci", gender: "u",
-    source: { text: "佩缤纷其繁饰兮，芳菲菲其弥章", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "弥章：更加彰显。芳菲弥章，声名日盛。",
-    tags: ["事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "xiang-ling", given: "湘灵", length: 2, pinyin: "xiang ling", tones: [1, 2],
-    category: "chuci", gender: "f",
-    source: { text: "使湘灵鼓瑟兮，令海若舞冯夷", title: "《楚辞·远游》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "湘灵：湘水女神，鼓瑟于江上。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "ruo-hua", given: "若华", length: 2, pinyin: "ruo hua", tones: [4, 2],
-    category: "chuci", gender: "f",
-    source: { text: "羲和之未扬，若华何光", title: "《楚辞·天问》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "若华：若木之花。光华四射。",
-    tags: ["自然"], frequency: "classic", verified: true
-  },
-
-  // ==================== 单字词条（批次 4 第一批） ====================
-  {
-    id: "dan-ruo", given: "若", length: 1, pinyin: "ruo", tones: [4],
-    category: "chuci", gender: "u",
-    source: { text: "搴汀洲兮杜若，将以遗兮远者", title: "《九歌·湘夫人》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "若：杜若，楚辞香草。亦含「如」意，若有所待。",
-    tags: ["风雅", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-lu", given: "露", length: 1, pinyin: "lu", tones: [4],
-    category: "shijing", season: [3], gender: "u",
-    source: { text: "蒹葭苍苍，白露为霜", title: "《诗经·秦风·蒹葭》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "露：露珠，晶莹清透。亦二十四节气之白露。",
-    tags: ["清朗", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-xue", given: "雪", length: 1, pinyin: "xue", tones: [3],
-    category: "shijing", season: [4], gender: "u",
-    source: { text: "今我来思，雨雪霏霏", title: "《诗经·小雅·采薇》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "雪：冰雪之姿。「阳春白雪」，清雅高洁。",
-    tags: ["清朗", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-feng", given: "风", length: 1, pinyin: "feng", tones: [1],
-    category: "shijing", gender: "u",
-    source: { text: "吉甫作诵，穆如清风", title: "《诗经·大雅·烝民》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "风：清风。金风玉露、穆如清风，皆以此字为眼。",
-    tags: ["清朗", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-yu", given: "玉", length: 1, pinyin: "yu", tones: [4],
-    category: "shijing", gender: "u",
-    source: { text: "言念君子，温其如玉", title: "《诗经·秦风·小戎》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "玉：温其如玉，君子之德。",
-    tags: ["仁善", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-zhi", given: "芷", length: 1, pinyin: "zhi", tones: [3],
-    category: "chuci", gender: "f",
-    source: { text: "扈江离与辟芷兮，纫秋兰以为佩", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "芷：白芷，香草。亦本草之名，幽香清远。",
-    tags: ["风雅", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-zhi2", given: "芝", length: 1, pinyin: "zhi", tones: [1],
-    category: "hanfu", gender: "u",
-    source: { text: "灵芝生天地，朱草被洛滨", title: "曹植《灵芝篇》", author: "曹植", dynasty: "三国", genre: "yuefu" },
-    meaning: "芝：灵芝，祥瑞之草。",
-    tags: ["福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-lan", given: "兰", length: 1, pinyin: "lan", tones: [2],
-    category: "chuci", gender: "f",
-    source: { text: "扈江离与辟芷兮，纫秋兰以为佩", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "兰：兰花，君子之花。幽兰生于深谷，不以无人而不芳。",
-    tags: ["风雅", "仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-yue", given: "月", length: 1, pinyin: "yue", tones: [4],
-    category: "tangshi", gender: "u",
-    source: { text: "海上生明月，天涯共此时", title: "张九龄《望月怀远》", author: "张九龄", dynasty: "唐", genre: "shi" },
-    meaning: "月：明月。海上生明月，天涯共此时。",
-    tags: ["清朗", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-xing", given: "星", length: 1, pinyin: "xing", tones: [1],
-    category: "hanfu", gender: "u",
-    source: { text: "日月之行，若出其中；星汉灿烂，若出其里", title: "曹操《观沧海》", author: "曹操", dynasty: "东汉", genre: "yuefu" },
-    meaning: "星：星辰。「星汉灿烂」，胸襟如海。",
-    tags: ["清朗", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-yun", given: "云", length: 1, pinyin: "yun", tones: [2],
-    category: "hanfu", gender: "u",
-    source: { text: "云无心以出岫，鸟倦飞而知还", title: "陶渊明《归去来兮辞》", author: "陶渊明", dynasty: "东晋", genre: "fu" },
-    meaning: "云：云无心以出岫。闲淡自在。",
-    tags: ["自然", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-yu3", given: "雨", length: 1, pinyin: "yu", tones: [3],
-    category: "tangshi", season: [1], gender: "u",
-    source: { text: "好雨知时节，当春乃发生。随风潜入夜，润物细无声", title: "杜甫《春夜喜雨》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "雨：好雨知时节，润物细无声。",
-    tags: ["自然", "仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-quan", given: "泉", length: 1, pinyin: "quan", tones: [2],
-    category: "tangshi", gender: "u",
-    source: { text: "明月松间照，清泉石上流", title: "王维《山居秋暝》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "泉：清泉石上流。清澈见底，川流不息。",
-    tags: ["清朗", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-tao", given: "涛", length: 1, pinyin: "tao", tones: [1],
-    category: "songci", gender: "m",
-    source: { text: "乱石穿空，惊涛拍岸，卷起千堆雪", title: "苏轼《念奴娇·赤壁怀古》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "涛：惊涛拍岸，气势磅礴。",
-    tags: ["事业", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-song", given: "松", length: 1, pinyin: "song", tones: [1],
-    category: "wenyan", gender: "m",
-    source: { text: "岁寒，然后知松柏之后凋也", title: "《论语·子罕》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "松：岁寒不凋，坚韧长青。",
-    tags: ["坚韧", "福寿"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-mei", given: "梅", length: 1, pinyin: "mei", tones: [2],
-    category: "songci", season: [4], gender: "f",
-    source: { text: "疏影横斜水清浅，暗香浮动月黄昏", title: "林逋《山园小梅》", author: "林逋", dynasty: "宋", genre: "shi" },
-    meaning: "梅：凌寒独放，暗香浮动。",
-    tags: ["风雅", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-zhu", given: "竹", length: 1, pinyin: "zhu", tones: [2],
-    category: "shijing", gender: "u",
-    source: { text: "瞻彼淇奥，绿竹猗猗", title: "《诗经·卫风·淇奥》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "竹：绿竹猗猗。虚心有节，君子之德。",
-    tags: ["坚韧", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-he", given: "荷", length: 1, pinyin: "he", tones: [2],
-    category: "wenyan", season: [2], gender: "f",
-    source: { text: "予独爱莲之出淤泥而不染，濯清涟而不妖", title: "周敦颐《爱莲说》", author: "周敦颐", dynasty: "宋", genre: "classic" },
-    meaning: "荷：莲花，出淤泥而不染。",
-    tags: ["清朗", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-tang", given: "棠", length: 1, pinyin: "tang", tones: [2],
-    category: "shijing", gender: "u",
-    source: { text: "蔽芾甘棠，勿翦勿伐，召伯所茇", title: "《诗经·召南·甘棠》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "棠：甘棠，召公遗爱之树，仁政爱民之典。",
-    tags: ["仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-mu", given: "木", length: 1, pinyin: "mu", tones: [4],
-    category: "shijing", gender: "u",
-    source: { text: "南有乔木，不可休思", title: "《诗经·周南·汉广》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "木：乔木，栋梁之材。",
-    tags: ["自然", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-nan", given: "南", length: 1, pinyin: "nan", tones: [2],
-    category: "hanfu", gender: "u",
-    source: { text: "江南可采莲，莲叶何田田", title: "汉乐府《江南》", author: "佚名", dynasty: "汉", genre: "yuefu" },
-    meaning: "南：江南，烟雨温柔之乡。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-shan", given: "山", length: 1, pinyin: "shan", tones: [1],
-    category: "shijing", gender: "m",
-    source: { text: "高山仰止，景行行止", title: "《诗经·小雅·车舝》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "山：高山仰止。稳重如山。",
-    tags: ["坚韧", "仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-hai", given: "海", length: 1, pinyin: "hai", tones: [3],
-    category: "hanfu", gender: "u",
-    source: { text: "东临碣石，以观沧海。水何澹澹，山岛竦峙", title: "曹操《观沧海》", author: "曹操", dynasty: "东汉", genre: "yuefu" },
-    meaning: "海：沧海。海纳百川，有容乃大。",
-    tags: ["事业", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-tian", given: "天", length: 1, pinyin: "tian", tones: [1],
-    category: "hanfu", gender: "u",
-    source: { text: "天苍苍，野茫茫，风吹草低见牛羊", title: "北朝民歌《敕勒歌》", author: "佚名", dynasty: "北朝", genre: "yuefu" },
-    meaning: "天：天空。胸怀苍天，志向高远。",
-    tags: ["清朗", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-ming", given: "明", length: 1, pinyin: "ming", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "大学之道，在明明德，在亲民，在止于至善", title: "《大学》", author: "曾子", dynasty: "春秋", genre: "classic" },
-    meaning: "明：光明，明德。「明明德」为大学之首义。",
-    tags: ["聪慧", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-ning", given: "宁", length: 1, pinyin: "ning", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "五福：一曰寿，二曰富，三曰康宁，四曰攸好德，五曰考终命", title: "《尚书·洪范》", author: "佚名", dynasty: "周", genre: "classic" },
-    meaning: "宁：康宁。五福之一，平安顺遂。",
-    tags: ["平安", "福寿"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-fei", given: "飞", length: 1, pinyin: "fei", tones: [1],
-    category: "shijing", gender: "u",
-    source: { text: "凤凰于飞，翙翙其羽", title: "《诗经·大雅·卷阿》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "飞：凤凰于飞。比翼双飞，一飞冲天。",
-    tags: ["事业", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-gui", given: "归", length: 1, pinyin: "gui", tones: [1],
-    category: "shijing", gender: "f",
-    source: { text: "之子于归，宜其室家", title: "《诗经·周南·桃夭》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "归：之子于归，宜室宜家。",
-    tags: ["平安", "爱情"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-lai", given: "来", length: 1, pinyin: "lai", tones: [2],
-    category: "hanfu", gender: "u",
-    source: { text: "清风徐来，水波不兴", title: "苏轼《赤壁赋》", author: "苏轼", dynasty: "宋", genre: "fu" },
-    meaning: "来：清风徐来。从容而至，未来可期。",
-    tags: ["清朗", "平安"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-ran", given: "然", length: 1, pinyin: "ran", tones: [2],
-    category: "hanfu", gender: "u",
-    source: { text: "采菊东篱下，悠然见南山", title: "陶渊明《饮酒·其五》", author: "陶渊明", dynasty: "东晋", genre: "shi" },
-    meaning: "然：悠然。恬淡自适，泰然处之。",
-    tags: ["风雅", "平安"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-xing2", given: "行", length: 1, pinyin: "xing", tones: [2],
-    category: "shijing", gender: "u",
-    source: { text: "高山仰止，景行行止", title: "《诗经·小雅·车舝》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "行：景行行止。知行合一，行稳致远。",
-    tags: ["事业", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-zhou", given: "周", length: 1, pinyin: "zhou", tones: [1],
-    category: "wenyan", gender: "u",
-    source: { text: "昔者庄周梦为蝴蝶，栩栩然蝴蝶也", title: "《庄子·齐物论》", author: "庄子", dynasty: "战国", genre: "classic" },
-    meaning: "周：庄周。物我两忘，逍遥自在。亦含「周全」之意。",
-    tags: ["聪慧", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-xiao", given: "笑", length: 1, pinyin: "xiao", tones: [4],
-    category: "tangshi", gender: "f",
-    source: { text: "谈笑有鸿儒，往来无白丁", title: "刘禹锡《陋室铭》", author: "刘禹锡", dynasty: "唐", genre: "fu" },
-    meaning: "笑：谈笑风生。乐观豁达，笑对人生。",
-    tags: ["风雅", "平安"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-run", given: "润", length: 1, pinyin: "run", tones: [4],
-    category: "tangshi", gender: "u",
-    source: { text: "随风潜入夜，润物细无声", title: "杜甫《春夜喜雨》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "润：润物细无声。温润如玉，泽被无声。",
-    tags: ["仁善", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-shi", given: "诗", length: 1, pinyin: "shi", tones: [1],
-    category: "wenyan", gender: "f",
-    source: { text: "不学诗，无以言", title: "《论语·季氏》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "诗：诗书传家。腹有诗书气自华。",
-    tags: ["聪慧", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-nuo", given: "诺", length: 1, pinyin: "nuo", tones: [4],
-    category: "hanfu", gender: "u",
-    source: { text: "得黄金百斤，不如得季布一诺", title: "《史记·季布列传》", author: "司马迁", dynasty: "汉", genre: "classic" },
-    meaning: "诺：一诺千金。言而有信。",
-    tags: ["仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-an", given: "安", length: 1, pinyin: "an", tones: [1],
-    category: "tangshi", gender: "u",
-    source: { text: "安得广厦千万间，大庇天下寒士俱欢颜", title: "杜甫《茅屋为秋风所破歌》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "安：平安，安定。「安然」双关：安然而处，安之若素。",
-    tags: ["平安", "仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-xin", given: "心", length: 1, pinyin: "xin", tones: [1],
-    category: "tangshi", gender: "u",
-    source: { text: "洛阳亲友如相问，一片冰心在玉壶", title: "王昌龄《芙蓉楼送辛渐》", author: "王昌龄", dynasty: "唐", genre: "shi" },
-    meaning: "心：冰心玉壶。心地纯净。",
-    tags: ["仁善", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-zhou2", given: "舟", length: 1, pinyin: "zhou", tones: [1],
-    category: "shijing", gender: "u",
-    source: { text: "泛彼柏舟，亦泛其流", title: "《诗经·邶风·柏舟》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "舟：柏舟。中流击楫，逆流而上。",
-    tags: ["坚韧", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-lin", given: "林", length: 1, pinyin: "lin", tones: [2],
-    category: "tangshi", gender: "u",
-    source: { text: "平林漠漠烟如织，寒山一带伤心碧", title: "李白《菩萨蛮》", author: "李白", dynasty: "唐", genre: "ci" },
-    meaning: "林：平林漠漠。林木葱茏，生机盎然。",
-    tags: ["自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-qiu", given: "秋", length: 1, pinyin: "qiu", tones: [1],
-    category: "tangshi", season: [3], gender: "u",
-    source: { text: "空山新雨后，天气晚来秋", title: "王维《山居秋暝》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "秋：山居秋暝。秋高气爽，天朗气清。",
-    tags: ["清朗", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-dong", given: "冬", length: 1, pinyin: "dong", tones: [1],
-    category: "solar", season: [4], gender: "u",
-    source: { text: "冬，终也，万物收藏也", title: "《月令七十二候集解》", author: "佚名", dynasty: "元", genre: "classic" },
-    meaning: "冬：万物收藏，蓄势待发。亦中药麦冬之名。",
-    tags: ["福寿", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-xia", given: "夏", length: 1, pinyin: "xia", tones: [4],
-    category: "shijing", season: [2], gender: "u",
-    source: { text: "四月维夏，六月徂暑", title: "《诗经·小雅·四月》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "夏：夏日。生机蓬勃，草木繁盛。",
-    tags: ["自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-chun", given: "春", length: 1, pinyin: "chun", tones: [1],
-    category: "tangshi", season: [1], gender: "u",
-    source: { text: "春风又绿江南岸，明月何时照我还", title: "王安石《泊船瓜洲》", author: "王安石", dynasty: "宋", genre: "shi" },
-    meaning: "春：春风又绿江南岸。万物之始。",
-    tags: ["自然", "福寿"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-ying", given: "英", length: 1, pinyin: "ying", tones: [1],
-    category: "chuci", gender: "u",
-    source: { text: "朝饮木兰之坠露兮，夕餐秋菊之落英", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "英：落英缤纷，亦英才之意。",
-    tags: ["风雅", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-hua", given: "华", length: 1, pinyin: "hua", tones: [2],
-    category: "shijing", gender: "u",
-    source: { text: "桃之夭夭，灼灼其华", title: "《诗经·周南·桃夭》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "华：灼灼其华。光彩照人，含华咀英。",
-    tags: ["风雅", "富贵"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-yin", given: "音", length: 1, pinyin: "yin", tones: [1],
-    category: "shijing", gender: "f",
-    source: { text: "大姒嗣徽音，则百斯男", title: "《诗经·大雅·思齐》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "音：徽音，美名善誉。亦知音之音。",
-    tags: ["风雅", "仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-guang", given: "光", length: 1, pinyin: "guang", tones: [1],
-    category: "tangshi", gender: "u",
-    source: { text: "床前明月光，疑是地上霜", title: "李白《静夜思》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "光：明月光。光华流转，前程似锦。",
-    tags: ["清朗", "事业"], frequency: "legend", verified: true
-  },
-
-  // ==================== 批次 2a：唐诗与汉魏诗文 ====================
-  {
-    id: "yun-fan", given: "云帆", length: 2, pinyin: "yun fan", tones: [2, 1],
-    category: "tangshi", gender: "m",
-    source: { text: "长风破浪会有时，直挂云帆济沧海", title: "李白《行路难·其一》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "云帆：高挂入云的船帆。长风破浪，一往无前。",
-    tags: ["事业", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "chang-feng", given: "长风", length: 2, pinyin: "chang feng", tones: [2, 1],
-    category: "tangshi", gender: "u",
-    source: { text: "长风破浪会有时，直挂云帆济沧海", title: "李白《行路难·其一》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "长风：长风破浪。乘长风之势，破万里之浪。",
-    tags: ["事业", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "ming-yue", given: "明月", length: 2, pinyin: "ming yue", tones: [2, 4],
-    category: "tangshi", gender: "u",
-    source: { text: "举头望明月，低头思故乡", title: "李白《静夜思》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "明月：明月千里。皎洁无瑕，普照万家。",
-    tags: ["清朗", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "qing-xi", given: "清溪", length: 2, pinyin: "qing xi", tones: [1, 1],
-    category: "tangshi", gender: "u",
-    source: { text: "清溪清我心，水色异诸水", title: "李白《清溪行》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "清溪：清澈的溪流。清溪清心，洗尽尘俗。",
-    tags: ["清朗", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-tian", given: "青天", length: 2, pinyin: "qing tian", tones: [1, 1],
-    category: "tangshi", gender: "u",
-    source: { text: "俱怀逸兴壮思飞，欲上青天揽明月", title: "李白《宣州谢朓楼饯别校书叔云》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "青天：碧空如洗。青云之志，壮思飞扬。",
-    tags: ["清朗", "事业"], frequency: "legend", verified: true
-  },
-  {
-    id: "yi-xing", given: "逸兴", length: 2, pinyin: "yi xing", tones: [4, 4],
-    category: "tangshi", gender: "u",
-    source: { text: "俱怀逸兴壮思飞，欲上青天揽明月", title: "李白《宣州谢朓楼饯别校书叔云》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "逸兴：超逸豪放的兴致。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "yun-hai", given: "云海", length: 2, pinyin: "yun hai", tones: [2, 3],
-    category: "tangshi", gender: "u",
-    source: { text: "明月出天山，苍茫云海间", title: "李白《关山月》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "云海：苍茫云海。胸襟开阔，气象万千。",
-    tags: ["自然", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "guan-shan", given: "关山", length: 2, pinyin: "guan shan", tones: [1, 1],
-    category: "tangshi", gender: "m",
-    source: { text: "明月出天山，苍茫云海间", title: "李白《关山月》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "关山：关隘与山川。关山万里，志在四方。",
-    tags: ["坚韧", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "yin-he", given: "银河", length: 2, pinyin: "yin he", tones: [2, 2],
-    category: "tangshi", gender: "u",
-    source: { text: "飞流直下三千尺，疑是银河落九天", title: "李白《望庐山瀑布》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "银河：天河。银汉灿烂，气势磅礴。",
-    tags: ["清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "jiu-tian", given: "九天", length: 2, pinyin: "jiu tian", tones: [3, 1],
-    category: "tangshi", gender: "u",
-    source: { text: "飞流直下三千尺，疑是银河落九天", title: "李白《望庐山瀑布》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "九天：九重之天。至高至远。",
-    tags: ["事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "xing-chui", given: "星垂", length: 2, pinyin: "xing chui", tones: [1, 2],
-    category: "tangshi", gender: "m",
-    source: { text: "星垂平野阔，月涌大江流", title: "杜甫《旅夜书怀》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "星垂：星垂平野。天地辽阔，气象雄浑。",
-    tags: ["清朗", "事业"], frequency: "legend", verified: true
-  },
-  {
-    id: "yue-yong", given: "月涌", length: 2, pinyin: "yue yong", tones: [4, 3],
-    category: "tangshi", gender: "u",
-    source: { text: "星垂平野阔，月涌大江流", title: "杜甫《旅夜书怀》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "月涌：月随江涌。月光随波，气象万千。",
-    tags: ["清朗", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "ping-ye", given: "平野", length: 2, pinyin: "ping ye", tones: [2, 3],
-    category: "tangshi", gender: "u",
-    source: { text: "星垂平野阔，月涌大江流", title: "杜甫《旅夜书怀》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "平野：辽阔的原野。视野开阔，胸襟坦荡。",
-    tags: ["自然", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "jiang-liu", given: "江流", length: 2, pinyin: "jiang liu", tones: [1, 2],
-    category: "tangshi", gender: "u",
-    source: { text: "星垂平野阔，月涌大江流", title: "杜甫《旅夜书怀》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "江流：大江东去。川流不息，生生不止。",
-    tags: ["事业", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "ling-jue", given: "凌绝", length: 2, pinyin: "ling jue", tones: [2, 2],
-    category: "tangshi", gender: "m",
-    source: { text: "会当凌绝顶，一览众山小", title: "杜甫《望岳》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "凌绝：凌绝顶。登峰造极，一览众山小。",
-    tags: ["事业", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "xing-he", given: "星河", length: 2, pinyin: "xing he", tones: [1, 2],
-    category: "tangshi", gender: "u",
-    source: { text: "五更鼓角声悲壮，三峡星河影动摇", title: "杜甫《阁夜》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "星河：银河倒映。星汉灿烂，浩瀚无垠。",
-    tags: ["清朗", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "bai-lu2", given: "白鹭", length: 2, pinyin: "bai lu", tones: [2, 4],
-    category: "tangshi", gender: "u",
-    source: { text: "两个黄鹂鸣翠柳，一行白鹭上青天", title: "杜甫《绝句》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "白鹭：白鹭上青天。身姿轻盈，志向高远。",
-    tags: ["自然", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "cui-liu", given: "翠柳", length: 2, pinyin: "cui liu", tones: [4, 3],
-    category: "tangshi", season: [1], gender: "f",
-    source: { text: "两个黄鹂鸣翠柳，一行白鹭上青天", title: "杜甫《绝句》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "翠柳：翠绿的柳色。春意盎然。",
-    tags: ["自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "wan-qing", given: "晚晴", length: 2, pinyin: "wan qing", tones: [3, 2],
-    category: "tangshi", gender: "u",
-    source: { text: "天意怜幽草，人间重晚晴", title: "李商隐《晚晴》", author: "李商隐", dynasty: "唐", genre: "shi" },
-    meaning: "晚晴：傍晚放晴。风雨之后，云开月明。",
-    tags: ["平安", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "jin-se", given: "锦瑟", length: 2, pinyin: "jin se", tones: [3, 4],
-    category: "tangshi", gender: "f",
-    source: { text: "锦瑟无端五十弦，一弦一柱思华年", title: "李商隐《锦瑟》", author: "李商隐", dynasty: "唐", genre: "shi" },
-    meaning: "锦瑟：华美的瑟。弦歌雅意，华年似锦。",
-    tags: ["风雅", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "ling-xi", given: "灵犀", length: 2, pinyin: "ling xi", tones: [2, 1],
-    category: "tangshi", gender: "u",
-    source: { text: "身无彩凤双飞翼，心有灵犀一点通", title: "李商隐《无题》", author: "李商隐", dynasty: "唐", genre: "shi" },
-    meaning: "灵犀：犀牛角中白纹，相传通灵。心有灵犀，默契天成。",
-    tags: ["聪慧", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "cang-hai", given: "沧海", length: 2, pinyin: "cang hai", tones: [1, 3],
-    category: "tangshi", gender: "u",
-    source: { text: "曾经沧海难为水，除却巫山不是云", title: "元稹《离思五首·其四》", author: "元稹", dynasty: "唐", genre: "shi" },
-    meaning: "沧海：沧海桑田。曾经沧海，胸怀辽阔。",
-    tags: ["事业", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "qing-quan", given: "清泉", length: 2, pinyin: "qing quan", tones: [1, 2],
-    category: "tangshi", gender: "u",
-    source: { text: "明月松间照，清泉石上流", title: "王维《山居秋暝》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "清泉：石上清泉。清澈见底，润物无声。",
-    tags: ["清朗", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "kong-shan", given: "空山", length: 2, pinyin: "kong shan", tones: [1, 1],
-    category: "tangshi", gender: "u",
-    source: { text: "空山新雨后，天气晚来秋", title: "王维《山居秋暝》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "空山：空山新雨。静谧空灵，清幽出尘。",
-    tags: ["清朗", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "qiu-shui", given: "秋水", length: 2, pinyin: "qiu shui", tones: [1, 3],
-    category: "hanfu", season: [3], gender: "u",
-    source: { text: "落霞与孤鹜齐飞，秋水共长天一色", title: "王勃《滕王阁序》", author: "王勃", dynasty: "唐", genre: "fu" },
-    meaning: "秋水：秋水共长天一色。亦《庄子》「秋水时至」，望穿秋水之深情。",
-    tags: ["清朗", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "chang-tian", given: "长天", length: 2, pinyin: "chang tian", tones: [2, 1],
-    category: "hanfu", gender: "u",
-    source: { text: "落霞与孤鹜齐飞，秋水共长天一色", title: "王勃《滕王阁序》", author: "王勃", dynasty: "唐", genre: "fu" },
-    meaning: "长天：长天一色。天高地迥，气象万千。",
-    tags: ["清朗", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "luo-xia", given: "落霞", length: 2, pinyin: "luo xia", tones: [4, 2],
-    category: "hanfu", gender: "f",
-    source: { text: "落霞与孤鹜齐飞，秋水共长天一色", title: "王勃《滕王阁序》", author: "王勃", dynasty: "唐", genre: "fu" },
-    meaning: "落霞：晚霞满天。绚烂之美。",
-    tags: ["风雅", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "sang-yu", given: "桑榆", length: 2, pinyin: "sang yu", tones: [1, 2],
-    category: "hanfu", gender: "u",
-    source: { text: "东隅已逝，桑榆非晚", title: "王勃《滕王阁序》", author: "王勃", dynasty: "唐", genre: "fu" },
-    meaning: "桑榆：日落处，喻晚景。「桑榆非晚」，为时未晚。",
-    tags: ["福寿", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "yu-ji", given: "雨霁", length: 2, pinyin: "yu ji", tones: [3, 4],
-    category: "hanfu", gender: "u",
-    source: { text: "云销雨霁，彩彻区明", title: "王勃《滕王阁序》", author: "王勃", dynasty: "唐", genre: "fu" },
-    meaning: "雨霁：雨过天晴。云销雨霁，豁然开朗。",
-    tags: ["清朗", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-yun", given: "青云", length: 2, pinyin: "qing yun", tones: [1, 2],
-    category: "hanfu", gender: "m",
-    source: { text: "穷且益坚，不坠青云之志", title: "王勃《滕王阁序》", author: "王勃", dynasty: "唐", genre: "fu" },
-    meaning: "青云：青云之志。「平步青云」，志向高远。",
-    tags: ["事业", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "chun-jiang", given: "春江", length: 2, pinyin: "chun jiang", tones: [1, 1],
-    category: "tangshi", season: [1], gender: "u",
-    source: { text: "春江潮水连海平，海上明月共潮生", title: "张若虚《春江花月夜》", author: "张若虚", dynasty: "唐", genre: "shi" },
-    meaning: "春江：春江潮水。月照春江，孤篇横绝全唐。",
-    tags: ["自然", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "jiang-yue", given: "江月", length: 2, pinyin: "jiang yue", tones: [1, 4],
-    category: "tangshi", gender: "u",
-    source: { text: "江畔何人初见月，江月何年初照人", title: "张若虚《春江花月夜》", author: "张若虚", dynasty: "唐", genre: "shi" },
-    meaning: "江月：江上明月。江月年年，亘古长存。",
-    tags: ["清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "yan-yan2", given: "滟滟", length: 2, pinyin: "yan yan", tones: [4, 4],
-    category: "tangshi", gender: "f",
-    source: { text: "滟滟随波千万里，何处春江无月明", title: "张若虚《春江花月夜》", author: "张若虚", dynasty: "唐", genre: "shi" },
-    meaning: "滟滟：波光荡漾。月光随波，滟滟千里。",
-    tags: ["清朗", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhi-qiu", given: "知秋", length: 2, pinyin: "zhi qiu", tones: [1, 1],
-    category: "wenyan", season: [3], gender: "u",
-    source: { text: "见一叶落而知岁之将暮", title: "《淮南子·说山训》", author: "刘安", dynasty: "汉", genre: "classic" },
-    meaning: "知秋：一叶知秋。见微知著，明察秋毫。",
-    tags: ["聪慧"], frequency: "legend", verified: true
-  },
-  {
-    id: "shuang-ye", given: "霜叶", length: 2, pinyin: "shuang ye", tones: [1, 4],
-    category: "tangshi", season: [3], gender: "u",
-    source: { text: "停车坐爱枫林晚，霜叶红于二月花", title: "杜牧《山行》", author: "杜牧", dynasty: "唐", genre: "shi" },
-    meaning: "霜叶：经霜的红叶。霜重色愈浓，历经风霜而愈艳。",
-    tags: ["自然", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "song-feng", given: "松风", length: 2, pinyin: "song feng", tones: [1, 1],
-    category: "tangshi", gender: "u",
-    source: { text: "松风吹解带，山月照弹琴", title: "王维《酬张少府》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "松风：松间清风。松风山月，隐逸之趣。",
-    tags: ["风雅", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "shan-yue", given: "山月", length: 2, pinyin: "shan yue", tones: [1, 4],
-    category: "tangshi", gender: "u",
-    source: { text: "松风吹解带，山月照弹琴", title: "王维《酬张少府》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "山月：山间明月。清辉遍洒。",
-    tags: ["清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "hong-dou", given: "红豆", length: 2, pinyin: "hong dou", tones: [2, 4],
-    category: "tangshi", gender: "f",
-    source: { text: "红豆生南国，春来发几枝", title: "王维《相思》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "红豆：相思之种。此物最相思。",
-    tags: ["爱情", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "chun-hui", given: "春晖", length: 2, pinyin: "chun hui", tones: [1, 1],
-    category: "tangshi", season: [1], gender: "u",
-    source: { text: "谁言寸草心，报得三春晖", title: "孟郊《游子吟》", author: "孟郊", dynasty: "唐", genre: "shi" },
-    meaning: "春晖：春日暖阳，喻母爱。寸草春晖，孝亲之意。",
-    tags: ["仁善", "福寿"], frequency: "legend", verified: true
-  },
-  {
-    id: "chun-xiao", given: "春晓", length: 2, pinyin: "chun xiao", tones: [1, 3],
-    category: "tangshi", season: [1], gender: "u",
-    source: { text: "春眠不觉晓，处处闻啼鸟", title: "孟浩然《春晓》", author: "孟浩然", dynasty: "唐", genre: "shi" },
-    meaning: "春晓：春天的清晨。万物初醒，生机盎然。",
-    tags: ["自然", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "he-feng", given: "荷风", length: 2, pinyin: "he feng", tones: [2, 1],
-    category: "tangshi", season: [2], gender: "u",
-    source: { text: "荷风送香气，竹露滴清响", title: "孟浩然《夏日南亭怀辛大》", author: "孟浩然", dynasty: "唐", genre: "shi" },
-    meaning: "荷风：拂过荷塘的凉风。荷风送香。",
-    tags: ["自然", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhu-lu", given: "竹露", length: 2, pinyin: "zhu lu", tones: [2, 4],
-    category: "tangshi", season: [2], gender: "u",
-    source: { text: "荷风送香气，竹露滴清响", title: "孟浩然《夏日南亭怀辛大》", author: "孟浩然", dynasty: "唐", genre: "shi" },
-    meaning: "竹露：竹上清露。晶莹剔透。",
-    tags: ["清朗", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-xiang", given: "清响", length: 2, pinyin: "qing xiang", tones: [1, 3],
-    category: "tangshi", season: [2], gender: "u",
-    source: { text: "荷风送香气，竹露滴清响", title: "孟浩然《夏日南亭怀辛大》", author: "孟浩然", dynasty: "唐", genre: "shi" },
-    meaning: "清响：清脆的声响。竹露滴落，清音入耳。",
-    tags: ["清朗", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "you-huang", given: "幽篁", length: 2, pinyin: "you huang", tones: [1, 2],
-    category: "tangshi", gender: "u",
-    source: { text: "独坐幽篁里，弹琴复长啸", title: "王维《竹里馆》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "幽篁：幽静的竹林。清幽自处，琴啸相和。",
-    tags: ["风雅", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "chun-shan", given: "春山", length: 2, pinyin: "chun shan", tones: [1, 1],
-    category: "tangshi", season: [1], gender: "u",
-    source: { text: "人闲桂花落，夜静春山空", title: "王维《鸟鸣涧》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "春山：春夜空山。静谧安然。",
-    tags: ["自然", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "bing-xin", given: "冰心", length: 2, pinyin: "bing xin", tones: [1, 1],
-    category: "tangshi", gender: "f",
-    source: { text: "洛阳亲友如相问，一片冰心在玉壶", title: "王昌龄《芙蓉楼送辛渐》", author: "王昌龄", dynasty: "唐", genre: "shi" },
-    meaning: "冰心：冰清玉洁之心。",
-    tags: ["清朗", "仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "yu-hu", given: "玉壶", length: 2, pinyin: "yu hu", tones: [4, 2],
-    category: "tangshi", gender: "u",
-    source: { text: "洛阳亲友如相问，一片冰心在玉壶", title: "王昌龄《芙蓉楼送辛渐》", author: "王昌龄", dynasty: "唐", genre: "shi" },
-    meaning: "玉壶：白玉之壶。冰心玉壶，表里澄澈。",
-    tags: ["仁善", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "chun-feng", given: "春风", length: 2, pinyin: "chun feng", tones: [1, 1],
-    category: "tangshi", season: [1], gender: "u",
-    source: { text: "野火烧不尽，春风吹又生", title: "白居易《赋得古原草送别》", author: "白居易", dynasty: "唐", genre: "shi" },
-    meaning: "春风：春风吹又生。生生不息，温暖和煦。",
-    tags: ["自然", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "huai-yuan", given: "怀远", length: 2, pinyin: "huai yuan", tones: [2, 3],
-    category: "tangshi", gender: "u",
-    source: { text: "海上生明月，天涯共此时", title: "张九龄《望月怀远》", author: "张九龄", dynasty: "唐", genre: "shi" },
-    meaning: "怀远：胸怀远方。志存高远，亦含思念之意。",
-    tags: ["爱情", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "tian-ya", given: "天涯", length: 2, pinyin: "tian ya", tones: [1, 2],
-    category: "tangshi", gender: "u",
-    source: { text: "海上生明月，天涯共此时", title: "张九龄《望月怀远》", author: "张九龄", dynasty: "唐", genre: "shi" },
-    meaning: "天涯：天涯共此时。无论多远，心意相连。",
-    tags: ["爱情", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "jing-hong", given: "惊鸿", length: 2, pinyin: "jing hong", tones: [1, 2],
-    category: "hanfu", gender: "f",
-    source: { text: "翩若惊鸿，婉若游龙", title: "曹植《洛神赋》", author: "曹植", dynasty: "三国", genre: "fu" },
-    meaning: "惊鸿：惊飞之鸿雁。翩若惊鸿，婉若游龙，绝代风华。",
-    tags: ["风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "fu-qu", given: "芙蕖", length: 2, pinyin: "fu qu", tones: [2, 2],
-    category: "hanfu", season: [2], gender: "f",
-    source: { text: "灼若芙蕖出渌波", title: "曹植《洛神赋》", author: "曹植", dynasty: "三国", genre: "fu" },
-    meaning: "芙蕖：荷花。灼若芙蕖，清丽脱俗。",
-    tags: ["风雅", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhao-xia", given: "朝霞", length: 2, pinyin: "zhao xia", tones: [1, 2],
-    category: "hanfu", gender: "f",
-    source: { text: "远而望之，皎若太阳升朝霞", title: "曹植《洛神赋》", author: "曹植", dynasty: "三国", genre: "fu" },
-    meaning: "朝霞：清晨的霞光。旭日朝霞，明媚动人。",
-    tags: ["自然", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "chun-song", given: "春松", length: 2, pinyin: "chun song", tones: [1, 1],
-    category: "hanfu", season: [1], gender: "u",
-    source: { text: "荣曜秋菊，华茂春松", title: "曹植《洛神赋》", author: "曹植", dynasty: "三国", genre: "fu" },
-    meaning: "春松：华茂春松。风华正茂。",
-    tags: ["坚韧", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "ling-bo", given: "凌波", length: 2, pinyin: "ling bo", tones: [2, 1],
-    category: "hanfu", gender: "f",
-    source: { text: "凌波微步，罗袜生尘", title: "曹植《洛神赋》", author: "曹植", dynasty: "三国", genre: "fu" },
-    meaning: "凌波：踏波而行。轻盈飘逸，超然出尘。",
-    tags: ["风雅", "事业"], frequency: "legend", verified: true
-  },
-  {
-    id: "bai-xue", given: "白雪", length: 2, pinyin: "bai xue", tones: [2, 3],
-    category: "wenyan", season: [4], gender: "u",
-    source: { text: "客有歌于郢中者……其为《阳春》《白雪》", title: "宋玉《对楚王问》", author: "宋玉", dynasty: "战国", genre: "classic" },
-    meaning: "白雪：阳春白雪。曲高和寡之清贵。",
-    tags: ["清朗", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "yang-chun", given: "阳春", length: 2, pinyin: "yang chun", tones: [2, 1],
-    category: "wenyan", season: [1], gender: "u",
-    source: { text: "客有歌于郢中者……其为《阳春》《白雪》", title: "宋玉《对楚王问》", author: "宋玉", dynasty: "战国", genre: "classic" },
-    meaning: "阳春：温暖的春天。阳春布德泽，万物生光辉。",
-    tags: ["自然", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "wu-tong", given: "梧桐", length: 2, pinyin: "wu tong", tones: [2, 2],
-    category: "shijing", gender: "u",
-    source: { text: "凤凰鸣矣，于彼高冈。梧桐生矣，于彼朝阳", title: "《诗经·大雅·卷阿》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "梧桐：凤凰所栖之木。栽下梧桐树，引得凤凰来。",
-    tags: ["自然", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "feng-huang", given: "凤凰", length: 2, pinyin: "feng huang", tones: [4, 2],
-    category: "shijing", gender: "u",
-    source: { text: "凤凰于飞，翙翙其羽", title: "《诗经·大雅·卷阿》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "凤凰：百鸟之王。凤凰于飞，和鸣锵锵。",
-    tags: ["富贵", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "zhao-yang", given: "朝阳", length: 2, pinyin: "zhao yang", tones: [1, 2],
-    category: "shijing", gender: "u",
-    source: { text: "梧桐生矣，于彼朝阳", title: "《诗经·大雅·卷阿》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "朝阳：初升的太阳。朝气蓬勃。",
-    tags: ["事业", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "jiang-nan", given: "江南", length: 2, pinyin: "jiang nan", tones: [1, 2],
-    category: "hanfu", season: [2], gender: "u",
-    source: { text: "江南可采莲，莲叶何田田", title: "汉乐府《江南》", author: "佚名", dynasty: "汉", genre: "yuefu" },
-    meaning: "江南：江南采莲。杏花春雨，温柔之乡。",
-    tags: ["自然", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "you-ran", given: "悠然", length: 2, pinyin: "you ran", tones: [1, 2],
-    category: "hanfu", gender: "u",
-    source: { text: "采菊东篱下，悠然见南山", title: "陶渊明《饮酒·其五》", author: "陶渊明", dynasty: "东晋", genre: "shi" },
-    meaning: "悠然：悠然自得。闲适从容，岁月静好。",
-    tags: ["风雅", "平安"], frequency: "legend", verified: true
-  },
-  {
-    id: "dong-li", given: "东篱", length: 2, pinyin: "dong li", tones: [1, 2],
-    category: "hanfu", season: [3], gender: "u",
-    source: { text: "采菊东篱下，悠然见南山", title: "陶渊明《饮酒·其五》", author: "陶渊明", dynasty: "东晋", genre: "shi" },
-    meaning: "东篱：东篱菊香。归隐田园之趣。",
-    tags: ["风雅", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "cai-ju", given: "采菊", length: 2, pinyin: "cai ju", tones: [3, 2],
-    category: "hanfu", season: [3], gender: "u",
-    source: { text: "采菊东篱下，悠然见南山", title: "陶渊明《饮酒·其五》", author: "陶渊明", dynasty: "东晋", genre: "shi" },
-    meaning: "采菊：采菊东篱。恬淡闲适。",
-    tags: ["自然", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "tao-yuan", given: "桃源", length: 2, pinyin: "tao yuan", tones: [2, 2],
-    category: "hanfu", season: [1], gender: "u",
-    source: { text: "忽逢桃花林，夹岸数百步", title: "陶渊明《桃花源记》", author: "陶渊明", dynasty: "东晋", genre: "fu" },
-    meaning: "桃源：桃花源。世外桃源，人间乐土。",
-    tags: ["平安", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "cheng-jiang", given: "澄江", length: 2, pinyin: "cheng jiang", tones: [2, 1],
-    category: "hanfu", gender: "u",
-    source: { text: "余霞散成绮，澄江静如练", title: "谢朓《晚登三山还望京邑》", author: "谢朓", dynasty: "南朝", genre: "shi" },
-    meaning: "澄江：澄澈如练的江水。",
-    tags: ["清朗", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-hui", given: "清辉", length: 2, pinyin: "qing hui", tones: [1, 1],
-    category: "tangshi", gender: "f",
-    source: { text: "香雾云鬟湿，清辉玉臂寒", title: "杜甫《月夜》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "清辉：清冷的月光。皎洁如水。",
-    tags: ["清朗", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-chuan", given: "晴川", length: 2, pinyin: "qing chuan", tones: [2, 1],
-    category: "tangshi", gender: "u",
-    source: { text: "晴川历历汉阳树，芳草萋萋鹦鹉洲", title: "崔颢《黄鹤楼》", author: "崔颢", dynasty: "唐", genre: "shi" },
-    meaning: "晴川：晴日下的江流。历历在目，清明开阔。",
-    tags: ["清朗", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "zhao-lu", given: "朝露", length: 2, pinyin: "zhao lu", tones: [1, 4],
-    category: "hanfu", gender: "u",
-    source: { text: "青青园中葵，朝露待日晞", title: "汉乐府《长歌行》", author: "佚名", dynasty: "汉", genre: "yuefu" },
-    meaning: "朝露：清晨的露珠。晶莹而珍贵，惜取少年时。",
-    tags: ["清朗", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-lian", given: "青莲", length: 2, pinyin: "qing lian", tones: [1, 2],
-    category: "wenyan", season: [2], gender: "u",
-    source: { text: "青莲居士，李白自号", title: "李白自号「青莲居士」", author: "李白", dynasty: "唐", genre: "classic" },
-    meaning: "青莲：李白自号青莲居士。青莲出尘，仙风道骨。",
-    tags: ["风雅", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "yi-de", given: "懿德", length: 2, pinyin: "yi de", tones: [4, 2],
-    category: "shijing", gender: "f",
-    source: { text: "民之秉彝，好是懿德", title: "《诗经·大雅·烝民》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "懿德：美好的品德。",
-    tags: ["仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "huai-jin", given: "怀瑾", length: 2, pinyin: "huai jin", tones: [2, 3],
-    category: "chuci", gender: "m",
-    source: { text: "怀瑾握瑜兮，穷不知所示", title: "屈原《九章·怀沙》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "怀瑾：怀揣美玉。怀瑾握瑜，品德高洁。",
-    tags: ["仁善", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "wo-yu", given: "握瑜", length: 2, pinyin: "wo yu", tones: [4, 2],
-    category: "chuci", gender: "u",
-    source: { text: "怀瑾握瑜兮，穷不知所示", title: "屈原《九章·怀沙》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "握瑜：手握美玉。怀瑾握瑜，德才兼备。",
-    tags: ["仁善", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "jia-shu", given: "嘉树", length: 2, pinyin: "jia shu", tones: [1, 4],
-    category: "chuci", gender: "u",
-    source: { text: "后皇嘉树，橘徕服兮。受命不迁，生南国兮", title: "屈原《九章·橘颂》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "嘉树：美好的树木。受命不迁，深固难徙。",
-    tags: ["坚韧", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "bing-de", given: "秉德", length: 2, pinyin: "bing de", tones: [3, 2],
-    category: "chuci", gender: "u",
-    source: { text: "秉德无私，参天地兮", title: "屈原《九章·橘颂》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "秉德：秉持美德。秉德无私。",
-    tags: ["仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhi-yuan", given: "致远", length: 2, pinyin: "zhi yuan", tones: [4, 3],
-    category: "hanfu", gender: "m",
-    source: { text: "非淡泊无以明志，非宁静无以致远", title: "诸葛亮《诫子书》", author: "诸葛亮", dynasty: "三国", genre: "classic" },
-    meaning: "致远：宁静致远。行稳致远，志存高远。",
-    tags: ["事业", "聪慧"], frequency: "legend", verified: true
-  },
-  {
-    id: "ning-jing", given: "宁静", length: 2, pinyin: "ning jing", tones: [2, 4],
-    category: "hanfu", gender: "f",
-    source: { text: "非淡泊无以明志，非宁静无以致远", title: "诸葛亮《诫子书》", author: "诸葛亮", dynasty: "三国", genre: "classic" },
-    meaning: "宁静：宁静致远。内心安宁，志向高远。",
-    tags: ["平安", "聪慧"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-bo", given: "淡泊", length: 2, pinyin: "dan bo", tones: [4, 2],
-    category: "hanfu", gender: "u",
-    source: { text: "非淡泊无以明志，非宁静无以致远", title: "诸葛亮《诫子书》", author: "诸葛亮", dynasty: "三国", genre: "classic" },
-    meaning: "淡泊：淡泊明志。不慕荣利，心境澄明。",
-    tags: ["风雅", "仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "ming-zhi", given: "明志", length: 2, pinyin: "ming zhi", tones: [2, 4],
-    category: "hanfu", gender: "u",
-    source: { text: "非淡泊无以明志，非宁静无以致远", title: "诸葛亮《诫子书》", author: "诸葛亮", dynasty: "三国", genre: "classic" },
-    meaning: "明志：明确志向。淡泊明志。",
-    tags: ["事业", "聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "lan-ting", given: "兰亭", length: 2, pinyin: "lan ting", tones: [2, 2],
-    category: "hanfu", season: [1], gender: "u",
-    source: { text: "会于会稽山阴之兰亭，修禊事也", title: "王羲之《兰亭集序》", author: "王羲之", dynasty: "东晋", genre: "fu" },
-    meaning: "兰亭：兰亭雅集。曲水流觞，天下第一行书之地。",
-    tags: ["风雅", "聪慧"], frequency: "legend", verified: true
-  },
-  {
-    id: "hui-feng", given: "惠风", length: 2, pinyin: "hui feng", tones: [4, 1],
-    category: "hanfu", season: [1], gender: "u",
-    source: { text: "是日也，天朗气清，惠风和畅", title: "王羲之《兰亭集序》", author: "王羲之", dynasty: "东晋", genre: "fu" },
-    meaning: "惠风：和煦的春风。惠风和畅。",
-    tags: ["仁善", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "he-chang", given: "和畅", length: 2, pinyin: "he chang", tones: [2, 4],
-    category: "hanfu", season: [1], gender: "u",
-    source: { text: "是日也，天朗气清，惠风和畅", title: "王羲之《兰亭集序》", author: "王羲之", dynasty: "东晋", genre: "fu" },
-    meaning: "和畅：惠风和畅。和乐舒畅。",
-    tags: ["清朗", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "xiu-zhu", given: "修竹", length: 2, pinyin: "xiu zhu", tones: [1, 2],
-    category: "hanfu", gender: "u",
-    source: { text: "此地有崇山峻岭，茂林修竹", title: "王羲之《兰亭集序》", author: "王羲之", dynasty: "东晋", genre: "fu" },
-    meaning: "修竹：修长的翠竹。高洁挺拔。",
-    tags: ["风雅", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-liu", given: "清流", length: 2, pinyin: "qing liu", tones: [1, 2],
-    category: "hanfu", gender: "u",
-    source: { text: "又有清流激湍，映带左右", title: "王羲之《兰亭集序》", author: "王羲之", dynasty: "东晋", genre: "fu" },
-    meaning: "清流：清澈的溪流。亦喻清正之流。",
-    tags: ["清朗", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "qu-shui", given: "曲水", length: 2, pinyin: "qu shui", tones: [1, 3],
-    category: "hanfu", gender: "u",
-    source: { text: "引以为流觞曲水，列坐其次", title: "王羲之《兰亭集序》", author: "王羲之", dynasty: "东晋", genre: "fu" },
-    meaning: "曲水：流觞曲水。文人雅集之趣。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "tian-lang", given: "天朗", length: 2, pinyin: "tian lang", tones: [1, 3],
-    category: "hanfu", gender: "u",
-    source: { text: "是日也，天朗气清，惠风和畅", title: "王羲之《兰亭集序》", author: "王羲之", dynasty: "东晋", genre: "fu" },
-    meaning: "天朗：天朗气清。晴空万里。",
-    tags: ["清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "chang-le", given: "长乐", length: 2, pinyin: "chang le", tones: [2, 4],
-    category: "hanfu", gender: "u",
-    source: { text: "长乐未央，瓦当吉语", title: "汉瓦当铭「长乐未央」", author: "佚名", dynasty: "汉", genre: "classic" },
-    meaning: "长乐：长久安乐。长乐未央，福泽绵长。",
-    tags: ["福寿", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "shou-zhuo", given: "守拙", length: 2, pinyin: "shou zhuo", tones: [3, 1],
-    category: "hanfu", gender: "u",
-    source: { text: "开荒南野际，守拙归园田", title: "陶渊明《归园田居·其一》", author: "陶渊明", dynasty: "东晋", genre: "shi" },
-    meaning: "守拙：大巧若拙。抱朴守拙，返璞归真。",
-    tags: ["坚韧", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "xiang-ru", given: "相如", length: 2, pinyin: "xiang ru", tones: [1, 2],
-    category: "wenyan", gender: "m",
-    source: { text: "司马相如者，蜀郡成都人也", title: "《史记·司马相如列传》", author: "司马迁", dynasty: "汉", genre: "classic" },
-    meaning: "相如：司马相如，汉代辞赋大家。文采斐然。",
-    tags: ["风雅", "聪慧"], frequency: "legend", verified: true
-  },
-  {
-    id: "chang-qing", given: "长卿", length: 2, pinyin: "chang qing", tones: [2, 1],
-    category: "wenyan", gender: "u",
-    source: { text: "司马相如，字长卿", title: "《史记·司马相如列传》", author: "司马迁", dynasty: "汉", genre: "classic" },
-    meaning: "长卿：司马相如之字。亦本草「徐长卿」之名，雅趣天成。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "hao-ran", given: "浩然", length: 2, pinyin: "hao ran", tones: [4, 2],
-    category: "wenyan", gender: "m",
-    source: { text: "我善养吾浩然之气", title: "《孟子·公孙丑上》", author: "孟子", dynasty: "战国", genre: "classic" },
-    meaning: "浩然：浩然之气，至大至刚。",
-    tags: ["仁善", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "ming-de", given: "明德", length: 2, pinyin: "ming de", tones: [2, 2],
-    category: "wenyan", gender: "u",
-    source: { text: "大学之道，在明明德，在亲民，在止于至善", title: "《大学》", author: "曾子", dynasty: "春秋", genre: "classic" },
-    meaning: "明德：光明的品德。「大学之道，在明明德」。",
-    tags: ["仁善", "聪慧"], frequency: "legend", verified: true
-  },
-  {
-    id: "zhi-shan", given: "至善", length: 2, pinyin: "zhi shan", tones: [4, 4],
-    category: "wenyan", gender: "u",
-    source: { text: "大学之道，在明明德，在亲民，在止于至善", title: "《大学》", author: "曾子", dynasty: "春秋", genre: "classic" },
-    meaning: "至善：止于至善。臻于至善之境。",
-    tags: ["仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhi-cheng", given: "至诚", length: 2, pinyin: "zhi cheng", tones: [4, 2],
-    category: "wenyan", gender: "u",
-    source: { text: "唯天下至诚，为能尽其性", title: "《中庸》", author: "子思", dynasty: "战国", genre: "classic" },
-    meaning: "至诚：至诚之心。精诚所至，金石为开。",
-    tags: ["仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "wen-run", given: "温润", length: 2, pinyin: "wen run", tones: [1, 4],
-    category: "wenyan", gender: "u",
-    source: { text: "夫昔者君子比德于玉焉：温润而泽，仁也", title: "《礼记·聘义》", author: "佚名", dynasty: "周", genre: "classic" },
-    meaning: "温润：温润如玉。谦谦君子，温润而泽。",
-    tags: ["仁善", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "guan-lan", given: "观澜", length: 2, pinyin: "guan lan", tones: [1, 2],
-    category: "wenyan", gender: "m",
-    source: { text: "观水有术，必观其澜", title: "《孟子·尽心上》", author: "孟子", dynasty: "战国", genre: "classic" },
-    meaning: "观澜：观水必观其澜。眼界宏阔，见其大者。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "ruo-shui", given: "若水", length: 2, pinyin: "ruo shui", tones: [4, 3],
-    category: "wenyan", gender: "u",
-    source: { text: "上善若水，水善利万物而不争", title: "《道德经》", author: "老子", dynasty: "春秋", genre: "classic" },
-    meaning: "若水：上善若水。利万物而不争，至柔至善。",
-    tags: ["仁善", "聪慧"], frequency: "legend", verified: true
-  },
-  {
-    id: "shang-shan", given: "上善", length: 2, pinyin: "shang shan", tones: [4, 4],
-    category: "wenyan", gender: "u",
-    source: { text: "上善若水，水善利万物而不争", title: "《道德经》", author: "老子", dynasty: "春秋", genre: "classic" },
-    meaning: "上善：至善。上善若水。",
-    tags: ["仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhi-wei", given: "知微", length: 2, pinyin: "zhi wei", tones: [1, 1],
-    category: "wenyan", gender: "u",
-    source: { text: "圣人见微以知萌，见端以知末", title: "《韩非子·说林上》", author: "韩非", dynasty: "战国", genre: "classic" },
-    meaning: "知微：见微知著。明察秋毫。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "gui-zhen", given: "归真", length: 2, pinyin: "gui zhen", tones: [1, 1],
-    category: "wenyan", gender: "u",
-    source: { text: "归真反璞，则终身不辱", title: "《战国策·齐策》", author: "刘向", dynasty: "汉", genre: "classic" },
-    meaning: "归真：返璞归真。回归本真。",
-    tags: ["仁善", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "bao-pu", given: "抱朴", length: 2, pinyin: "bao pu", tones: [4, 3],
-    category: "wenyan", gender: "u",
-    source: { text: "见素抱朴，少私寡欲", title: "《道德经》", author: "老子", dynasty: "春秋", genre: "classic" },
-    meaning: "抱朴：抱朴守拙。质朴自然，葛洪亦自号抱朴子。",
-    tags: ["仁善", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "yun-shu", given: "云舒", length: 2, pinyin: "yun shu", tones: [2, 1],
-    category: "wenyan", gender: "u",
-    source: { text: "宠辱不惊，看庭前花开花落；去留无意，望天上云卷云舒", title: "陈继儒《小窗幽记》", author: "陈继儒", dynasty: "明", genre: "classic" },
-    meaning: "云舒：云卷云舒。宠辱不惊，从容自在。",
-    tags: ["风雅", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "ji-yue", given: "霁月", length: 2, pinyin: "ji yue", tones: [4, 4],
-    category: "wenyan", gender: "u",
-    source: { text: "光风霁月，胸怀洒落", title: "黄庭坚评周敦颐语", author: "黄庭坚", dynasty: "宋", genre: "classic" },
-    meaning: "霁月：雨后的明月。光风霁月，光明磊落。",
-    tags: ["清朗", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "guang-feng", given: "光风", length: 2, pinyin: "guang feng", tones: [1, 1],
-    category: "wenyan", gender: "u",
-    source: { text: "光风霁月，胸怀洒落", title: "黄庭坚评周敦颐语", author: "黄庭坚", dynasty: "宋", genre: "classic" },
-    meaning: "光风：雨霁后的和风。光风霁月。",
-    tags: ["清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "chao-yun", given: "朝云", length: 2, pinyin: "zhao yun", tones: [1, 2],
-    category: "hanfu", gender: "f",
-    source: { text: "妾在巫山之阳，高丘之阻，旦为朝云，暮为行雨", title: "宋玉《高唐赋》", author: "宋玉", dynasty: "战国", genre: "fu" },
-    meaning: "朝云：清晨的云霞。亦苏轼侍妾王朝云之名，才情相伴。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-
-  // ==================== 批次 2b：宋词、元曲与宋诗 ====================
-  {
-    id: "qing-zhao", given: "清照", length: 2, pinyin: "qing zhao", tones: [1, 4],
-    category: "tangshi", gender: "f",
-    source: { text: "明月松间照，清泉石上流", title: "王维《山居秋暝》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "清照：清泉映照。亦李清照之名，明月清泉，千古才女。",
-    tags: ["风雅", "聪慧"], frequency: "legend", verified: true
-  },
-  {
-    id: "jin-shu", given: "锦书", length: 2, pinyin: "jin shu", tones: [3, 1],
-    category: "songci", gender: "f",
-    source: { text: "云中谁寄锦书来，雁字回时，月满西楼", title: "李清照《一剪梅》", author: "李清照", dynasty: "宋", genre: "ci" },
-    meaning: "锦书：锦字回文，书信之美称。",
-    tags: ["爱情", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "ou-hua", given: "藕花", length: 2, pinyin: "ou hua", tones: [3, 1],
-    category: "songci", season: [2], gender: "f",
-    source: { text: "兴尽晚回舟，误入藕花深处", title: "李清照《如梦令》", author: "李清照", dynasty: "宋", genre: "ci" },
-    meaning: "藕花：荷花。藕花深处，青春欢畅。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "an-xiang", given: "暗香", length: 2, pinyin: "an xiang", tones: [4, 1],
-    category: "songci", season: [4], gender: "f",
-    source: { text: "疏影横斜水清浅，暗香浮动月黄昏", title: "林逋《山园小梅》", author: "林逋", dynasty: "宋", genre: "shi" },
-    meaning: "暗香：梅香幽微。疏影暗香，梅之绝唱。",
-    tags: ["风雅", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "shu-ying", given: "疏影", length: 2, pinyin: "shu ying", tones: [1, 3],
-    category: "songci", season: [4], gender: "f",
-    source: { text: "疏影横斜水清浅，暗香浮动月黄昏", title: "林逋《山园小梅》", author: "林逋", dynasty: "宋", genre: "shi" },
-    meaning: "疏影：梅枝疏朗之影。清雅出尘。",
-    tags: ["风雅", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "dao-xiang", given: "稻香", length: 2, pinyin: "dao xiang", tones: [4, 1],
-    category: "songci", season: [3], gender: "u",
-    source: { text: "稻花香里说丰年，听取蛙声一片", title: "辛弃疾《西江月·夜行黄沙道中》", author: "辛弃疾", dynasty: "宋", genre: "ci" },
-    meaning: "稻香：稻花香里说丰年。丰收之喜，朴实之福。",
-    tags: ["自然", "福寿"], frequency: "legend", verified: true
-  },
-  {
-    id: "qing-qiu", given: "清秋", length: 2, pinyin: "qing qiu", tones: [1, 1],
-    category: "songci", season: [3], gender: "u",
-    source: { text: "多情自古伤离别，更那堪，冷落清秋节", title: "柳永《雨霖铃》", author: "柳永", dynasty: "宋", genre: "ci" },
-    meaning: "清秋：清朗的秋天。天高云淡。",
-    tags: ["清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "xiao-feng", given: "晓风", length: 2, pinyin: "xiao feng", tones: [3, 1],
-    category: "songci", gender: "u",
-    source: { text: "今宵酒醒何处，杨柳岸，晓风残月", title: "柳永《雨霖铃》", author: "柳永", dynasty: "宋", genre: "ci" },
-    meaning: "晓风：拂晓的清风。杨柳岸晓风。",
-    tags: ["清朗", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "lan-zhou", given: "兰舟", length: 2, pinyin: "lan zhou", tones: [2, 1],
-    category: "songci", gender: "u",
-    source: { text: "都门帐饮无绪，留恋处，兰舟催发", title: "柳永《雨霖铃》", author: "柳永", dynasty: "宋", genre: "ci" },
-    meaning: "兰舟：木兰之舟。李白「轻舟已过万重山」之快意。",
-    tags: ["风雅", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "jin-feng", given: "金风", length: 2, pinyin: "jin feng", tones: [1, 1],
-    category: "songci", season: [3], gender: "u",
-    source: { text: "金风玉露一相逢，便胜却人间无数", title: "秦观《鹊桥仙》", author: "秦观", dynasty: "宋", genre: "ci" },
-    meaning: "金风：秋风。金风玉露一相逢，便胜却人间无数。",
-    tags: ["爱情", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "yu-lu", given: "玉露", length: 2, pinyin: "yu lu", tones: [4, 4],
-    category: "songci", season: [3], gender: "f",
-    source: { text: "金风玉露一相逢，便胜却人间无数", title: "秦观《鹊桥仙》", author: "秦观", dynasty: "宋", genre: "ci" },
-    meaning: "玉露：晶莹的秋露。金风玉露，天上人间。",
-    tags: ["爱情", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "xian-yun", given: "纤云", length: 2, pinyin: "xian yun", tones: [1, 2],
-    category: "songci", gender: "f",
-    source: { text: "纤云弄巧，飞星传恨，银汉迢迢暗度", title: "秦观《鹊桥仙》", author: "秦观", dynasty: "宋", genre: "ci" },
-    meaning: "纤云：纤薄的云丝。纤云弄巧。",
-    tags: ["风雅", "爱情"], frequency: "classic", verified: true
-  },
-  {
-    id: "yin-han", given: "银汉", length: 2, pinyin: "yin han", tones: [2, 4],
-    category: "songci", gender: "u",
-    source: { text: "纤云弄巧，飞星传恨，银汉迢迢暗度", title: "秦观《鹊桥仙》", author: "秦观", dynasty: "宋", genre: "ci" },
-    meaning: "银汉：银河。银汉迢迢。",
-    tags: ["清朗", "爱情"], frequency: "classic", verified: true
-  },
-  {
-    id: "jia-qi", given: "佳期", length: 2, pinyin: "jia qi", tones: [1, 1],
-    category: "songci", gender: "u",
-    source: { text: "柔情似水，佳期如梦，忍顾鹊桥归路", title: "秦观《鹊桥仙》", author: "秦观", dynasty: "宋", genre: "ci" },
-    meaning: "佳期：美好的时光。佳期如梦，良辰美景。",
-    tags: ["爱情", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "que-qiao", given: "鹊桥", length: 2, pinyin: "que qiao", tones: [4, 2],
-    category: "songci", gender: "u",
-    source: { text: "柔情似水，佳期如梦，忍顾鹊桥归路", title: "秦观《鹊桥仙》", author: "秦观", dynasty: "宋", genre: "ci" },
-    meaning: "鹊桥：喜鹊搭桥，七夕相会。爱情忠贞。",
-    tags: ["爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "wei-yun", given: "微云", length: 2, pinyin: "wei yun", tones: [1, 2],
-    category: "songci", gender: "u",
-    source: { text: "山抹微云，天连衰草，画角声断谯门", title: "秦观《满庭芳》", author: "秦观", dynasty: "宋", genre: "ci" },
-    meaning: "微云：山间薄云。淡雅朦胧。",
-    tags: ["风雅", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "hua-ming", given: "花明", length: 2, pinyin: "hua ming", tones: [1, 2],
-    category: "songci", season: [1], gender: "u",
-    source: { text: "山重水复疑无路，柳暗花明又一村", title: "陆游《游山西村》", author: "陆游", dynasty: "宋", genre: "shi" },
-    meaning: "花明：柳暗花明。绝处逢生，豁然开朗。",
-    tags: ["事业", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "chan-juan", given: "婵娟", length: 2, pinyin: "chan juan", tones: [2, 1],
-    category: "songci", gender: "f",
-    source: { text: "但愿人长久，千里共婵娟", title: "苏轼《水调歌头》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "婵娟：月色美好，亦喻美人。千里共婵娟。",
-    tags: ["清朗", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "yu-yu", given: "玉宇", length: 2, pinyin: "yu yu", tones: [4, 3],
-    category: "songci", gender: "u",
-    source: { text: "我欲乘风归去，又恐琼楼玉宇，高处不胜寒", title: "苏轼《水调歌头》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "玉宇：琼楼玉宇。华美高远。",
-    tags: ["清朗", "富贵"], frequency: "classic", verified: true
-  },
-  {
-    id: "pian-zhou", given: "扁舟", length: 2, pinyin: "pian zhou", tones: [1, 1],
-    category: "hanfu", gender: "u",
-    source: { text: "驾一叶之扁舟，举匏樽以相属", title: "苏轼《前赤壁赋》", author: "苏轼", dynasty: "宋", genre: "fu" },
-    meaning: "扁舟：一叶扁舟。自在逍遥。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "yan-yu", given: "烟雨", length: 2, pinyin: "yan yu", tones: [1, 3],
-    category: "songci", season: [1], gender: "u",
-    source: { text: "一蓑烟雨任平生", title: "苏轼《定风波》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "烟雨：江南烟雨。一蓑烟雨任平生，豁达通透。",
-    tags: ["清朗", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "qing-huan", given: "清欢", length: 2, pinyin: "qing huan", tones: [1, 1],
-    category: "songci", gender: "u",
-    source: { text: "人间有味是清欢", title: "苏轼《浣溪沙·细雨斜风作晓寒》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "清欢：清淡的欢愉。人间至味。",
-    tags: ["风雅", "平安"], frequency: "legend", verified: true
-  },
-  {
-    id: "nian-hua", given: "年华", length: 2, pinyin: "nian hua", tones: [2, 2],
-    category: "songci", gender: "u",
-    source: { text: "诗酒趁年华", title: "苏轼《望江南·超然台作》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "年华：美好的年岁。不负年华。",
-    tags: ["福寿", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "shu-tong", given: "疏桐", length: 2, pinyin: "shu tong", tones: [1, 2],
-    category: "songci", gender: "u",
-    source: { text: "缺月挂疏桐，漏断人初静", title: "苏轼《卜算子·黄州定慧院寓居作》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "疏桐：疏朗的梧桐。清高自守。",
-    tags: ["风雅", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "fei-hong", given: "飞鸿", length: 2, pinyin: "fei hong", tones: [1, 2],
-    category: "songci", gender: "u",
-    source: { text: "人生到处知何似，应似飞鸿踏雪泥", title: "苏轼《和子由渑池怀旧》", author: "苏轼", dynasty: "宋", genre: "shi" },
-    meaning: "飞鸿：高飞的大雁。飞鸿踏雪，志在千里。",
-    tags: ["事业", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "chu-qing", given: "初晴", length: 2, pinyin: "chu qing", tones: [1, 2],
-    category: "songci", gender: "u",
-    source: { text: "水光潋滟晴方好，山色空蒙雨亦奇", title: "苏轼《饮湖上初晴后雨》", author: "苏轼", dynasty: "宋", genre: "shi" },
-    meaning: "初晴：雨后初晴。云开日出，万象更新。",
-    tags: ["清朗", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "lian-yan", given: "潋滟", length: 2, pinyin: "lian yan", tones: [4, 4],
-    category: "songci", gender: "f",
-    source: { text: "水光潋滟晴方好，山色空蒙雨亦奇", title: "苏轼《饮湖上初晴后雨》", author: "苏轼", dynasty: "宋", genre: "shi" },
-    meaning: "潋滟：水波荡漾，光彩夺目。",
-    tags: ["风雅", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "kong-meng", given: "空蒙", length: 2, pinyin: "kong meng", tones: [1, 2],
-    category: "songci", gender: "u",
-    source: { text: "水光潋滟晴方好，山色空蒙雨亦奇", title: "苏轼《饮湖上初晴后雨》", author: "苏轼", dynasty: "宋", genre: "shi" },
-    meaning: "空蒙：烟雨迷蒙。亦「空蒙」灵动之境。",
-    tags: ["自然", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "chun-shui", given: "春水", length: 2, pinyin: "chun shui", tones: [1, 3],
-    category: "songci", season: [1], gender: "u",
-    source: { text: "问君能有几多愁，恰似一江春水向东流", title: "李煜《虞美人》", author: "李煜", dynasty: "五代", genre: "ci" },
-    meaning: "春水：一江春水。绵绵不绝，温润灵动。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "nong-ying", given: "弄影", length: 2, pinyin: "nong ying", tones: [4, 3],
-    category: "songci", gender: "f",
-    source: { text: "沙上并禽池上暝，云破月来花弄影", title: "张先《天仙子》", author: "张先", dynasty: "宋", genre: "ci" },
-    meaning: "弄影：花枝弄影。灵动婀娜。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "fang-cao", given: "芳草", length: 2, pinyin: "fang cao", tones: [1, 3],
-    category: "songci", season: [1], gender: "u",
-    source: { text: "枝上柳绵吹又少，天涯何处无芳草", title: "苏轼《蝶恋花·春景》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "芳草：天涯何处无芳草。生机处处，前路有光。",
-    tags: ["自然", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "liu-shui", given: "流水", length: 2, pinyin: "liu shui", tones: [2, 3],
-    category: "yuanqu", gender: "u",
-    source: { text: "枯藤老树昏鸦，小桥流水人家", title: "马致远《天净沙·秋思》", author: "马致远", dynasty: "元", genre: "qu" },
-    meaning: "流水：小桥流水。亦高山流水，知音之谊。",
-    tags: ["自然", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "bi-yun", given: "碧云", length: 2, pinyin: "bi yun", tones: [4, 2],
-    category: "yuanqu", gender: "f",
-    source: { text: "碧云天，黄花地，西风紧，北雁南飞", title: "王实甫《西厢记·长亭送别》", author: "王实甫", dynasty: "元", genre: "qu" },
-    meaning: "碧云：碧空云霞。秋日晴空。",
-    tags: ["清朗", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "chun-yu", given: "春雨", length: 2, pinyin: "chun yu", tones: [1, 3],
-    category: "yuanqu", season: [1], gender: "u",
-    source: { text: "报道先生归也，杏花春雨江南", title: "虞集《风入松·寄柯敬仲》", author: "虞集", dynasty: "元", genre: "qu" },
-    meaning: "春雨：杏花春雨江南。温润如诗。",
-    tags: ["自然", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "chun-he", given: "春和", length: 2, pinyin: "chun he", tones: [1, 2],
-    category: "wenyan", season: [1], gender: "u",
-    source: { text: "至若春和景明，波澜不惊", title: "范仲淹《岳阳楼记》", author: "范仲淹", dynasty: "宋", genre: "classic" },
-    meaning: "春和：春和景明。和煦明媚。",
-    tags: ["平安", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "jing-ming", given: "景明", length: 2, pinyin: "jing ming", tones: [3, 2],
-    category: "wenyan", season: [1], gender: "u",
-    source: { text: "至若春和景明，波澜不惊", title: "范仲淹《岳阳楼记》", author: "范仲淹", dynasty: "宋", genre: "classic" },
-    meaning: "景明：春和景明。春光明媚。",
-    tags: ["清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "hao-yue", given: "皓月", length: 2, pinyin: "hao yue", tones: [4, 4],
-    category: "wenyan", gender: "u",
-    source: { text: "而或长烟一空，皓月千里，浮光跃金", title: "范仲淹《岳阳楼记》", author: "范仲淹", dynasty: "宋", genre: "classic" },
-    meaning: "皓月：皓月千里。皎洁明亮。",
-    tags: ["清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "liu-guang", given: "流光", length: 2, pinyin: "liu guang", tones: [2, 1],
-    category: "songci", gender: "u",
-    source: { text: "流光容易把人抛，红了樱桃，绿了芭蕉", title: "蒋捷《一剪梅·舟过吴江》", author: "蒋捷", dynasty: "宋", genre: "ci" },
-    meaning: "流光：流动的光华。流光溢彩，惜时之意。",
-    tags: ["风雅", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "wan-zi", given: "万紫", length: 2, pinyin: "wan zi", tones: [4, 3],
-    category: "songci", season: [1], gender: "f",
-    source: { text: "等闲识得东风面，万紫千红总是春", title: "朱熹《春日》", author: "朱熹", dynasty: "宋", genre: "shi" },
-    meaning: "万紫：万紫千红。春色满园。",
-    tags: ["自然", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "qian-hong", given: "千红", length: 2, pinyin: "qian hong", tones: [1, 2],
-    category: "songci", season: [1], gender: "f",
-    source: { text: "等闲识得东风面，万紫千红总是春", title: "朱熹《春日》", author: "朱熹", dynasty: "宋", genre: "shi" },
-    meaning: "千红：万紫千红。繁花似锦。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dong-feng", given: "东风", length: 2, pinyin: "dong feng", tones: [1, 1],
-    category: "songci", season: [1], gender: "u",
-    source: { text: "等闲识得东风面，万紫千红总是春", title: "朱熹《春日》", author: "朱熹", dynasty: "宋", genre: "shi" },
-    meaning: "东风：春天的风。东风拂面，万物生发。",
-    tags: ["自然", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "yun-ying", given: "云影", length: 2, pinyin: "yun ying", tones: [2, 3],
-    category: "songci", gender: "u",
-    source: { text: "半亩方塘一鉴开，天光云影共徘徊", title: "朱熹《观书有感》", author: "朱熹", dynasty: "宋", genre: "shi" },
-    meaning: "云影：天光云影。澄澈如鉴。",
-    tags: ["清朗", "聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-ru", given: "清如", length: 2, pinyin: "qing ru", tones: [1, 2],
-    category: "songci", gender: "u",
-    source: { text: "问渠那得清如许，为有源头活水来", title: "朱熹《观书有感》", author: "朱熹", dynasty: "宋", genre: "shi" },
-    meaning: "清如：清澈如许。清明澄澈。",
-    tags: ["清朗", "聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "da-jiang", given: "大江", length: 2, pinyin: "da jiang", tones: [4, 1],
-    category: "songci", gender: "m",
-    source: { text: "大江东去，浪淘尽，千古风流人物", title: "苏轼《念奴娇·赤壁怀古》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "大江：大江东去。气吞万里。",
-    tags: ["事业", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "jiang-shan", given: "江山", length: 2, pinyin: "jiang shan", tones: [1, 1],
-    category: "songci", gender: "m",
-    source: { text: "江山如画，一时多少豪杰", title: "苏轼《念奴娇·赤壁怀古》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "江山：江山如画。家国天下，气象万千。",
-    tags: ["事业"], frequency: "legend", verified: true
-  },
-  {
-    id: "ru-hua", given: "如画", length: 2, pinyin: "ru hua", tones: [2, 4],
-    category: "songci", gender: "f",
-    source: { text: "江山如画，一时多少豪杰", title: "苏轼《念奴娇·赤壁怀古》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "如画：江山如画。美景如绘。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "tan-xiao", given: "谈笑", length: 2, pinyin: "tan xiao", tones: [2, 4],
-    category: "songci", gender: "u",
-    source: { text: "羽扇纶巾，谈笑间，樯橹灰飞烟灭", title: "苏轼《念奴娇·赤壁怀古》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "谈笑：谈笑风生。从容不迫，举重若轻。",
-    tags: ["风雅", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "xi-yun", given: "溪云", length: 2, pinyin: "xi yun", tones: [1, 2],
-    category: "tangshi", gender: "u",
-    source: { text: "溪云初起日沉阁，山雨欲来风满楼", title: "许浑《咸阳城东楼》", author: "许浑", dynasty: "唐", genre: "shi" },
-    meaning: "溪云：溪上云雾。云水相依。",
-    tags: ["自然", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "shan-yu", given: "山雨", length: 2, pinyin: "shan yu", tones: [1, 3],
-    category: "tangshi", gender: "u",
-    source: { text: "溪云初起日沉阁，山雨欲来风满楼", title: "许浑《咸阳城东楼》", author: "许浑", dynasty: "唐", genre: "shi" },
-    meaning: "山雨：山雨欲来。风雨之中，自成气象。",
-    tags: ["自然", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "gui-hua", given: "桂花", length: 2, pinyin: "gui hua", tones: [4, 1],
-    category: "tangshi", season: [3], gender: "f",
-    source: { text: "人闲桂花落，夜静春山空", title: "王维《鸟鸣涧》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "桂花：金秋桂子。清香远播，亦「蟾宫折桂」之吉。",
-    tags: ["自然", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "mei-xue", given: "梅雪", length: 2, pinyin: "mei xue", tones: [2, 3],
-    category: "songci", season: [4], gender: "f",
-    source: { text: "梅须逊雪三分白，雪却输梅一段香", title: "卢梅坡《雪梅》", author: "卢梅坡", dynasty: "宋", genre: "shi" },
-    meaning: "梅雪：梅雪争春。各有千秋，相映成辉。",
-    tags: ["风雅", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhi-xing", given: "知行", length: 2, pinyin: "zhi xing", tones: [1, 2],
-    category: "wenyan", gender: "u",
-    source: { text: "知是行之始，行是知之成", title: "王阳明《传习录》", author: "王阳明", dynasty: "明", genre: "classic" },
-    meaning: "知行：知行合一。学思并重，身体力行。",
-    tags: ["聪慧", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "du-xing", given: "笃行", length: 2, pinyin: "du xing", tones: [3, 2],
-    category: "wenyan", gender: "u",
-    source: { text: "博学之，审问之，慎思之，明辨之，笃行之", title: "《礼记·中庸》", author: "子思", dynasty: "战国", genre: "classic" },
-    meaning: "笃行：笃行不怠。知行合一，踏实致远。",
-    tags: ["事业", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "shen-si", given: "慎思", length: 2, pinyin: "shen si", tones: [4, 1],
-    category: "wenyan", gender: "u",
-    source: { text: "博学之，审问之，慎思之，明辨之，笃行之", title: "《礼记·中庸》", author: "子思", dynasty: "战国", genre: "classic" },
-    meaning: "慎思：审慎思考。思虑周密。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "bo-xue", given: "博学", length: 2, pinyin: "bo xue", tones: [2, 2],
-    category: "wenyan", gender: "u",
-    source: { text: "博学之，审问之，慎思之，明辨之，笃行之", title: "《礼记·中庸》", author: "子思", dynasty: "战国", genre: "classic" },
-    meaning: "博学：博学多识。学问广博。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "chang-ge", given: "长歌", length: 2, pinyin: "chang ge", tones: [2, 1],
-    category: "hanfu", gender: "u",
-    source: { text: "少壮不努力，老大徒伤悲", title: "汉乐府《长歌行》", author: "佚名", dynasty: "汉", genre: "yuefu" },
-    meaning: "长歌：长歌当行。慷慨激越，惜时奋进。",
-    tags: ["风雅", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "jiang-xue", given: "江雪", length: 2, pinyin: "jiang xue", tones: [1, 3],
-    category: "tangshi", season: [4], gender: "u",
-    source: { text: "孤舟蓑笠翁，独钓寒江雪", title: "柳宗元《江雪》", author: "柳宗元", dynasty: "唐", genre: "shi" },
-    meaning: "江雪：江天雪色。清冷高洁，遗世独立。",
-    tags: ["清朗", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "song-bai", given: "松柏", length: 2, pinyin: "song bai", tones: [1, 3],
-    category: "wenyan", gender: "u",
-    source: { text: "岁寒，然后知松柏之后凋也", title: "《论语·子罕》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "松柏：岁寒不凋。坚韧长青。",
-    tags: ["坚韧", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "sui-han", given: "岁寒", length: 2, pinyin: "sui han", tones: [4, 2],
-    category: "wenyan", season: [4], gender: "u",
-    source: { text: "岁寒，然后知松柏之后凋也", title: "《论语·子罕》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "岁寒：岁寒知松柏。历经考验，方显本色。",
-    tags: ["坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "chun-lan", given: "春兰", length: 2, pinyin: "chun lan", tones: [1, 2],
-    category: "chuci", season: [1], gender: "f",
-    source: { text: "春兰兮秋菊，长无绝兮终古", title: "屈原《九歌·礼魂》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "春兰：春兰秋菊。各擅胜场，芳华不绝。",
-    tags: ["风雅", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "xing-qiao", given: "星桥", length: 2, pinyin: "xing qiao", tones: [1, 2],
-    category: "songci", gender: "u",
-    source: { text: "星桥鹊驾，经年才见，想离情别恨难穷", title: "李清照《行香子·七夕》", author: "李清照", dynasty: "宋", genre: "ci" },
-    meaning: "星桥：鹊桥星汉。七夕相会。",
-    tags: ["爱情", "清朗"], frequency: "classic", verified: true
-  },
-
-  // ==================== 批次 3a：中药名 ====================
-  {
-    id: "bai-zhi", given: "白芷", length: 2, pinyin: "bai zhi", tones: [2, 3],
-    category: "medicine", season: [1, 2], gender: "f",
-    source: { text: "扈江离与辟芷兮，纫秋兰以为佩", title: "《楚辞·离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "白芷：楚辞香草，亦本草名。芳香通窍，玉骨冰肌。",
-    tags: ["风雅", "健康"], frequency: "classic", verified: true
-  },
-  {
-    id: "ban-xia", given: "半夏", length: 2, pinyin: "ban xia", tones: [4, 4],
-    category: "medicine", season: [2], gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "半夏：生于夏之半。万物正盛，欣欣向荣。",
-    tags: ["健康", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-dai", given: "青黛", length: 2, pinyin: "qing dai", tones: [1, 4],
-    category: "medicine", gender: "f",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "青黛：青如远山，黛为画眉之色。清雅深沉。",
-    tags: ["风雅", "健康"], frequency: "classic", verified: true
-  },
-  {
-    id: "chen-xiang", given: "沉香", length: 2, pinyin: "chen xiang", tones: [2, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "沉香：名贵香木，入水即沉。历久弥香，深沉内敛。",
-    tags: ["风雅", "健康"], frequency: "legend", verified: true
-  },
-  {
-    id: "zi-su", given: "紫苏", length: 2, pinyin: "zi su", tones: [3, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "紫苏：紫叶香草。解表散寒，温润平易。",
-    tags: ["健康", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "fu-ling", given: "茯苓", length: 2, pinyin: "fu ling", tones: [2, 2],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "茯苓：松根灵气所结。淡泊宁心，健脾安神。",
-    tags: ["健康", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "bai-zhu", given: "白术", length: 2, pinyin: "bai zhu", tones: [2, 2],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "白术：健脾益气之品。温厚平和，如良师益友。",
-    tags: ["健康", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "dang-gui", given: "当归", length: 2, pinyin: "dang gui", tones: [1, 1],
-    category: "medicine", gender: "f",
-    source: { text: "良田百顷，不在一亩；但有远志，不在当归也", title: "《三国志·姜维传》注引", author: "姜维", dynasty: "三国", genre: "classic" },
-    meaning: "当归：本草名，亦「应当归来」之意。游子思归，深情之典。",
-    tags: ["爱情", "健康"], frequency: "legend", verified: true
-  },
-  {
-    id: "ren-dong", given: "忍冬", length: 2, pinyin: "ren dong", tones: [3, 1],
-    category: "medicine", season: [4], gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "忍冬：金银花之别名。经冬不凋，坚韧如松。",
-    tags: ["坚韧", "健康"], frequency: "legend", verified: true
-  },
-  {
-    id: "ling-xiao", given: "凌霄", length: 2, pinyin: "ling xiao", tones: [2, 1],
-    category: "medicine", season: [2], gender: "f",
-    source: { text: "有木名凌霄，擢秀非孤标", title: "白居易《有木诗八首》", author: "白居易", dynasty: "唐", genre: "shi" },
-    meaning: "凌霄：凌霄花，攀援而上。志在凌云，花开九霄。",
-    tags: ["事业", "坚韧"], frequency: "legend", verified: true
-  },
-  {
-    id: "xin-yi", given: "辛夷", length: 2, pinyin: "xin yi", tones: [1, 2],
-    category: "medicine", season: [1], gender: "f",
-    source: { text: "木末芙蓉花，山中发红萼", title: "王维《辛夷坞》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "辛夷：玉兰之别称，望春之花。涧户寂无人，纷纷开且落。",
-    tags: ["风雅", "健康"], frequency: "legend", verified: true
-  },
-  {
-    id: "pei-lan", given: "佩兰", length: 2, pinyin: "pei lan", tones: [4, 2],
-    category: "medicine", gender: "u",
-    source: { text: "扈江离与辟芷兮，纫秋兰以为佩", title: "《楚辞·离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "佩兰：纫兰为佩。香草随身，德馨自远。",
-    tags: ["风雅", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "ze-lan", given: "泽兰", length: 2, pinyin: "ze lan", tones: [2, 2],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "泽兰：泽畔之兰。生于水泽，香远益清。",
-    tags: ["风雅", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-hao", given: "青蒿", length: 2, pinyin: "qing hao", tones: [1, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "青蒿：青蒿一握，以水二升渍。屠呦呦据此发现青蒿素，青蒿济世。",
-    tags: ["健康", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "mu-xiang", given: "木香", length: 2, pinyin: "mu xiang", tones: [4, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "木香：行气之药。木之芬芳，清雅悠长。",
-    tags: ["健康", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "tan-xiang", given: "檀香", length: 2, pinyin: "tan xiang", tones: [2, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "檀香：檀木之香。庄重沉静，古寺禅意。",
-    tags: ["风雅", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "jing-tian", given: "景天", length: 2, pinyin: "jing tian", tones: [3, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "景天：本草名。景仰苍天，胸怀高远。",
-    tags: ["健康", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "bai-wei", given: "白薇", length: 2, pinyin: "bai wei", tones: [2, 1],
-    category: "medicine", gender: "f",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "白薇：白薇之草，清雅素净。",
-    tags: ["风雅", "健康"], frequency: "classic", verified: true
-  },
-  {
-    id: "lian-qiao", given: "连翘", length: 2, pinyin: "lian qiao", tones: [2, 2],
-    category: "medicine", season: [1], gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "连翘：早春黄花。连捷翘楚，名列前茅。",
-    tags: ["健康", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "jie-geng", given: "桔梗", length: 2, pinyin: "jie geng", tones: [2, 3],
-    category: "medicine", season: [2], gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "桔梗：蓝紫之花，铃铛之形。清亮可爱。",
-    tags: ["健康", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "du-zhong", given: "杜仲", length: 2, pinyin: "du zhong", tones: [4, 4],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "杜仲：以人名入药。强筋健骨，柔韧如丝。",
-    tags: ["健康", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "tian-dong", given: "天冬", length: 2, pinyin: "tian dong", tones: [1, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "天冬：天门冬。养阴润燥，清润如水。",
-    tags: ["健康", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "mai-dong", given: "麦冬", length: 2, pinyin: "mai dong", tones: [4, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "麦冬：麦冬润肺养心。性味甘平，温润如玉。",
-    tags: ["健康", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "che-qian", given: "车前", length: 2, pinyin: "che qian", tones: [1, 2],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "车前：车前草，长于道旁。一往无前，随遇而安。",
-    tags: ["健康", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "long-kui", given: "龙葵", length: 2, pinyin: "long kui", tones: [2, 2],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "龙葵：本草名。龙腾之势，葵心向阳。",
-    tags: ["健康", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "shi-hu", given: "石斛", length: 2, pinyin: "shi hu", tones: [2, 2],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "石斛：九大仙草之首，生于石上。坚劲清高。",
-    tags: ["健康", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhi-mu", given: "知母", length: 2, pinyin: "zhi mu", tones: [1, 3],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "知母：本草名。亦含知恩报母之意，孝亲之情。",
-    tags: ["健康", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "yuan-zhi", given: "远志", length: 2, pinyin: "yuan zhi", tones: [3, 4],
-    category: "medicine", gender: "u",
-    source: { text: "良田百顷，不在一亩；但有远志，不在当归也", title: "《三国志·姜维传》注引", author: "姜维", dynasty: "三国", genre: "classic" },
-    meaning: "远志：本草名，亦「志向远大」之双关。",
-    tags: ["事业", "健康"], frequency: "legend", verified: true
-  },
-  {
-    id: "fang-feng", given: "防风", length: 2, pinyin: "fang feng", tones: [2, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "防风：御风之草。护身御疾，稳健如山。",
-    tags: ["健康", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "xi-xin", given: "细辛", length: 2, pinyin: "xi xin", tones: [4, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "细辛：根细味辛。细致入微，坚韧不拔。",
-    tags: ["健康", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "chuan-xiong", given: "川芎", length: 2, pinyin: "chuan xiong", tones: [1, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "川芎：产自蜀地。川流不息，行气活血。",
-    tags: ["健康", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "bai-shao", given: "白芍", length: 2, pinyin: "bai shao", tones: [2, 2],
-    category: "medicine", gender: "f",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "白芍：白芍之花，雍容淡雅。柔肝养血。",
-    tags: ["健康", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "yu-zhu", given: "玉竹", length: 2, pinyin: "yu zhu", tones: [4, 2],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "玉竹：根如白玉，茎如修竹。温润清雅。",
-    tags: ["健康", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "bai-he", given: "百合", length: 2, pinyin: "bai he", tones: [3, 2],
-    category: "medicine", season: [2], gender: "f",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "百合：百合花清雅，亦「百年好合」之谐。爱情美满。",
-    tags: ["爱情", "福寿"], frequency: "legend", verified: true
-  },
-  {
-    id: "ling-zhi", given: "灵芝", length: 2, pinyin: "ling zhi", tones: [2, 1],
-    category: "medicine", gender: "u",
-    source: { text: "灵芝生天地，朱草被洛滨", title: "曹植《灵芝篇》", author: "曹植", dynasty: "三国", genre: "yuefu" },
-    meaning: "灵芝：仙草灵芝。祥瑞长寿，灵秀天成。",
-    tags: ["福寿", "健康"], frequency: "legend", verified: true
-  },
-  {
-    id: "dou-kou", given: "豆蔻", length: 2, pinyin: "dou kou", tones: [4, 4],
-    category: "medicine", season: [1], gender: "f",
-    source: { text: "娉娉袅袅十三余，豆蔻梢头二月初", title: "杜牧《赠别》", author: "杜牧", dynasty: "唐", genre: "shi" },
-    meaning: "豆蔻：豆蔻年华。青春正好，含苞待放。",
-    tags: ["风雅", "健康"], frequency: "classic", verified: true
-  },
-  {
-    id: "su-he", given: "苏合", length: 2, pinyin: "su he", tones: [1, 2],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "苏合：苏合香，名贵香药。苏醒和合，开窍醒神。",
-    tags: ["健康", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "dong-qing", given: "冬青", length: 2, pinyin: "dong qing", tones: [1, 1],
-    category: "medicine", season: [4], gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "冬青：四季常青之木。经冬不凋。",
-    tags: ["坚韧", "健康"], frequency: "classic", verified: true
-  },
-  {
-    id: "chang-pu", given: "菖蒲", length: 2, pinyin: "chang pu", tones: [1, 2],
-    category: "medicine", season: [2], gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "菖蒲：端午之草，驱邪纳吉。叶如剑，气如兰。",
-    tags: ["平安", "健康"], frequency: "classic", verified: true
-  },
-  {
-    id: "du-huo", given: "独活", length: 2, pinyin: "du huo", tones: [2, 2],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "独活：一茎直上，不为风摇。遗世独立，卓尔不群。",
-    tags: ["坚韧", "健康"], frequency: "classic", verified: true
-  },
-  {
-    id: "xu-duan", given: "续断", length: 2, pinyin: "xu duan", tones: [4, 4],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "续断：续骨疗伤之药。生生不息，绵绵不绝。",
-    tags: ["健康", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "zi-wan", given: "紫菀", length: 2, pinyin: "zi wan", tones: [3, 3],
-    category: "medicine", season: [3], gender: "f",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "紫菀：秋日紫花。婉约清丽。",
-    tags: ["风雅", "健康"], frequency: "classic", verified: true
-  },
-  {
-    id: "he-huan", given: "合欢", length: 2, pinyin: "he huan", tones: [2, 1],
-    category: "medicine", season: [2], gender: "f",
-    source: { text: "合欢蠲忿，萱草忘忧", title: "嵇康《养生论》", author: "嵇康", dynasty: "魏晋", genre: "classic" },
-    meaning: "合欢：合欢花昼开夜合。阖家欢乐，爱情和美。",
-    tags: ["爱情", "福寿"], frequency: "legend", verified: true
-  },
-  {
-    id: "wang-you", given: "忘忧", length: 2, pinyin: "wang you", tones: [4, 1],
-    category: "medicine", gender: "u",
-    source: { text: "合欢蠲忿，萱草忘忧", title: "嵇康《养生论》", author: "嵇康", dynasty: "魏晋", genre: "classic" },
-    meaning: "忘忧：萱草别名忘忧草。无忧无虑，喜乐安康。",
-    tags: ["平安", "福寿"], frequency: "legend", verified: true
-  },
-  {
-    id: "xuan-cao", given: "萱草", length: 2, pinyin: "xuan cao", tones: [1, 3],
-    category: "medicine", season: [2], gender: "f",
-    source: { text: "焉得谖草，言树之背", title: "《诗经·卫风·伯兮》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "萱草：谖草即萱草，母亲花。萱堂之乐，孝亲之思。",
-    tags: ["仁善", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "su-xin", given: "素馨", length: 2, pinyin: "su xin", tones: [4, 1],
-    category: "medicine", season: [2], gender: "f",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "素馨：素馨花，色白如雪，香清似兰。",
-    tags: ["风雅", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "han-xiao", given: "含笑", length: 2, pinyin: "han xiao", tones: [2, 4],
-    category: "medicine", season: [1], gender: "f",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "含笑：含笑花，将开未开似含笑。笑靥如花。",
-    tags: ["平安", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "mu-jin", given: "木槿", length: 2, pinyin: "mu jin", tones: [4, 3],
-    category: "medicine", season: [2], gender: "f",
-    source: { text: "有女同车，颜如舜华", title: "《诗经·郑风·有女同车》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "木槿：舜华即木槿。朝开暮落，生生不息。",
-    tags: ["自然", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "gan-song", given: "甘松", length: 2, pinyin: "gan song", tones: [1, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "甘松：甘松之香。甘之如饴，松之坚韧。",
-    tags: ["健康", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "bai-ji", given: "白及", length: 2, pinyin: "bai ji", tones: [2, 2],
-    category: "medicine", season: [2], gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "白及：兰科之花，清雅如兰。",
-    tags: ["健康", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "zhi-zi", given: "栀子", length: 2, pinyin: "zhi zi", tones: [1, 3],
-    category: "medicine", season: [2], gender: "f",
-    source: { text: "栀子比众木，人间诚未多", title: "杜甫《栀子》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "栀子：栀子花开，清香满庭。",
-    tags: ["风雅", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "hou-po", given: "厚朴", length: 2, pinyin: "hou po", tones: [4, 3],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "厚朴：厚道朴实。亦行气化湿之药。",
-    tags: ["仁善", "健康"], frequency: "classic", verified: true
-  },
-  {
-    id: "yi-zhi", given: "益智", length: 2, pinyin: "yi zhi", tones: [4, 4],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "益智：益智仁，本草名。增益智慧。",
-    tags: ["聪慧", "健康"], frequency: "classic", verified: true
-  },
-  {
-    id: "tian-ma", given: "天麻", length: 2, pinyin: "tian ma", tones: [1, 2],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "天麻：天赐之麻，息风定惊。",
-    tags: ["健康", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "san-qi", given: "三七", length: 2, pinyin: "san qi", tones: [1, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "三七：金疮圣药，亦名田七。",
-    tags: ["健康"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-shen", given: "丹参", length: 2, pinyin: "dan shen", tones: [1, 1],
-    category: "medicine", gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "丹参：丹心入药。活血化瘀，赤诚温润。",
-    tags: ["健康", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "huo-xiang", given: "藿香", length: 2, pinyin: "huo xiang", tones: [4, 1],
-    category: "medicine", season: [2], gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "藿香：藿香正气。芳香化湿，正气凛然。",
-    tags: ["健康", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "bo-he", given: "薄荷", length: 2, pinyin: "bo he", tones: [4, 2],
-    category: "medicine", season: [2], gender: "u",
-    source: { text: "药名见于《本草纲目》", title: "《本草纲目》", author: "李时珍", dynasty: "明", genre: "medicine" },
-    meaning: "薄荷：清凉之草。沁人心脾，清新自在。",
-    tags: ["健康", "清朗"], frequency: "classic", verified: true
-  },
-
-  // ==================== 批次 3b：二十四节气 ====================
-  {
-    id: "li-chun", given: "立春", length: 2, pinyin: "li chun", tones: [4, 1],
-    category: "solar", season: [1], gender: "u",
-    source: { text: "立春，正月节。立，建始也", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "立春：万物起始。一年之计在于春。",
-    tags: ["自然", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "yu-shui", given: "雨水", length: 2, pinyin: "yu shui", tones: [3, 3],
-    category: "solar", season: [1], gender: "u",
-    source: { text: "雨水，正月中。天一生水", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "雨水：天一生水。润泽万物。",
-    tags: ["自然", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "jing-zhe", given: "惊蛰", length: 2, pinyin: "jing zhe", tones: [1, 2],
-    category: "solar", season: [1], gender: "u",
-    source: { text: "惊蛰，二月节。万物出乎震，震为雷，故曰惊蛰", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "惊蛰：春雷乍动，万物复苏。一鸣惊人。",
-    tags: ["自然", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "chun-fen", given: "春分", length: 2, pinyin: "chun fen", tones: [1, 1],
-    category: "solar", season: [1], gender: "u",
-    source: { text: "春分，二月中。分者，半也", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "春分：昼夜均分。不偏不倚，恰到好处。",
-    tags: ["自然", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-ming", given: "清明", length: 2, pinyin: "qing ming", tones: [1, 2],
-    category: "solar", season: [1], gender: "u",
-    source: { text: "清明，三月节。物至此时，皆以洁齐而清明矣", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "清明：气清景明。天清地明，万物洁净。",
-    tags: ["清朗", "平安"], frequency: "legend", verified: true
-  },
-  {
-    id: "gu-yu", given: "谷雨", length: 2, pinyin: "gu yu", tones: [3, 3],
-    category: "solar", season: [1], gender: "u",
-    source: { text: "谷雨，三月中。雨其谷于水也", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "谷雨：雨生百谷。播谷降雨，仓廪之望。",
-    tags: ["自然", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "li-xia", given: "立夏", length: 2, pinyin: "li xia", tones: [4, 4],
-    category: "solar", season: [2], gender: "u",
-    source: { text: "立夏，四月节。立，始建也", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "立夏：夏季之始。万物繁茂。",
-    tags: ["自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "xiao-man", given: "小满", length: 2, pinyin: "xiao man", tones: [3, 3],
-    category: "solar", season: [2], gender: "u",
-    source: { text: "小满，四月中。物致于此，小得盈满", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "小满：小得盈满。「小满胜万全」，不求圆满，知足常乐。",
-    tags: ["平安", "福寿"], frequency: "legend", verified: true
-  },
-  {
-    id: "xia-zhi", given: "夏至", length: 2, pinyin: "xia zhi", tones: [4, 4],
-    category: "solar", season: [2], gender: "u",
-    source: { text: "夏至，五月中。夏，假也，至，极也", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "夏至：日至极处。盛极而生新。",
-    tags: ["自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "li-qiu", given: "立秋", length: 2, pinyin: "li qiu", tones: [4, 1],
-    category: "solar", season: [3], gender: "u",
-    source: { text: "立秋，七月节。秋，揪也，物于此而揪敛也", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "立秋：秋之始。金风送爽。",
-    tags: ["自然", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "bai-lu3", given: "白露", length: 2, pinyin: "bai lu", tones: [2, 4],
-    category: "solar", season: [3], gender: "u",
-    source: { text: "蒹葭苍苍，白露为霜", title: "《诗经·秦风·蒹葭》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "白露：二十四节气，亦《蒹葭》名句。露凝而白，秋意初生。",
-    tags: ["清朗", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "qiu-fen", given: "秋分", length: 2, pinyin: "qiu fen", tones: [1, 1],
-    category: "solar", season: [3], gender: "u",
-    source: { text: "秋分，八月中。分者，半也", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "秋分：秋色平分。天高云淡。",
-    tags: ["自然", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "han-lu", given: "寒露", length: 2, pinyin: "han lu", tones: [2, 4],
-    category: "solar", season: [3], gender: "u",
-    source: { text: "寒露，九月节。露气寒冷，将凝结也", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "寒露：秋露将凝。清冷高洁。",
-    tags: ["清朗", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "shuang-jiang", given: "霜降", length: 2, pinyin: "shuang jiang", tones: [1, 4],
-    category: "solar", season: [3], gender: "u",
-    source: { text: "霜降，九月中。气肃而凝，露结为霜矣", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "霜降：露结为霜。经霜愈劲，如霜叶之红。",
-    tags: ["坚韧", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "li-dong", given: "立冬", length: 2, pinyin: "li dong", tones: [4, 1],
-    category: "solar", season: [4], gender: "u",
-    source: { text: "立冬，十月节。冬，终也，万物收藏也", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "立冬：万物收藏。蓄势待春。",
-    tags: ["自然", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "xiao-xue", given: "小雪", length: 2, pinyin: "xiao xue", tones: [3, 3],
-    category: "solar", season: [4], gender: "f",
-    source: { text: "小雪，十月中。雨下而为寒气所薄，故凝而为雪", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "小雪：初雪将至。轻灵洁净。",
-    tags: ["清朗", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "da-xue", given: "大雪", length: 2, pinyin: "da xue", tones: [4, 3],
-    category: "solar", season: [4], gender: "u",
-    source: { text: "大雪，十一月节。大者，盛也，至此而雪盛矣", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "大雪：瑞雪兆丰年。银装素裹。",
-    tags: ["自然", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "dong-zhi", given: "冬至", length: 2, pinyin: "dong zhi", tones: [1, 4],
-    category: "solar", season: [4], gender: "u",
-    source: { text: "冬至，十一月中。终藏之气至此而极也", title: "《月令七十二候集解》", author: "吴澄", dynasty: "元", genre: "classic" },
-    meaning: "冬至：阴极阳生。冬至一阳生，否极泰来。",
-    tags: ["福寿", "坚韧"], frequency: "legend", verified: true
-  },
-
-  // ==================== 批次 3c：自然意象与山水清音 ====================
-  {
-    id: "xing-han", given: "星汉", length: 2, pinyin: "xing han", tones: [1, 4],
-    category: "hanfu", gender: "u",
-    source: { text: "日月之行，若出其中；星汉灿烂，若出其里", title: "曹操《观沧海》", author: "曹操", dynasty: "东汉", genre: "yuefu" },
-    meaning: "星汉：银河。星汉灿烂，浩瀚如海。",
-    tags: ["清朗", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "yun-xiu", given: "云岫", length: 2, pinyin: "yun xiu", tones: [2, 4],
-    category: "hanfu", gender: "u",
-    source: { text: "云无心以出岫，鸟倦飞而知还", title: "陶渊明《归去来兮辞》", author: "陶渊明", dynasty: "东晋", genre: "fu" },
-    meaning: "云岫：云出山间。闲云出岫，悠然自得。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "yue-hua", given: "月华", length: 2, pinyin: "yue hua", tones: [4, 2],
-    category: "tangshi", gender: "f",
-    source: { text: "此时相望不相闻，愿逐月华流照君", title: "张若虚《春江花月夜》", author: "张若虚", dynasty: "唐", genre: "shi" },
-    meaning: "月华：月光。月华如水，流光千里。",
-    tags: ["清朗", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "chun-jian", given: "春涧", length: 2, pinyin: "chun jian", tones: [1, 4],
-    category: "tangshi", season: [1], gender: "u",
-    source: { text: "人闲桂花落，夜静春山空", title: "王维《鸟鸣涧》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "春涧：春日山涧。清泉流淌，鸟鸣山幽。",
-    tags: ["自然", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "song-yue", given: "松月", length: 2, pinyin: "song yue", tones: [1, 4],
-    category: "tangshi", gender: "u",
-    source: { text: "明月松间照，清泉石上流", title: "王维《山居秋暝》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "松月：松间明月。清幽高洁。",
-    tags: ["清朗", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "he-xiang", given: "荷香", length: 2, pinyin: "he xiang", tones: [2, 1],
-    category: "tangshi", season: [2], gender: "u",
-    source: { text: "荷风送香气，竹露滴清响", title: "孟浩然《夏日南亭怀辛大》", author: "孟浩然", dynasty: "唐", genre: "shi" },
-    meaning: "荷香：荷花之香。清芬远播。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-yin", given: "清音", length: 2, pinyin: "qing yin", tones: [1, 1],
-    category: "hanfu", gender: "u",
-    source: { text: "非必丝与竹，山水有清音", title: "左思《招隐诗》", author: "左思", dynasty: "晋", genre: "shi" },
-    meaning: "清音：山水清音。天然之声，胜于丝竹。",
-    tags: ["风雅", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "shan-shui", given: "山水", length: 2, pinyin: "shan shui", tones: [1, 3],
-    category: "hanfu", gender: "u",
-    source: { text: "非必丝与竹，山水有清音", title: "左思《招隐诗》", author: "左思", dynasty: "晋", genre: "shi" },
-    meaning: "山水：山水清音。亦山水画之意境。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "qing-kong", given: "晴空", length: 2, pinyin: "qing kong", tones: [2, 1],
-    category: "tangshi", season: [3], gender: "u",
-    source: { text: "晴空一鹤排云上，便引诗情到碧霄", title: "刘禹锡《秋词》", author: "刘禹锡", dynasty: "唐", genre: "shi" },
-    meaning: "晴空：晴空万里。秋高气爽，心怀开阔。",
-    tags: ["清朗", "事业"], frequency: "legend", verified: true
-  },
-  {
-    id: "shi-qing", given: "诗情", length: 2, pinyin: "shi qing", tones: [1, 2],
-    category: "tangshi", gender: "f",
-    source: { text: "晴空一鹤排云上，便引诗情到碧霄", title: "刘禹锡《秋词》", author: "刘禹锡", dynasty: "唐", genre: "shi" },
-    meaning: "诗情：诗情画意。心中有诗，眼中有光。",
-    tags: ["风雅", "聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "bi-xiao", given: "碧霄", length: 2, pinyin: "bi xiao", tones: [4, 1],
-    category: "tangshi", gender: "u",
-    source: { text: "晴空一鹤排云上，便引诗情到碧霄", title: "刘禹锡《秋词》", author: "刘禹锡", dynasty: "唐", genre: "shi" },
-    meaning: "碧霄：碧空云霄。志在高远。",
-    tags: ["清朗", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "chun-chao", given: "春潮", length: 2, pinyin: "chun chao", tones: [1, 2],
-    category: "tangshi", season: [1], gender: "u",
-    source: { text: "春江潮水连海平，海上明月共潮生", title: "张若虚《春江花月夜》", author: "张若虚", dynasty: "唐", genre: "shi" },
-    meaning: "春潮：春江潮水。生机涌动。",
-    tags: ["自然", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "tian-lai", given: "天籁", length: 2, pinyin: "tian lai", tones: [1, 4],
-    category: "wenyan", gender: "u",
-    source: { text: "女闻人籁而未闻地籁，女闻地籁而未闻天籁夫", title: "《庄子·齐物论》", author: "庄子", dynasty: "战国", genre: "classic" },
-    meaning: "天籁：天籁之音。至美至纯之声。",
-    tags: ["风雅", "聪慧"], frequency: "legend", verified: true
-  },
-  {
-    id: "ming-cha", given: "明察", length: 2, pinyin: "ming cha", tones: [2, 2],
-    category: "wenyan", gender: "u",
-    source: { text: "明足以察秋毫之末，而不见舆薪", title: "《孟子·梁惠王上》", author: "孟子", dynasty: "战国", genre: "classic" },
-    meaning: "明察：明察秋毫。洞明事理。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-
-  // ==================== 批次 4：单字词条（玉器 / 天象 / 草木 / 雅德） ====================
-  {
-    id: "dan-zhao", given: "昭", length: 1, pinyin: "zhao", tones: [1],
-    category: "chuci", gender: "u",
-    source: { text: "芳与泽其杂糅兮，唯昭质其犹未亏", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "昭：光明。「以其昭昭，使人昭昭」，明达之象。",
-    tags: ["清朗", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-heng", given: "珩", length: 1, pinyin: "heng", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "珩，佩上玉也", title: "《说文解字》", author: "许慎", dynasty: "东汉", genre: "classic" },
-    meaning: "珩：玉佩之横玉。君子佩玉，珩璜之德。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-zhang", given: "璋", length: 1, pinyin: "zhang", tones: [1],
-    category: "shijing", gender: "m",
-    source: { text: "乃生男子，载寝之床，载衣之裳，载弄之璋", title: "《诗经·小雅·斯干》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "璋：半圭之玉。「弄璋之喜」，贵子之兆。",
-    tags: ["事业", "富贵"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-wan", given: "琬", length: 1, pinyin: "wan", tones: [3],
-    category: "chuci", gender: "f",
-    source: { text: "怀琬琰之华英", title: "《楚辞·远游》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "琬：美玉。琬琰华英，温润美好。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-yan", given: "琰", length: 1, pinyin: "yan", tones: [3],
-    category: "chuci", gender: "u",
-    source: { text: "怀琬琰之华英", title: "《楚辞·远游》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "琰：美玉之华光。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-yao", given: "瑶", length: 1, pinyin: "yao", tones: [2],
-    category: "shijing", gender: "f",
-    source: { text: "投我以木桃，报之以琼瑶", title: "《诗经·卫风·木瓜》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "瑶：美玉。琼瑶报德，情比玉坚。",
-    tags: ["风雅", "爱情"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-lin2", given: "琳", length: 1, pinyin: "lin", tones: [2],
-    category: "hanfu", gender: "f",
-    source: { text: "玫瑰碧琳，珊瑚丛生", title: "司马相如《上林赋》", author: "司马相如", dynasty: "汉", genre: "fu" },
-    meaning: "琳：美玉。碧琳之美，清贵自持。",
-    tags: ["风雅", "富贵"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-chen", given: "琛", length: 1, pinyin: "chen", tones: [1],
-    category: "shijing", gender: "u",
-    source: { text: "憬彼淮夷，来献其琛", title: "《诗经·鲁颂·泮水》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "琛：珍宝。献琛之宝，弥足珍贵。",
-    tags: ["富贵"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-yu2", given: "瑜", length: 1, pinyin: "yu", tones: [2],
-    category: "chuci", gender: "f",
-    source: { text: "怀瑾握瑜兮，穷不知所示", title: "屈原《九章·怀沙》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "瑜：美玉。瑜不掩瑕，瑕不掩瑜。",
-    tags: ["仁善", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-jin", given: "瑾", length: 1, pinyin: "jin", tones: [3],
-    category: "chuci", gender: "m",
-    source: { text: "怀瑾握瑜兮，穷不知所示", title: "屈原《九章·怀沙》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "瑾：美玉。怀瑾之德，光华内敛。",
-    tags: ["仁善", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-xuan", given: "璇", length: 1, pinyin: "xuan", tones: [2],
-    category: "wenyan", gender: "f",
-    source: { text: "在璇玑玉衡，以齐七政", title: "《尚书·舜典》", author: "佚名", dynasty: "周", genre: "classic" },
-    meaning: "璇：美玉，亦指北斗。璇玑玉衡，星辰之精。",
-    tags: ["聪慧", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-ji", given: "玑", length: 1, pinyin: "ji", tones: [1],
-    category: "wenyan", gender: "u",
-    source: { text: "在璇玑玉衡，以齐七政", title: "《尚书·舜典》", author: "佚名", dynasty: "周", genre: "classic" },
-    meaning: "玑：不圆之珠。璇玑为北斗之象。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-bi", given: "璧", length: 1, pinyin: "bi", tones: [4],
-    category: "wenyan", gender: "u",
-    source: { text: "和氏璧，天下所共传宝也", title: "《史记·廉颇蔺相如列传》", author: "司马迁", dynasty: "汉", genre: "classic" },
-    meaning: "璧：玉璧。「完璧归赵」，价值连城。",
-    tags: ["富贵", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-chen2", given: "晨", length: 1, pinyin: "chen", tones: [2],
-    category: "shijing", gender: "u",
-    source: { text: "夜如何其？夜乡晨", title: "《诗经·小雅·庭燎》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "晨：清晨。一日之计在于晨。",
-    tags: ["清朗", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-xiao2", given: "晓", length: 1, pinyin: "xiao", tones: [3],
-    category: "tangshi", gender: "u",
-    source: { text: "春眠不觉晓，处处闻啼鸟", title: "孟浩然《春晓》", author: "孟浩然", dynasty: "唐", genre: "shi" },
-    meaning: "晓：拂晓。亦「知晓」之聪慧。",
-    tags: ["清朗", "聪慧"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-hui", given: "晖", length: 1, pinyin: "hui", tones: [1],
-    category: "tangshi", gender: "u",
-    source: { text: "谁言寸草心，报得三春晖", title: "孟郊《游子吟》", author: "孟郊", dynasty: "唐", genre: "shi" },
-    meaning: "晖：阳光。三春晖，母爱之暖。",
-    tags: ["仁善", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-yao2", given: "曜", length: 1, pinyin: "yao", tones: [4],
-    category: "hanfu", gender: "m",
-    source: { text: "荣曜秋菊，华茂春松", title: "曹植《洛神赋》", author: "曹植", dynasty: "三国", genre: "fu" },
-    meaning: "曜：日光。光曜天地。",
-    tags: ["清朗", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-qing", given: "晴", length: 1, pinyin: "qing", tones: [2],
-    category: "tangshi", gender: "f",
-    source: { text: "东边日出西边雨，道是无晴却有晴", title: "刘禹锡《竹枝词》", author: "刘禹锡", dynasty: "唐", genre: "shi" },
-    meaning: "晴：晴天。晴谐「情」，道是无晴却有晴，双关之妙。",
-    tags: ["爱情", "清朗"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-lan2", given: "岚", length: 1, pinyin: "lan", tones: [2],
-    category: "tangshi", gender: "u",
-    source: { text: "瀑布杉松常带雨，夕阳彩翠忽成岚", title: "王维《送方尊师归嵩山》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "岚：山间雾气。烟岚缥缈。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-shuang", given: "霜", length: 1, pinyin: "shuang", tones: [1],
-    category: "shijing", season: [3], gender: "u",
-    source: { text: "蒹葭苍苍，白露为霜", title: "《诗经·秦风·蒹葭》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "霜：清霜。霜重色愈浓，高洁自持。",
-    tags: ["清朗", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-xia2", given: "霞", length: 1, pinyin: "xia", tones: [2],
-    category: "hanfu", gender: "f",
-    source: { text: "落霞与孤鹜齐飞，秋水共长天一色", title: "王勃《滕王阁序》", author: "王勃", dynasty: "唐", genre: "fu" },
-    meaning: "霞：云霞。落霞满天，绚烂之姿。",
-    tags: ["风雅", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-hong", given: "虹", length: 1, pinyin: "hong", tones: [2],
-    category: "tangshi", gender: "u",
-    source: { text: "两水夹明镜，双桥落彩虹", title: "李白《秋登宣城谢朓北楼》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "虹：彩虹。风雨之后，霓虹横空。",
-    tags: ["清朗", "爱情"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-ni", given: "霓", length: 1, pinyin: "ni", tones: [2],
-    category: "tangshi", gender: "f",
-    source: { text: "霓为衣兮风为马，云之君兮纷纷而来下", title: "李白《梦游天姥吟留别》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "霓：虹霓。霓裳羽衣，仙气飘飘。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-chen3", given: "辰", length: 1, pinyin: "chen", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "为政以德，譬如北辰，居其所而众星共之", title: "《论语·为政》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "辰：星辰。北辰居中，众星拱之。",
-    tags: ["聪慧", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-shan2", given: "珊", length: 1, pinyin: "shan", tones: [1],
-    category: "hanfu", gender: "f",
-    source: { text: "玫瑰碧琳，珊瑚丛生", title: "司马相如《上林赋》", author: "司马相如", dynasty: "汉", genre: "fu" },
-    meaning: "珊：珊瑚。海底灵树，珍贵如玉。",
-    tags: ["风雅", "富贵"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-hu", given: "瑚", length: 1, pinyin: "hu", tones: [2],
-    category: "hanfu", gender: "u",
-    source: { text: "玫瑰碧琳，珊瑚丛生", title: "司马相如《上林赋》", author: "司马相如", dynasty: "汉", genre: "fu" },
-    meaning: "瑚：珊瑚。瑚琏之器，庙堂之才。",
-    tags: ["富贵", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-yuan", given: "渊", length: 1, pinyin: "yuan", tones: [1],
-    category: "shijing", gender: "u",
-    source: { text: "鹤鸣于九皋，声闻于天。鱼在于渚，或潜在渊", title: "《诗经·小雅·鹤鸣》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "渊：深渊。渊渟岳峙，学问渊博。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-che", given: "澈", length: 1, pinyin: "che", tones: [4],
-    category: "tangshi", gender: "u",
-    source: { text: "日光下澈，影布石上", title: "柳宗元《小石潭记》", author: "柳宗元", dynasty: "唐", genre: "classic" },
-    meaning: "澈：清澈见底。澄澈之心。",
-    tags: ["清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-cheng", given: "澄", length: 1, pinyin: "cheng", tones: [2],
-    category: "hanfu", gender: "u",
-    source: { text: "余霞散成绮，澄江静如练", title: "谢朓《晚登三山还望京邑》", author: "谢朓", dynasty: "南朝", genre: "shi" },
-    meaning: "澄：澄澈。澄江如练，心境澄明。",
-    tags: ["清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-qing2", given: "清", length: 1, pinyin: "qing", tones: [1],
-    category: "tangshi", gender: "u",
-    source: { text: "明月松间照，清泉石上流", title: "王维《山居秋暝》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "清：清澈。清者自清，濯濯如泉。",
-    tags: ["清朗", "仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-bai", given: "柏", length: 1, pinyin: "bai", tones: [3],
-    category: "wenyan", gender: "u",
-    source: { text: "岁寒，然后知松柏之后凋也", title: "《论语·子罕》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "柏：柏树。岁寒不凋，坚贞长青。",
-    tags: ["坚韧", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-tong", given: "桐", length: 1, pinyin: "tong", tones: [2],
-    category: "shijing", gender: "u",
-    source: { text: "凤凰鸣矣，于彼高冈。梧桐生矣，于彼朝阳", title: "《诗经·大雅·卷阿》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "桐：梧桐，凤凰所栖。高洁之木。",
-    tags: ["自然", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-liu", given: "柳", length: 1, pinyin: "liu", tones: [3],
-    category: "shijing", season: [1], gender: "f",
-    source: { text: "昔我往矣，杨柳依依", title: "《诗经·小雅·采薇》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "柳：杨柳依依。柔美多情。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-gui2", given: "桂", length: 1, pinyin: "gui", tones: [4],
-    category: "tangshi", season: [3], gender: "u",
-    source: { text: "人闲桂花落，夜静春山空", title: "王维《鸟鸣涧》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "桂：桂花。「蟾宫折桂」，金榜题名。",
-    tags: ["事业", "自然"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-hui2", given: "蕙", length: 1, pinyin: "hui", tones: [4],
-    category: "chuci", gender: "f",
-    source: { text: "既替余以蕙纕兮，又申之以揽茝", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "蕙：蕙兰。蕙质兰心。",
-    tags: ["风雅", "仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-lian", given: "莲", length: 1, pinyin: "lian", tones: [2],
-    category: "wenyan", season: [2], gender: "f",
-    source: { text: "予独爱莲之出淤泥而不染，濯清涟而不妖", title: "周敦颐《爱莲说》", author: "周敦颐", dynasty: "宋", genre: "classic" },
-    meaning: "莲：莲花。出淤泥而不染。",
-    tags: ["清朗", "风雅"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-feng2", given: "枫", length: 1, pinyin: "feng", tones: [1],
-    category: "tangshi", season: [3], gender: "u",
-    source: { text: "停车坐爱枫林晚，霜叶红于二月花", title: "杜牧《山行》", author: "杜牧", dynasty: "唐", genre: "shi" },
-    meaning: "枫：枫叶。经霜愈红。",
-    tags: ["自然", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-fan", given: "帆", length: 1, pinyin: "fan", tones: [1],
-    category: "tangshi", gender: "m",
-    source: { text: "长风破浪会有时，直挂云帆济沧海", title: "李白《行路难·其一》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "帆：风帆。扬帆远航，一帆风顺。",
-    tags: ["事业"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-xi", given: "溪", length: 1, pinyin: "xi", tones: [1],
-    category: "tangshi", gender: "u",
-    source: { text: "清溪清我心，水色异诸水", title: "李白《清溪行》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "溪：溪流。清溪潺潺。",
-    tags: ["自然", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-jian", given: "涧", length: 1, pinyin: "jian", tones: [4],
-    category: "tangshi", season: [1], gender: "u",
-    source: { text: "人闲桂花落，夜静春山空", title: "王维《鸟鸣涧》", author: "王维", dynasty: "唐", genre: "shi" },
-    meaning: "涧：山涧。清泉石上，鸟鸣山幽。",
-    tags: ["自然", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-hu2", given: "湖", length: 1, pinyin: "hu", tones: [2],
-    category: "songci", gender: "u",
-    source: { text: "水光潋滟晴方好，山色空蒙雨亦奇", title: "苏轼《饮湖上初晴后雨》", author: "苏轼", dynasty: "宋", genre: "shi" },
-    meaning: "湖：湖泊。湖光山色。",
-    tags: ["自然", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-jiang", given: "江", length: 1, pinyin: "jiang", tones: [1],
-    category: "songci", gender: "u",
-    source: { text: "大江东去，浪淘尽，千古风流人物", title: "苏轼《念奴娇·赤壁怀古》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "江：大江。江河行地，日月经天。",
-    tags: ["事业", "自然"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-bo2", given: "波", length: 1, pinyin: "bo", tones: [1],
-    category: "hanfu", gender: "u",
-    source: { text: "清风徐来，水波不兴", title: "苏轼《前赤壁赋》", author: "苏轼", dynasty: "宋", genre: "fu" },
-    meaning: "波：水波。波澜不惊，从容有度。",
-    tags: ["清朗", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-lan3", given: "澜", length: 1, pinyin: "lan", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "观水有术，必观其澜", title: "《孟子·尽心上》", author: "孟子", dynasty: "战国", genre: "classic" },
-    meaning: "澜：波澜。微澜惊鸿，气度不凡。",
-    tags: ["聪慧", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-feng3", given: "峰", length: 1, pinyin: "feng", tones: [1],
-    category: "songci", gender: "m",
-    source: { text: "横看成岭侧成峰，远近高低各不同", title: "苏轼《题西林壁》", author: "苏轼", dynasty: "宋", genre: "shi" },
-    meaning: "峰：山峰。登峰造极，勇攀高峰。",
-    tags: ["事业", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-yue2", given: "岳", length: 1, pinyin: "yue", tones: [4],
-    category: "shijing", gender: "m",
-    source: { text: "崧高维岳，骏极于天", title: "《诗经·大雅·崧高》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "岳：高山。五岳之尊，稳重如山。",
-    tags: ["坚韧", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-yu4", given: "宇", length: 1, pinyin: "yu", tones: [3],
-    category: "songci", gender: "u",
-    source: { text: "我欲乘风归去，又恐琼楼玉宇", title: "苏轼《水调歌头》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "宇：宇宙。器宇轩昂。",
-    tags: ["清朗", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-xuan2", given: "轩", length: 1, pinyin: "xuan", tones: [1],
-    category: "tangshi", gender: "m",
-    source: { text: "红颜弃轩冕，白首卧松云", title: "李白《赠孟浩然》", author: "李白", dynasty: "唐", genre: "shi" },
-    meaning: "轩：高轩。气宇轩昂。",
-    tags: ["事业", "风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-rui", given: "睿", length: 1, pinyin: "rui", tones: [4],
-    category: "wenyan", gender: "u",
-    source: { text: "思曰睿，睿作圣", title: "《尚书·洪范》", author: "佚名", dynasty: "周", genre: "classic" },
-    meaning: "睿：睿智。思虑通达，明智深远。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-zhe", given: "哲", length: 1, pinyin: "zhe", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "知人则哲，能官人", title: "《尚书·皋陶谟》", author: "佚名", dynasty: "周", genre: "classic" },
-    meaning: "哲：智慧。知人则哲。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-min", given: "敏", length: 1, pinyin: "min", tones: [3],
-    category: "wenyan", gender: "u",
-    source: { text: "敏而好学，不耻下问", title: "《论语·公冶长》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "敏：聪敏。敏而好学。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-si", given: "思", length: 1, pinyin: "si", tones: [1],
-    category: "wenyan", gender: "u",
-    source: { text: "学而不思则罔，思而不学则殆", title: "《论语·为政》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "思：思考。学思并重。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-xue2", given: "学", length: 1, pinyin: "xue", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "学而时习之，不亦说乎", title: "《论语·学而》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "学：学问。学而不厌，诲人不倦。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-wen", given: "文", length: 1, pinyin: "wen", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "质胜文则野，文胜质则史。文质彬彬，然后君子", title: "《论语·雍也》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "文：文采。文质彬彬。",
-    tags: ["风雅", "聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-zhang2", given: "章", length: 1, pinyin: "zhang", tones: [1],
-    category: "wenyan", gender: "u",
-    source: { text: "吾党之小子狂简，斐然成章", title: "《论语·公冶长》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "章：文章。斐然成章，出口成章。",
-    tags: ["风雅", "聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-shu", given: "书", length: 1, pinyin: "shu", tones: [1],
-    category: "tangshi", gender: "u",
-    source: { text: "烽火连三月，家书抵万金", title: "杜甫《春望》", author: "杜甫", dynasty: "唐", genre: "shi" },
-    meaning: "书：诗书。书香门第。",
-    tags: ["风雅", "聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-qin", given: "琴", length: 1, pinyin: "qin", tones: [2],
-    category: "shijing", gender: "f",
-    source: { text: "窈窕淑女，琴瑟友之", title: "《诗经·周南·关雎》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "琴：古琴。琴瑟和鸣，高山流水。",
-    tags: ["风雅", "爱情"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-hua2", given: "画", length: 1, pinyin: "hua", tones: [4],
-    category: "songci", gender: "u",
-    source: { text: "江山如画，一时多少豪杰", title: "苏轼《念奴娇·赤壁怀古》", author: "苏轼", dynasty: "宋", genre: "ci" },
-    meaning: "画：画卷。江山如画，诗情画意。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-ge", given: "歌", length: 1, pinyin: "ge", tones: [1],
-    category: "shijing", gender: "u",
-    source: { text: "心之忧矣，我歌且谣", title: "《诗经·魏风·园有桃》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "歌：歌唱。长歌一曲，快意人生。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-le", given: "乐", length: 1, pinyin: "le", tones: [4],
-    category: "wenyan", gender: "u",
-    source: { text: "有朋自远方来，不亦乐乎", title: "《论语·学而》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "乐：快乐。知足常乐。",
-    tags: ["平安", "福寿"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-he2", given: "和", length: 1, pinyin: "he", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "礼之用，和为贵", title: "《论语·学而》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "和：和谐。家和万事兴。",
-    tags: ["平安", "仁善"], frequency: "legend", verified: true
-  },
-  {
-    id: "dan-kang", given: "康", length: 1, pinyin: "kang", tones: [1],
-    category: "wenyan", gender: "u",
-    source: { text: "五福：一曰寿，二曰富，三曰康宁", title: "《尚书·洪范》", author: "佚名", dynasty: "周", genre: "classic" },
-    meaning: "康：安康。五福康宁。",
-    tags: ["健康", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-tai", given: "泰", length: 1, pinyin: "tai", tones: [4],
-    category: "wenyan", gender: "u",
-    source: { text: "天地交而万物通也，上下交而其志同也", title: "《易经·泰卦》", author: "佚名", dynasty: "周", genre: "classic" },
-    meaning: "泰：通泰。否极泰来，国泰民安。",
-    tags: ["平安", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-ping", given: "平", length: 1, pinyin: "ping", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "无偏无党，王道荡荡；无党无偏，王道平平", title: "《尚书·洪范》", author: "佚名", dynasty: "周", genre: "classic" },
-    meaning: "平：平安。平平安安，岁岁年年。",
-    tags: ["平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-qian", given: "谦", length: 1, pinyin: "qian", tones: [1],
-    category: "wenyan", gender: "u",
-    source: { text: "谦谦君子，卑以自牧也", title: "《易经·谦卦》", author: "佚名", dynasty: "周", genre: "classic" },
-    meaning: "谦：谦逊。谦谦君子。",
-    tags: ["仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-heng2", given: "恒", length: 1, pinyin: "heng", tones: [2],
-    category: "shijing", gender: "u",
-    source: { text: "如月之恒，如日之升", title: "《诗经·小雅·天保》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "恒：恒久。持之以恒，如月之恒。",
-    tags: ["坚韧", "福寿"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-yi", given: "毅", length: 1, pinyin: "yi", tones: [4],
-    category: "wenyan", gender: "m",
-    source: { text: "士不可以不弘毅，任重而道远", title: "《论语·泰伯》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "毅：坚毅。士不可以不弘毅。",
-    tags: ["坚韧", "事业"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-hong2", given: "弘", length: 1, pinyin: "hong", tones: [2],
-    category: "wenyan", gender: "m",
-    source: { text: "士不可以不弘毅，任重而道远", title: "《论语·泰伯》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "弘：宏大。弘毅之志。",
-    tags: ["事业", "坚韧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-zheng", given: "正", length: 1, pinyin: "zheng", tones: [4],
-    category: "chuci", gender: "u",
-    source: { text: "名余曰正则兮，字余曰灵均", title: "《离骚》", author: "屈原", dynasty: "战国", genre: "fu" },
-    meaning: "正：正直。正则之名，刚正不阿。",
-    tags: ["仁善", "清朗"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-cheng2", given: "诚", length: 1, pinyin: "cheng", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "诚者，天之道也；诚之者，人之道也", title: "《中庸》", author: "子思", dynasty: "战国", genre: "classic" },
-    meaning: "诚：真诚。精诚所至，金石为开。",
-    tags: ["仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-xin2", given: "信", length: 1, pinyin: "xin", tones: [4],
-    category: "wenyan", gender: "u",
-    source: { text: "人而无信，不知其可也", title: "《论语·为政》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "信：诚信。言必信，行必果。",
-    tags: ["仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-ren", given: "仁", length: 1, pinyin: "ren", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "仁者爱人，有礼者敬人", title: "《孟子·离娄下》", author: "孟子", dynasty: "战国", genre: "classic" },
-    meaning: "仁：仁爱。仁者爱人，仁者无敌。",
-    tags: ["仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-de", given: "德", length: 1, pinyin: "de", tones: [2],
-    category: "wenyan", gender: "u",
-    source: { text: "大学之道，在明明德", title: "《大学》", author: "曾子", dynasty: "春秋", genre: "classic" },
-    meaning: "德：德行。厚德载物。",
-    tags: ["仁善"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-jing", given: "静", length: 1, pinyin: "jing", tones: [4],
-    category: "shijing", gender: "f",
-    source: { text: "静女其姝，俟我于城隅", title: "《诗经·邶风·静女》", author: "佚名", dynasty: "周", genre: "shi" },
-    meaning: "静：娴静。静水流深。",
-    tags: ["风雅", "平安"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-ya", given: "雅", length: 1, pinyin: "ya", tones: [3],
-    category: "shijing", gender: "u",
-    source: { text: "雅者，正也，言王政之所由废兴也", title: "《毛诗序》", author: "佚名", dynasty: "汉", genre: "classic" },
-    meaning: "雅：高雅。温文尔雅，大雅之才。",
-    tags: ["风雅"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-zhi3", given: "知", length: 1, pinyin: "zhi", tones: [1],
-    category: "wenyan", gender: "u",
-    source: { text: "知者不惑，仁者不忧，勇者不惧", title: "《论语·子罕》", author: "孔子", dynasty: "春秋", genre: "classic" },
-    meaning: "知：智慧。知者不惑，知行合一。",
-    tags: ["聪慧"], frequency: "classic", verified: true
-  },
-  {
-    id: "dan-wang", given: "望", length: 1, pinyin: "wang", tones: [4],
-    category: "tangshi", gender: "u",
-    source: { text: "海上生明月，天涯共此时", title: "张九龄《望月怀远》", author: "张九龄", dynasty: "唐", genre: "shi" },
-    meaning: "望：远望。前程在望，希望满怀。",
-    tags: ["爱情", "事业"], frequency: "classic", verified: true
-  }
+  {"id":"hui-yin","given":"徽音","length":2,"pinyin":"hui yin","tones":[1,1],"category":"shijing","gender":"f","source":{"text":"大姒嗣徽音，则百斯男","title":"《诗经·大雅·思齐》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"徽：美好。徽音：美好的声誉、美德，为母仪之范。","tags":["仁善","风雅"],"frequency":"legend","verified":true},
+  {"id":"you-you","given":"呦呦","length":2,"pinyin":"you you","tones":[1,1],"category":"shijing","gender":"u","source":{"text":"呦呦鹿鸣，食野之苹。我有嘉宾，鼓瑟吹笙","title":"《诗经·小雅·鹿鸣》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"鹿鸣呦呦，呼朋引伴之声，和乐而欢喜。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"jing-shu","given":"静姝","length":2,"pinyin":"jing shu","tones":[4,1],"category":"shijing","gender":"f","source":{"text":"静女其姝，俟我于城隅","title":"《诗经·邶风·静女》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"静：娴静；姝：美好。娴静而美好的女子。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"yao-tiao","given":"窈窕","length":2,"pinyin":"yao tiao","tones":[3,3],"category":"shijing","gender":"f","source":{"text":"窈窕淑女，君子好逑","title":"《诗经·周南·关雎》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"窈窕：体态美好、仪容娴雅。淑女之典范。","tags":["风雅","爱情"],"frequency":"legend","verified":true},
+  {"id":"jian-jia","given":"蒹葭","length":2,"pinyin":"jian jia","tones":[1,1],"category":"shijing","gender":"u","source":{"text":"蒹葭苍苍，白露为霜。所谓伊人，在水一方","title":"《诗经·秦风·蒹葭》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"蒹葭：芦苇。秋日水畔，苍苍蒹葭，含蓄隽永的追寻之美。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"yao-yao","given":"夭夭","length":2,"pinyin":"yao yao","tones":[1,1],"category":"shijing","season":[1],"gender":"f","source":{"text":"桃之夭夭，灼灼其华","title":"《诗经·周南·桃夭》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"夭夭：草木初生之态，生机勃勃、含苞待放。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"zhuo-hua","given":"灼华","length":2,"pinyin":"zhuo hua","tones":[2,2],"category":"shijing","season":[1],"gender":"f","source":{"text":"桃之夭夭，灼灼其华","title":"《诗经·周南·桃夭》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"灼华：花朵明艳如火。取其明丽照人之意。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"tao-yao","given":"桃夭","length":2,"pinyin":"tao yao","tones":[2,1],"category":"shijing","season":[1],"gender":"f","source":{"text":"桃之夭夭，灼灼其华。之子于归，宜其室家","title":"《诗经·周南·桃夭》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"桃夭：桃花盛开。贺新娘之诗，寓婚姻美满、宜室宜家。","tags":["爱情","自然"],"frequency":"classic","verified":true},
+  {"id":"yan-wan","given":"燕婉","length":2,"pinyin":"yan wan","tones":[4,3],"category":"shijing","gender":"f","source":{"text":"燕婉之求，籧篨不鲜","title":"《诗经·邶风·新台》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"燕婉：温柔和顺、美好。","tags":["风雅","仁善"],"frequency":"classic","verified":true},
+  {"id":"ru-yun","given":"如云","length":2,"pinyin":"ru yun","tones":[2,2],"category":"shijing","gender":"f","source":{"text":"出其东门，有女如云","title":"《诗经·郑风·出其东门》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"如云：如云般众多而美好。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"zi-jin","given":"子衿","length":2,"pinyin":"zi jin","tones":[3,1],"category":"shijing","gender":"u","source":{"text":"青青子衿，悠悠我心","title":"《诗经·郑风·子衿》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"子衿：你的衣领，后指学子。青青子衿，青春好学之象。","tags":["聪慧","风雅"],"frequency":"legend","verified":true},
+  {"id":"zi-pei","given":"子佩","length":2,"pinyin":"zi pei","tones":[3,4],"category":"shijing","gender":"u","source":{"text":"青青子佩，悠悠我思","title":"《诗经·郑风·子衿》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"子佩：你的玉佩。佩玉鸣鸾，君子之饰。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"qing-yang","given":"清扬","length":2,"pinyin":"qing yang","tones":[1,2],"category":"shijing","gender":"u","source":{"text":"有美一人，清扬婉兮","title":"《诗经·郑风·野有蔓草》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"清扬：眉目清秀。亦谐「轻扬」，神采飞扬。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"wan-xi","given":"婉兮","length":2,"pinyin":"wan xi","tones":[3,1],"category":"shijing","gender":"f","source":{"text":"有美一人，清扬婉兮","title":"《诗经·郑风·野有蔓草》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"婉：温婉。婉兮，温婉美好之貌。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"ling-lu","given":"零露","length":2,"pinyin":"ling lu","tones":[2,4],"category":"shijing","gender":"u","source":{"text":"野有蔓草，零露漙兮","title":"《诗经·郑风·野有蔓草》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"零露：晶莹的露珠。清澈纯净，不染纤尘。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"jing-hao","given":"静好","length":2,"pinyin":"jing hao","tones":[4,3],"category":"shijing","gender":"f","source":{"text":"琴瑟在御，莫不静好","title":"《诗经·郑风·女曰鸡鸣》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"静好：安静美好。「岁月静好」之出处，愿岁月温柔、现世安稳。","tags":["平安","爱情"],"frequency":"legend","verified":true},
+  {"id":"qin-se","given":"琴瑟","length":2,"pinyin":"qin se","tones":[2,4],"category":"shijing","gender":"u","source":{"text":"窈窕淑女，琴瑟友之","title":"《诗经·周南·关雎》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"琴瑟：弦乐之合。「琴瑟和鸣」喻夫妻和谐。","tags":["爱情","风雅"],"frequency":"classic","verified":true},
+  {"id":"qiong-yao","given":"琼瑶","length":2,"pinyin":"qiong yao","tones":[2,2],"category":"shijing","gender":"f","source":{"text":"投我以木桃，报之以琼瑶","title":"《诗经·卫风·木瓜》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"琼瑶：美玉。知恩图报，情比美玉。","tags":["爱情","仁善"],"frequency":"legend","verified":true},
+  {"id":"qiong-jiu","given":"琼玖","length":2,"pinyin":"qiong jiu","tones":[2,3],"category":"shijing","gender":"u","source":{"text":"投我以木李，报之以琼玖","title":"《诗经·卫风·木瓜》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"琼玖：美玉。与「琼瑶」同源，取酬报之意。","tags":["仁善","富贵"],"frequency":"classic","verified":true},
+  {"id":"ru-yue","given":"如月","length":2,"pinyin":"ru yue","tones":[2,4],"category":"shijing","gender":"f","source":{"text":"如月之恒，如日之升","title":"《诗经·小雅·天保》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"如月：如月渐盈，日日向好。祝福之辞。","tags":["福寿","清朗"],"frequency":"legend","verified":true},
+  {"id":"gu-feng","given":"谷风","length":2,"pinyin":"gu feng","tones":[3,1],"category":"shijing","season":[1],"gender":"u","source":{"text":"习习谷风，以阴以雨","title":"《诗经·邶风·谷风》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"谷风：山谷间的和风，习习而来。","tags":["自然","仁善"],"frequency":"classic","verified":true},
+  {"id":"kai-feng","given":"凯风","length":2,"pinyin":"kai feng","tones":[3,1],"category":"shijing","season":[1,2],"gender":"u","source":{"text":"凯风自南，吹彼棘心","title":"《诗经·邶风·凯风》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"凯风：和煦的南风，喻母爱之温润。","tags":["仁善","自然"],"frequency":"classic","verified":true},
+  {"id":"zhen-zhen","given":"蓁蓁","length":2,"pinyin":"zhen zhen","tones":[1,1],"category":"shijing","season":[1],"gender":"f","source":{"text":"桃之夭夭，其叶蓁蓁","title":"《诗经·周南·桃夭》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"蓁蓁：枝叶繁茂。生机勃发，家业兴旺。","tags":["自然","福寿"],"frequency":"classic","verified":true},
+  {"id":"cai-wei","given":"采薇","length":2,"pinyin":"cai wei","tones":[3,1],"category":"shijing","season":[1],"gender":"u","source":{"text":"采薇采薇，薇亦作止。曰归曰归，岁亦莫止","title":"《诗经·小雅·采薇》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"采薇：采摘薇菜。古之名篇，含乡思与坚韧。","tags":["坚韧","自然"],"frequency":"legend","verified":true},
+  {"id":"yang-liu","given":"杨柳","length":2,"pinyin":"yang liu","tones":[2,3],"category":"shijing","season":[1],"gender":"u","source":{"text":"昔我往矣，杨柳依依","title":"《诗经·小雅·采薇》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"杨柳：春风中的垂柳，依依惜别之情。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"yi-yi","given":"依依","length":2,"pinyin":"yi yi","tones":[1,1],"category":"shijing","season":[1],"gender":"f","source":{"text":"昔我往矣，杨柳依依","title":"《诗经·小雅·采薇》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"依依：轻柔依恋之貌。","tags":["爱情"],"frequency":"classic","verified":true},
+  {"id":"fei-fei","given":"霏霏","length":2,"pinyin":"fei fei","tones":[1,1],"category":"shijing","gender":"f","source":{"text":"今我来思，雨雪霏霏","title":"《诗经·小雅·采薇》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"霏霏：雨雪纷飞之貌。","tags":["自然"],"frequency":"classic","verified":true},
+  {"id":"si-qi","given":"思齐","length":2,"pinyin":"si qi","tones":[1,2],"category":"shijing","gender":"u","source":{"text":"思齐大任，文王之母","title":"《诗经·大雅·思齐》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"思齐：见贤思齐（《论语》）。亦出《诗经·思齐》，取向善向贤之意。","tags":["聪慧","仁善"],"frequency":"legend","verified":true},
+  {"id":"yan-yan","given":"燕燕","length":2,"pinyin":"yan yan","tones":[4,4],"category":"shijing","season":[1],"gender":"f","source":{"text":"燕燕于飞，差池其羽","title":"《诗经·邶风·燕燕》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"燕燕：春燕双飞。轻盈自在。","tags":["自然","爱情"],"frequency":"classic","verified":true},
+  {"id":"yu-fei","given":"于飞","length":2,"pinyin":"yu fei","tones":[2,1],"category":"shijing","season":[1],"gender":"u","source":{"text":"凤凰于飞，翙翙其羽","title":"《诗经·大雅·卷阿》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"于飞：凤凰比翼双飞。吉庆之象，喻夫妻和顺、事业腾飞。","tags":["爱情","事业"],"frequency":"legend","verified":true},
+  {"id":"jing-jing","given":"菁菁","length":2,"pinyin":"jing jing","tones":[1,1],"category":"shijing","season":[1],"gender":"f","source":{"text":"菁菁者莪，在彼中阿","title":"《诗经·小雅·菁菁者莪》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"菁菁：草木茂盛，亦喻人才济济。","tags":["聪慧","自然"],"frequency":"classic","verified":true},
+  {"id":"lu-ming","given":"鹿鸣","length":2,"pinyin":"lu ming","tones":[4,2],"category":"shijing","gender":"u","source":{"text":"呦呦鹿鸣，食野之苹。我有嘉宾，鼓瑟吹笙","title":"《诗经·小雅·鹿鸣》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"鹿鸣：宴乐嘉宾之诗。「鹿鸣宴」为新科举人设，寓功名有成。","tags":["事业","清朗"],"frequency":"legend","verified":true},
+  {"id":"zhan-lu","given":"湛露","length":2,"pinyin":"zhan lu","tones":[4,4],"category":"shijing","gender":"u","source":{"text":"湛湛露斯，匪阳不晞","title":"《诗经·小雅·湛露》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"湛露：浓重的露水。湛亦含清澈之意。","tags":["清朗","仁善"],"frequency":"classic","verified":true},
+  {"id":"he-ming","given":"鹤鸣","length":2,"pinyin":"he ming","tones":[4,2],"category":"shijing","gender":"u","source":{"text":"鹤鸣于九皋，声闻于天","title":"《诗经·小雅·鹤鸣》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"鹤鸣：仙鹤长鸣，声闻于天。喻才华终将显于世。","tags":["事业","风雅"],"frequency":"legend","verified":true},
+  {"id":"jiu-gao","given":"九皋","length":2,"pinyin":"jiu gao","tones":[3,1],"category":"shijing","gender":"m","source":{"text":"鹤鸣于九皋，声闻于天","title":"《诗经·小雅·鹤鸣》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"九皋：深远的水泽。鹤鸣九皋，深藏不露、一鸣惊人。","tags":["风雅","事业"],"frequency":"classic","verified":true},
+  {"id":"mu-qing","given":"穆清","length":2,"pinyin":"mu qing","tones":[4,1],"category":"shijing","gender":"u","source":{"text":"吉甫作诵，穆如清风","title":"《诗经·大雅·烝民》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"穆清：和美如清风，天清气和之象。","tags":["清朗","仁善"],"frequency":"legend","verified":true},
+  {"id":"qing-feng","given":"清风","length":2,"pinyin":"qing feng","tones":[1,1],"category":"shijing","gender":"u","source":{"text":"吉甫作诵，穆如清风","title":"《诗经·大雅·烝民》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"清风：穆如清风。苏轼《赤壁赋》亦有「清风徐来」，两美并收。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"qiao-mu","given":"乔木","length":2,"pinyin":"qiao mu","tones":[2,4],"category":"shijing","gender":"m","source":{"text":"南有乔木，不可休思","title":"《诗经·周南·汉广》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"乔木：高大的树木。顶天立地，可为栋梁。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"bai-zhou","given":"柏舟","length":2,"pinyin":"bai zhou","tones":[3,1],"category":"shijing","gender":"m","source":{"text":"泛彼柏舟，亦泛其流","title":"《诗经·邶风·柏舟》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"柏舟：柏木之舟。坚贞自守、不随波逐流。","tags":["坚韧"],"frequency":"classic","verified":true},
+  {"id":"jing-nv","given":"静女","length":2,"pinyin":"jing nv","tones":[4,3],"category":"shijing","gender":"f","source":{"text":"静女其姝，俟我于城隅","title":"《诗经·邶风·静女》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"静女：娴静美好的女子。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"tong-guan","given":"彤管","length":2,"pinyin":"tong guan","tones":[2,3],"category":"shijing","gender":"f","source":{"text":"静女其娈，贻我彤管","title":"《诗经·邶风·静女》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"彤管：红色的笔管，古代女史记事之笔。取文采之意。","tags":["爱情","风雅"],"frequency":"classic","verified":true},
+  {"id":"lv-zhu","given":"绿竹","length":2,"pinyin":"lv zhu","tones":[4,2],"category":"shijing","gender":"u","source":{"text":"瞻彼淇奥，绿竹猗猗","title":"《诗经·卫风·淇奥》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"绿竹：淇水之畔的翠竹。君子如竹，虚心有节。","tags":["坚韧","风雅"],"frequency":"classic","verified":true},
+  {"id":"ru-gui","given":"如圭","length":2,"pinyin":"ru gui","tones":[2,1],"category":"shijing","gender":"m","source":{"text":"如圭如璋，令闻令望","title":"《诗经·大雅·卷阿》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"如圭：如圭璧般端方温润。","tags":["仁善","风雅"],"frequency":"classic","verified":true},
+  {"id":"rou-ti","given":"柔荑","length":2,"pinyin":"rou ti","tones":[2,2],"category":"shijing","gender":"f","source":{"text":"手如柔荑，肤如凝脂","title":"《诗经·卫风·硕人》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"柔荑：初生白茅的嫩芽，喻女子纤柔之美。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"nan-shan","given":"南山","length":2,"pinyin":"nan shan","tones":[2,1],"category":"shijing","gender":"m","source":{"text":"如南山之寿，不骞不崩","title":"《诗经·小雅·天保》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"南山：如南山之寿。福寿绵长之祝。","tags":["福寿","坚韧"],"frequency":"classic","verified":true},
+  {"id":"ru-song","given":"如松","length":2,"pinyin":"ru song","tones":[2,1],"category":"shijing","gender":"m","source":{"text":"如松柏之茂，无不尔或承","title":"《诗经·小雅·天保》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"如松：如松柏之长青。健康长寿、岁寒不凋。","tags":["坚韧","福寿"],"frequency":"classic","verified":true},
+  {"id":"san-qiu","given":"三秋","length":2,"pinyin":"san qiu","tones":[1,1],"category":"shijing","season":[3],"gender":"u","source":{"text":"一日不见，如三秋兮","title":"《诗经·王风·采葛》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"三秋：「一日不见，如隔三秋」，深情而风雅。","tags":["爱情","风雅"],"frequency":"classic","verified":true},
+  {"id":"tao-li","given":"桃李","length":2,"pinyin":"tao li","tones":[2,3],"category":"shijing","season":[1],"gender":"u","source":{"text":"何彼襛矣，华如桃李","title":"《诗经·召南·何彼襛矣》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"桃李：桃李芳华。「桃李满天下」，亦寓育人成材。","tags":["事业","自然"],"frequency":"classic","verified":true},
+  {"id":"yi-ren","given":"伊人","length":2,"pinyin":"yi ren","tones":[1,2],"category":"shijing","gender":"f","source":{"text":"蒹葭苍苍，白露为霜。所谓伊人，在水一方","title":"《诗经·秦风·蒹葭》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"伊人：那个人。水畔佳人，可望而思之。","tags":["风雅","爱情"],"frequency":"legend","verified":true},
+  {"id":"jiao-jiao","given":"皎皎","length":2,"pinyin":"jiao jiao","tones":[3,3],"category":"shijing","gender":"f","source":{"text":"月出皎兮，佼人僚兮","title":"《诗经·陈风·月出》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"皎皎：月光洁白明亮。亦见《古诗十九首》「皎皎河汉女」。","tags":["清朗"],"frequency":"classic","verified":true},
+  {"id":"jiang-han","given":"江汉","length":2,"pinyin":"jiang han","tones":[1,4],"category":"shijing","gender":"m","source":{"text":"江汉浮浮，武夫滔滔","title":"《诗经·大雅·江汉》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"江汉：长江与汉水。雄浑壮阔，川流不息。","tags":["事业","自然"],"frequency":"classic","verified":true},
+  {"id":"yun-han","given":"云汉","length":2,"pinyin":"yun han","tones":[2,4],"category":"shijing","gender":"m","source":{"text":"倬彼云汉，昭回于天","title":"《诗经·大雅·云汉》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"云汉：天河、银河。浩瀚高远。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"ling-yu","given":"灵雨","length":2,"pinyin":"ling yu","tones":[2,3],"category":"shijing","season":[1],"gender":"f","source":{"text":"灵雨既零，命彼倌人","title":"《诗经·鄘风·定之方中》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"灵雨：好雨、及时之雨。润物无声。","tags":["自然"],"frequency":"classic","verified":true},
+  {"id":"jing-hang","given":"景行","length":2,"pinyin":"jing hang","tones":[3,2],"category":"shijing","gender":"m","source":{"text":"高山仰止，景行行止","title":"《诗经·小雅·车舝》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"景行：光明大道。高山仰止，景行行止，德行之范。","tags":["仁善","事业"],"frequency":"legend","verified":true},
+  {"id":"gao-shan","given":"高山","length":2,"pinyin":"gao shan","tones":[1,1],"category":"shijing","gender":"m","source":{"text":"高山仰止，景行行止","title":"《诗经·小雅·车舝》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"高山：高山仰止。亦「高山流水」知音之典。","tags":["坚韧","仁善"],"frequency":"classic","verified":true},
+  {"id":"jia-yu","given":"嘉鱼","length":2,"pinyin":"jia yu","tones":[1,2],"category":"shijing","gender":"u","source":{"text":"南有嘉鱼，烝然罩罩","title":"《诗经·小雅·南有嘉鱼》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"嘉鱼：美鱼。「嘉」为美善，年年有余。","tags":["仁善","福寿"],"frequency":"classic","verified":true},
+  {"id":"yuan-fei","given":"鸢飞","length":2,"pinyin":"yuan fei","tones":[1,1],"category":"shijing","gender":"m","source":{"text":"鸢飞戾天，鱼跃于渊","title":"《诗经·大雅·旱麓》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"鸢飞：鹰击长空。各得其所，志在高远。","tags":["事业","自然"],"frequency":"classic","verified":true},
+  {"id":"yu-yue","given":"鱼跃","length":2,"pinyin":"yu yue","tones":[2,4],"category":"shijing","gender":"u","source":{"text":"鸢飞戾天，鱼跃于渊","title":"《诗经·大雅·旱麓》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"鱼跃：鱼跃于渊。「鱼跃龙门」之吉。","tags":["事业"],"frequency":"classic","verified":true},
+  {"id":"lie-wen","given":"烈文","length":2,"pinyin":"lie wen","tones":[4,2],"category":"shijing","gender":"m","source":{"text":"烈文辟公，锡兹祉福","title":"《诗经·周颂·烈文》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"烈文：功业与文章。文武相济。","tags":["事业","风雅"],"frequency":"classic","verified":true},
+  {"id":"feng-nian","given":"丰年","length":2,"pinyin":"feng nian","tones":[1,2],"category":"shijing","gender":"u","source":{"text":"丰年多黍多稌","title":"《诗经·周颂·丰年》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"丰年：五谷丰登之年。富足安康。","tags":["福寿","富贵"],"frequency":"classic","verified":true},
+  {"id":"ling-jun","given":"灵均","length":2,"pinyin":"ling jun","tones":[2,1],"category":"chuci","gender":"m","source":{"text":"名余曰正则兮，字余曰灵均","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"灵均：屈原之字。灵：善；均：平。秉善持平，光风霁月。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"zheng-ze","given":"正则","length":2,"pinyin":"zheng ze","tones":[4,2],"category":"chuci","gender":"m","source":{"text":"名余曰正则兮，字余曰灵均","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"正则：屈原之名。公正而有法则。","tags":["仁善","清朗"],"frequency":"legend","verified":true},
+  {"id":"xiu-yuan","given":"修远","length":2,"pinyin":"xiu yuan","tones":[1,3],"category":"chuci","gender":"m","source":{"text":"路漫漫其修远兮，吾将上下而求索","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"修远：路漫漫其修远。求索不息，志存高远。","tags":["坚韧","事业"],"frequency":"legend","verified":true},
+  {"id":"jiang-li","given":"江离","length":2,"pinyin":"jiang li","tones":[1,2],"category":"chuci","gender":"u","source":{"text":"扈江离与辟芷兮，纫秋兰以为佩","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"江离：楚辞香草，生于江畔，清芬自远。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"pi-zhi","given":"辟芷","length":2,"pinyin":"pi zhi","tones":[4,3],"category":"chuci","gender":"u","source":{"text":"扈江离与辟芷兮，纫秋兰以为佩","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"辟芷：幽处之白芷。生于幽谷，不以无人而不芳。","tags":["坚韧","风雅"],"frequency":"classic","verified":true},
+  {"id":"qiu-lan","given":"秋兰","length":2,"pinyin":"qiu lan","tones":[1,2],"category":"chuci","season":[3],"gender":"f","source":{"text":"扈江离与辟芷兮，纫秋兰以为佩","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"秋兰：秋日之兰，纫以为佩。幽芳自守。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"mu-lan","given":"木兰","length":2,"pinyin":"mu lan","tones":[4,2],"category":"chuci","gender":"f","source":{"text":"朝饮木兰之坠露兮，夕餐秋菊之落英","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"木兰：饮木兰之坠露。亦花木兰之英名，柔中带刚。","tags":["坚韧","风雅"],"frequency":"legend","verified":true},
+  {"id":"fu-rong","given":"芙蓉","length":2,"pinyin":"fu rong","tones":[2,2],"category":"chuci","season":[2],"gender":"f","source":{"text":"制芰荷以为衣兮，集芙蓉以为裳","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"芙蓉：荷花。「清水出芙蓉」，出淤泥而不染。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"du-ruo","given":"杜若","length":2,"pinyin":"du ruo","tones":[4,4],"category":"chuci","season":[3],"gender":"f","source":{"text":"搴汀洲兮杜若，将以遗兮远者","title":"《九歌·湘夫人》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"杜若：香草，赠远人之花。芬芳而深情。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"xiang-jun","given":"湘君","length":2,"pinyin":"xiang jun","tones":[1,1],"category":"chuci","gender":"f","source":{"text":"君不行兮夷犹，蹇谁留兮中洲","title":"《九歌·湘君》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"湘君：湘水之神。婉约而深情。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"ruo-ying","given":"若英","length":2,"pinyin":"ruo ying","tones":[4,1],"category":"chuci","gender":"f","source":{"text":"浴兰汤兮沐芳，华采衣兮若英","title":"《九歌·云中君》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"若英：如花般明艳。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"zhao-zhao","given":"昭昭","length":2,"pinyin":"zhao zhao","tones":[1,1],"category":"chuci","gender":"u","source":{"text":"灵连蜷兮既留，烂昭昭兮未央","title":"《九歌·云中君》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"昭昭：光明灿烂。「以其昭昭，使人昭昭」，明达之象。","tags":["清朗"],"frequency":"classic","verified":true},
+  {"id":"wei-yang","given":"未央","length":2,"pinyin":"wei yang","tones":[4,1],"category":"chuci","gender":"u","source":{"text":"灵连蜷兮既留，烂昭昭兮未央","title":"《九歌·云中君》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"未央：无穷无尽。汉宫名未央，取福泽绵长之意。","tags":["福寿"],"frequency":"classic","verified":true},
+  {"id":"qi-ji","given":"骐骥","length":2,"pinyin":"qi ji","tones":[2,4],"category":"chuci","gender":"m","source":{"text":"乘骐骥以驰骋兮，来吾道夫先路","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"骐骥：千里马。骐骥一跃，志在千里。","tags":["事业"],"frequency":"classic","verified":true},
+  {"id":"lan-gao","given":"兰皋","length":2,"pinyin":"lan gao","tones":[2,1],"category":"chuci","gender":"m","source":{"text":"步余马于兰皋兮，驰椒丘且焉止息","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"兰皋：长满兰草的水边高地。清雅之地。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"ji-he","given":"芰荷","length":2,"pinyin":"ji he","tones":[4,2],"category":"chuci","season":[2],"gender":"f","source":{"text":"制芰荷以为衣兮，集芙蓉以为裳","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"芰荷：菱叶与荷叶。清雅脱俗。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"ruo-mu","given":"若木","length":2,"pinyin":"ruo mu","tones":[4,4],"category":"chuci","gender":"u","source":{"text":"折若木以拂日兮，聊逍遥以相羊","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"若木：神话中的神树，生于西极，灼灼其华。","tags":["坚韧","自然"],"frequency":"classic","verified":true},
+  {"id":"fu-sang","given":"扶桑","length":2,"pinyin":"fu sang","tones":[2,1],"category":"chuci","gender":"u","source":{"text":"饮余马于咸池兮，总余辔乎扶桑","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"扶桑：日出之处的神树。旭日初升，朝气蓬勃。","tags":["事业","自然"],"frequency":"classic","verified":true},
+  {"id":"xi-he","given":"羲和","length":2,"pinyin":"xi he","tones":[1,2],"category":"chuci","gender":"f","source":{"text":"吾令羲和弭节兮，望崦嵫而勿迫","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"羲和：为日驾车之神。驭日而行，光明在望。","tags":["事业","风雅"],"frequency":"classic","verified":true},
+  {"id":"wang-shu","given":"望舒","length":2,"pinyin":"wang shu","tones":[4,1],"category":"chuci","gender":"u","source":{"text":"前望舒使先驱兮，后飞廉使奔属","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"望舒：为月驾车之神。月色清辉，皎洁如许。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"du-heng","given":"杜蘅","length":2,"pinyin":"du heng","tones":[4,2],"category":"chuci","gender":"u","source":{"text":"畦留夷与揭车兮，杂杜衡与芳芷","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"杜蘅：楚辞香草，叶似马蹄，幽香清远。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"fang-zhi","given":"芳芷","length":2,"pinyin":"fang zhi","tones":[1,3],"category":"chuci","gender":"f","source":{"text":"畦留夷与揭车兮，杂杜衡与芳芷","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"芳芷：芬芳的白芷。德馨如兰。","tags":["风雅","仁善"],"frequency":"classic","verified":true},
+  {"id":"lu-li","given":"陆离","length":2,"pinyin":"lu li","tones":[4,2],"category":"chuci","gender":"u","source":{"text":"高余冠之岌岌兮，长余佩之陆离","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"陆离：光彩斑斓、绚丽夺目。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"geng-jie","given":"耿介","length":2,"pinyin":"geng jie","tones":[3,4],"category":"chuci","gender":"m","source":{"text":"彼尧舜之耿介兮，既遵道而得路","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"耿介：光明磊落，正直不阿。","tags":["仁善","清朗"],"frequency":"classic","verified":true},
+  {"id":"he-yi","given":"荷衣","length":2,"pinyin":"he yi","tones":[2,1],"category":"chuci","season":[2],"gender":"f","source":{"text":"制芰荷以为衣兮，集芙蓉以为裳","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"荷衣：荷叶为衣。出尘之姿，不染俗尘。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"luo-ying","given":"落英","length":2,"pinyin":"luo ying","tones":[4,1],"category":"chuci","season":[3],"gender":"u","source":{"text":"朝饮木兰之坠露兮，夕餐秋菊之落英","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"落英：落花。「落英缤纷」，芳华满地。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"qiong-zhi","given":"琼枝","length":2,"pinyin":"qiong zhi","tones":[2,1],"category":"chuci","gender":"f","source":{"text":"溘吾游此春宫兮，折琼枝以继佩","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"琼枝：玉树琼枝。华美而珍贵。","tags":["风雅","富贵"],"frequency":"classic","verified":true},
+  {"id":"zhao-zhi","given":"昭质","length":2,"pinyin":"zhao zhi","tones":[1,4],"category":"chuci","gender":"u","source":{"text":"芳与泽其杂糅兮，唯昭质其犹未亏","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"昭质：光明纯洁的品质。历劫不亏。","tags":["仁善","清朗"],"frequency":"classic","verified":true},
+  {"id":"fang-fei","given":"芳菲","length":2,"pinyin":"fang fei","tones":[1,1],"category":"chuci","season":[1],"gender":"f","source":{"text":"佩缤纷其繁饰兮，芳菲菲其弥章","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"芳菲：花草芬芳。「人间四月芳菲尽」，春光正好。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"mi-zhang","given":"弥章","length":2,"pinyin":"mi zhang","tones":[2,1],"category":"chuci","gender":"u","source":{"text":"佩缤纷其繁饰兮，芳菲菲其弥章","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"弥章：更加彰显。芳菲弥章，声名日盛。","tags":["事业"],"frequency":"classic","verified":true},
+  {"id":"xiang-ling","given":"湘灵","length":2,"pinyin":"xiang ling","tones":[1,2],"category":"chuci","gender":"f","source":{"text":"使湘灵鼓瑟兮，令海若舞冯夷","title":"《楚辞·远游》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"湘灵：湘水女神，鼓瑟于江上。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"ruo-hua","given":"若华","length":2,"pinyin":"ruo hua","tones":[4,2],"category":"chuci","gender":"f","source":{"text":"羲和之未扬，若华何光","title":"《楚辞·天问》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"若华：若木之花。光华四射。","tags":["自然"],"frequency":"classic","verified":true},
+  {"id":"dan-ruo","given":"若","length":1,"pinyin":"ruo","tones":[4],"category":"chuci","gender":"u","source":{"text":"搴汀洲兮杜若，将以遗兮远者","title":"《九歌·湘夫人》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"若：杜若，楚辞香草。亦含「如」意，若有所待。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"dan-lu","given":"露","length":1,"pinyin":"lu","tones":[4],"category":"shijing","season":[3],"gender":"u","source":{"text":"蒹葭苍苍，白露为霜","title":"《诗经·秦风·蒹葭》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"露：露珠，晶莹清透。亦二十四节气之白露。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"dan-xue","given":"雪","length":1,"pinyin":"xue","tones":[3],"category":"shijing","season":[4],"gender":"u","source":{"text":"今我来思，雨雪霏霏","title":"《诗经·小雅·采薇》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"雪：冰雪之姿。「阳春白雪」，清雅高洁。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-feng","given":"风","length":1,"pinyin":"feng","tones":[1],"category":"shijing","gender":"u","source":{"text":"吉甫作诵，穆如清风","title":"《诗经·大雅·烝民》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"风：清风。金风玉露、穆如清风，皆以此字为眼。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"dan-yu","given":"玉","length":1,"pinyin":"yu","tones":[4],"category":"shijing","gender":"u","source":{"text":"言念君子，温其如玉","title":"《诗经·秦风·小戎》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"玉：温其如玉，君子之德。","tags":["仁善","风雅"],"frequency":"legend","verified":true},
+  {"id":"dan-zhi","given":"芷","length":1,"pinyin":"zhi","tones":[3],"category":"chuci","gender":"f","source":{"text":"扈江离与辟芷兮，纫秋兰以为佩","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"芷：白芷，香草。亦本草之名，幽香清远。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"dan-zhi2","given":"芝","length":1,"pinyin":"zhi","tones":[1],"category":"hanfu","gender":"u","source":{"text":"灵芝生天地，朱草被洛滨","title":"曹植《灵芝篇》","author":"曹植","dynasty":"三国","genre":"yuefu"},"meaning":"芝：灵芝，祥瑞之草。","tags":["福寿"],"frequency":"classic","verified":true},
+  {"id":"dan-lan","given":"兰","length":1,"pinyin":"lan","tones":[2],"category":"chuci","gender":"f","source":{"text":"扈江离与辟芷兮，纫秋兰以为佩","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"兰：兰花，君子之花。幽兰生于深谷，不以无人而不芳。","tags":["风雅","仁善"],"frequency":"legend","verified":true},
+  {"id":"dan-yue","given":"月","length":1,"pinyin":"yue","tones":[4],"category":"tangshi","gender":"u","source":{"text":"海上生明月，天涯共此时","title":"张九龄《望月怀远》","author":"张九龄","dynasty":"唐","genre":"shi"},"meaning":"月：明月。海上生明月，天涯共此时。","tags":["清朗","爱情"],"frequency":"legend","verified":true},
+  {"id":"dan-xing","given":"星","length":1,"pinyin":"xing","tones":[1],"category":"hanfu","gender":"u","source":{"text":"日月之行，若出其中；星汉灿烂，若出其里","title":"曹操《观沧海》","author":"曹操","dynasty":"东汉","genre":"yuefu"},"meaning":"星：星辰。「星汉灿烂」，胸襟如海。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"dan-yun","given":"云","length":1,"pinyin":"yun","tones":[2],"category":"hanfu","gender":"u","source":{"text":"云无心以出岫，鸟倦飞而知还","title":"陶渊明《归去来兮辞》","author":"陶渊明","dynasty":"东晋","genre":"fu"},"meaning":"云：云无心以出岫。闲淡自在。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"dan-yu3","given":"雨","length":1,"pinyin":"yu","tones":[3],"category":"tangshi","season":[1],"gender":"u","source":{"text":"好雨知时节，当春乃发生。随风潜入夜，润物细无声","title":"杜甫《春夜喜雨》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"雨：好雨知时节，润物细无声。","tags":["自然","仁善"],"frequency":"legend","verified":true},
+  {"id":"dan-quan","given":"泉","length":1,"pinyin":"quan","tones":[2],"category":"tangshi","gender":"u","source":{"text":"明月松间照，清泉石上流","title":"王维《山居秋暝》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"泉：清泉石上流。清澈见底，川流不息。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"dan-tao","given":"涛","length":1,"pinyin":"tao","tones":[1],"category":"songci","gender":"m","source":{"text":"乱石穿空，惊涛拍岸，卷起千堆雪","title":"苏轼《念奴娇·赤壁怀古》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"涛：惊涛拍岸，气势磅礴。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"dan-song","given":"松","length":1,"pinyin":"song","tones":[1],"category":"wenyan","gender":"m","source":{"text":"岁寒，然后知松柏之后凋也","title":"《论语·子罕》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"松：岁寒不凋，坚韧长青。","tags":["坚韧","福寿"],"frequency":"legend","verified":true},
+  {"id":"dan-mei","given":"梅","length":1,"pinyin":"mei","tones":[2],"category":"songci","season":[4],"gender":"f","source":{"text":"墙角数枝梅，凌寒独自开。遥知不是雪，为有暗香来","title":"王安石《梅花》","author":"王安石","dynasty":"宋","genre":"shi"},"meaning":"梅：凌寒独放，暗香浮动。","tags":["风雅","坚韧"],"frequency":"legend","verified":true},
+  {"id":"dan-zhu","given":"竹","length":1,"pinyin":"zhu","tones":[2],"category":"shijing","gender":"u","source":{"text":"瞻彼淇奥，绿竹猗猗","title":"《诗经·卫风·淇奥》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"竹：绿竹猗猗。虚心有节，君子之德。","tags":["坚韧","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-he","given":"荷","length":1,"pinyin":"he","tones":[2],"category":"wenyan","season":[2],"gender":"f","source":{"text":"接天莲叶无穷碧，映日荷花别样红","title":"杨万里《晓出净慈寺送林子方》","author":"杨万里","dynasty":"宋","genre":"shi"},"meaning":"荷：莲花，出淤泥而不染。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"dan-tang","given":"棠","length":1,"pinyin":"tang","tones":[2],"category":"shijing","gender":"u","source":{"text":"蔽芾甘棠，勿翦勿伐，召伯所茇","title":"《诗经·召南·甘棠》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"棠：甘棠，召公遗爱之树，仁政爱民之典。","tags":["仁善"],"frequency":"classic","verified":true},
+  {"id":"dan-mu","given":"木","length":1,"pinyin":"mu","tones":[4],"category":"shijing","gender":"u","source":{"text":"南有乔木，不可休思","title":"《诗经·周南·汉广》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"木：乔木，栋梁之材。","tags":["自然","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-nan","given":"南","length":1,"pinyin":"nan","tones":[2],"category":"hanfu","gender":"u","source":{"text":"江南可采莲，莲叶何田田","title":"汉乐府《江南》","author":"佚名","dynasty":"汉","genre":"yuefu"},"meaning":"南：江南，烟雨温柔之乡。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-shan","given":"山","length":1,"pinyin":"shan","tones":[1],"category":"shijing","gender":"m","source":{"text":"高山仰止，景行行止","title":"《诗经·小雅·车舝》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"山：高山仰止。稳重如山。","tags":["坚韧","仁善"],"frequency":"legend","verified":true},
+  {"id":"dan-hai","given":"海","length":1,"pinyin":"hai","tones":[3],"category":"hanfu","gender":"u","source":{"text":"东临碣石，以观沧海。水何澹澹，山岛竦峙","title":"曹操《观沧海》","author":"曹操","dynasty":"东汉","genre":"yuefu"},"meaning":"海：沧海。海纳百川，有容乃大。","tags":["事业","自然"],"frequency":"legend","verified":true},
+  {"id":"dan-tian","given":"天","length":1,"pinyin":"tian","tones":[1],"category":"hanfu","gender":"u","source":{"text":"天苍苍，野茫茫，风吹草低见牛羊","title":"北朝民歌《敕勒歌》","author":"佚名","dynasty":"北朝","genre":"yuefu"},"meaning":"天：天空。胸怀苍天，志向高远。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-ming","given":"明","length":1,"pinyin":"ming","tones":[2],"category":"wenyan","gender":"u","source":{"text":"大学之道，在明明德，在亲民，在止于至善","title":"《大学》","author":"曾子","dynasty":"春秋","genre":"classic"},"meaning":"明：光明，明德。「明明德」为大学之首义。","tags":["聪慧","清朗"],"frequency":"legend","verified":true},
+  {"id":"dan-ning","given":"宁","length":1,"pinyin":"ning","tones":[2],"category":"wenyan","gender":"u","source":{"text":"五福：一曰寿，二曰富，三曰康宁，四曰攸好德，五曰考终命","title":"《尚书·洪范》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"宁：康宁。五福之一，平安顺遂。","tags":["平安","福寿"],"frequency":"legend","verified":true},
+  {"id":"dan-fei","given":"飞","length":1,"pinyin":"fei","tones":[1],"category":"shijing","gender":"u","source":{"text":"凤凰于飞，翙翙其羽","title":"《诗经·大雅·卷阿》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"飞：凤凰于飞。比翼双飞，一飞冲天。","tags":["事业","爱情"],"frequency":"legend","verified":true},
+  {"id":"dan-gui","given":"归","length":1,"pinyin":"gui","tones":[1],"category":"shijing","gender":"f","source":{"text":"之子于归，宜其室家","title":"《诗经·周南·桃夭》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"归：之子于归，宜室宜家。","tags":["平安","爱情"],"frequency":"classic","verified":true},
+  {"id":"dan-lai","given":"来","length":1,"pinyin":"lai","tones":[2],"category":"hanfu","gender":"u","source":{"text":"清风徐来，水波不兴","title":"苏轼《赤壁赋》","author":"苏轼","dynasty":"宋","genre":"fu"},"meaning":"来：清风徐来。从容而至，未来可期。","tags":["清朗","平安"],"frequency":"legend","verified":true},
+  {"id":"dan-ran","given":"然","length":1,"pinyin":"ran","tones":[2],"category":"hanfu","gender":"u","source":{"text":"采菊东篱下，悠然见南山","title":"陶渊明《饮酒·其五》","author":"陶渊明","dynasty":"东晋","genre":"shi"},"meaning":"然：悠然。恬淡自适，泰然处之。","tags":["风雅","平安"],"frequency":"legend","verified":true},
+  {"id":"dan-xing2","given":"行","length":1,"pinyin":"xing","tones":[2],"category":"shijing","gender":"u","source":{"text":"高山仰止，景行行止","title":"《诗经·小雅·车舝》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"行：景行行止。知行合一，行稳致远。","tags":["事业","仁善"],"frequency":"classic","verified":true},
+  {"id":"dan-zhou","given":"周","length":1,"pinyin":"zhou","tones":[1],"category":"wenyan","gender":"u","source":{"text":"昔者庄周梦为蝴蝶，栩栩然蝴蝶也","title":"《庄子·齐物论》","author":"庄子","dynasty":"战国","genre":"classic"},"meaning":"周：庄周。物我两忘，逍遥自在。亦含「周全」之意。","tags":["聪慧","风雅"],"frequency":"legend","verified":true},
+  {"id":"dan-xiao","given":"笑","length":1,"pinyin":"xiao","tones":[4],"category":"tangshi","gender":"f","source":{"text":"谈笑有鸿儒，往来无白丁","title":"刘禹锡《陋室铭》","author":"刘禹锡","dynasty":"唐","genre":"fu"},"meaning":"笑：谈笑风生。乐观豁达，笑对人生。","tags":["风雅","平安"],"frequency":"legend","verified":true},
+  {"id":"dan-run","given":"润","length":1,"pinyin":"run","tones":[4],"category":"tangshi","gender":"u","source":{"text":"随风潜入夜，润物细无声","title":"杜甫《春夜喜雨》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"润：润物细无声。温润如玉，泽被无声。","tags":["仁善","自然"],"frequency":"legend","verified":true},
+  {"id":"dan-shi","given":"诗","length":1,"pinyin":"shi","tones":[1],"category":"wenyan","gender":"f","source":{"text":"不学诗，无以言","title":"《论语·季氏》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"诗：诗书传家。腹有诗书气自华。","tags":["聪慧","风雅"],"frequency":"legend","verified":true},
+  {"id":"dan-nuo","given":"诺","length":1,"pinyin":"nuo","tones":[4],"category":"hanfu","gender":"u","source":{"text":"得黄金百斤，不如得季布一诺","title":"《史记·季布列传》","author":"司马迁","dynasty":"汉","genre":"classic"},"meaning":"诺：一诺千金。言而有信。","tags":["仁善"],"frequency":"legend","verified":true},
+  {"id":"dan-an","given":"安","length":1,"pinyin":"an","tones":[1],"category":"tangshi","gender":"u","source":{"text":"安得广厦千万间，大庇天下寒士俱欢颜","title":"杜甫《茅屋为秋风所破歌》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"安：平安，安定。「安然」双关：安然而处，安之若素。","tags":["平安","仁善"],"frequency":"legend","verified":true},
+  {"id":"dan-xin","given":"心","length":1,"pinyin":"xin","tones":[1],"category":"tangshi","gender":"u","source":{"text":"洛阳亲友如相问，一片冰心在玉壶","title":"王昌龄《芙蓉楼送辛渐》","author":"王昌龄","dynasty":"唐","genre":"shi"},"meaning":"心：冰心玉壶。心地纯净。","tags":["仁善","清朗"],"frequency":"legend","verified":true},
+  {"id":"dan-zhou2","given":"舟","length":1,"pinyin":"zhou","tones":[1],"category":"shijing","gender":"u","source":{"text":"泛彼柏舟，亦泛其流","title":"《诗经·邶风·柏舟》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"舟：柏舟。中流击楫，逆流而上。","tags":["坚韧","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-lin","given":"林","length":1,"pinyin":"lin","tones":[2],"category":"tangshi","gender":"u","source":{"text":"平林漠漠烟如织，寒山一带伤心碧","title":"李白《菩萨蛮》","author":"李白","dynasty":"唐","genre":"ci"},"meaning":"林：平林漠漠。林木葱茏，生机盎然。","tags":["自然"],"frequency":"legend","verified":true},
+  {"id":"dan-qiu","given":"秋","length":1,"pinyin":"qiu","tones":[1],"category":"tangshi","season":[3],"gender":"u","source":{"text":"空山新雨后，天气晚来秋","title":"王维《山居秋暝》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"秋：山居秋暝。秋高气爽，天朗气清。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"dan-dong","given":"冬","length":1,"pinyin":"dong","tones":[1],"category":"solar","season":[4],"gender":"u","source":{"text":"冬，终也，万物收藏也","title":"《月令七十二候集解》","author":"佚名","dynasty":"元","genre":"classic"},"meaning":"冬：万物收藏，蓄势待发。亦中药麦冬之名。","tags":["福寿","自然"],"frequency":"classic","verified":true},
+  {"id":"dan-xia","given":"夏","length":1,"pinyin":"xia","tones":[4],"category":"shijing","season":[2],"gender":"u","source":{"text":"四月维夏，六月徂暑","title":"《诗经·小雅·四月》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"夏：夏日。生机蓬勃，草木繁盛。","tags":["自然"],"frequency":"classic","verified":true},
+  {"id":"dan-chun","given":"春","length":1,"pinyin":"chun","tones":[1],"category":"tangshi","season":[1],"gender":"u","source":{"text":"春风又绿江南岸，明月何时照我还","title":"王安石《泊船瓜洲》","author":"王安石","dynasty":"宋","genre":"shi"},"meaning":"春：春风又绿江南岸。万物之始。","tags":["自然","福寿"],"frequency":"legend","verified":true},
+  {"id":"dan-ying","given":"英","length":1,"pinyin":"ying","tones":[1],"category":"chuci","gender":"u","source":{"text":"朝饮木兰之坠露兮，夕餐秋菊之落英","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"英：落英缤纷，亦英才之意。","tags":["风雅","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-hua","given":"华","length":1,"pinyin":"hua","tones":[2],"category":"shijing","gender":"u","source":{"text":"桃之夭夭，灼灼其华","title":"《诗经·周南·桃夭》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"华：灼灼其华。光彩照人，含华咀英。","tags":["风雅","富贵"],"frequency":"legend","verified":true},
+  {"id":"dan-yin","given":"音","length":1,"pinyin":"yin","tones":[1],"category":"shijing","gender":"f","source":{"text":"大姒嗣徽音，则百斯男","title":"《诗经·大雅·思齐》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"音：徽音，美名善誉。亦知音之音。","tags":["风雅","仁善"],"frequency":"legend","verified":true},
+  {"id":"dan-guang","given":"光","length":1,"pinyin":"guang","tones":[1],"category":"tangshi","gender":"u","source":{"text":"床前明月光，疑是地上霜","title":"李白《静夜思》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"光：明月光。光华流转，前程似锦。","tags":["清朗","事业"],"frequency":"legend","verified":true},
+  {"id":"yun-fan","given":"云帆","length":2,"pinyin":"yun fan","tones":[2,1],"category":"tangshi","gender":"m","source":{"text":"长风破浪会有时，直挂云帆济沧海","title":"李白《行路难·其一》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"云帆：高挂入云的船帆。长风破浪，一往无前。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"chang-feng","given":"长风","length":2,"pinyin":"chang feng","tones":[2,1],"category":"tangshi","gender":"u","source":{"text":"长风破浪会有时，直挂云帆济沧海","title":"李白《行路难·其一》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"长风：长风破浪。乘长风之势，破万里之浪。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"ming-yue","given":"明月","length":2,"pinyin":"ming yue","tones":[2,4],"category":"tangshi","gender":"u","source":{"text":"举头望明月，低头思故乡","title":"李白《静夜思》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"明月：明月千里。皎洁无瑕，普照万家。","tags":["清朗","爱情"],"frequency":"legend","verified":true},
+  {"id":"qing-xi","given":"清溪","length":2,"pinyin":"qing xi","tones":[1,1],"category":"tangshi","gender":"u","source":{"text":"清溪清我心，水色异诸水","title":"李白《清溪行》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"清溪：清澈的溪流。清溪清心，洗尽尘俗。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"qing-tian","given":"青天","length":2,"pinyin":"qing tian","tones":[1,1],"category":"tangshi","gender":"u","source":{"text":"俱怀逸兴壮思飞，欲上青天揽明月","title":"李白《宣州谢朓楼饯别校书叔云》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"青天：碧空如洗。青云之志，壮思飞扬。","tags":["清朗","事业"],"frequency":"legend","verified":true},
+  {"id":"yi-xing","given":"逸兴","length":2,"pinyin":"yi xing","tones":[4,4],"category":"tangshi","gender":"u","source":{"text":"俱怀逸兴壮思飞，欲上青天揽明月","title":"李白《宣州谢朓楼饯别校书叔云》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"逸兴：超逸豪放的兴致。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"yun-hai","given":"云海","length":2,"pinyin":"yun hai","tones":[2,3],"category":"tangshi","gender":"u","source":{"text":"明月出天山，苍茫云海间","title":"李白《关山月》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"云海：苍茫云海。胸襟开阔，气象万千。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"guan-shan","given":"关山","length":2,"pinyin":"guan shan","tones":[1,1],"category":"tangshi","gender":"m","source":{"text":"明月出天山，苍茫云海间","title":"李白《关山月》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"关山：关隘与山川。关山万里，志在四方。","tags":["坚韧","事业"],"frequency":"classic","verified":true},
+  {"id":"yin-he","given":"银河","length":2,"pinyin":"yin he","tones":[2,2],"category":"tangshi","gender":"u","source":{"text":"飞流直下三千尺，疑是银河落九天","title":"李白《望庐山瀑布》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"银河：天河。银汉灿烂，气势磅礴。","tags":["清朗"],"frequency":"legend","verified":true},
+  {"id":"jiu-tian","given":"九天","length":2,"pinyin":"jiu tian","tones":[3,1],"category":"tangshi","gender":"u","source":{"text":"飞流直下三千尺，疑是银河落九天","title":"李白《望庐山瀑布》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"九天：九重之天。至高至远。","tags":["事业"],"frequency":"classic","verified":true},
+  {"id":"xing-chui","given":"星垂","length":2,"pinyin":"xing chui","tones":[1,2],"category":"tangshi","gender":"m","source":{"text":"星垂平野阔，月涌大江流","title":"杜甫《旅夜书怀》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"星垂：星垂平野。天地辽阔，气象雄浑。","tags":["清朗","事业"],"frequency":"legend","verified":true},
+  {"id":"yue-yong","given":"月涌","length":2,"pinyin":"yue yong","tones":[4,3],"category":"tangshi","gender":"u","source":{"text":"星垂平野阔，月涌大江流","title":"杜甫《旅夜书怀》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"月涌：月随江涌。月光随波，气象万千。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"ping-ye","given":"平野","length":2,"pinyin":"ping ye","tones":[2,3],"category":"tangshi","gender":"u","source":{"text":"星垂平野阔，月涌大江流","title":"杜甫《旅夜书怀》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"平野：辽阔的原野。视野开阔，胸襟坦荡。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"jiang-liu","given":"江流","length":2,"pinyin":"jiang liu","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"星垂平野阔，月涌大江流","title":"杜甫《旅夜书怀》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"江流：大江东去。川流不息，生生不止。","tags":["事业","自然"],"frequency":"classic","verified":true},
+  {"id":"ling-jue","given":"凌绝","length":2,"pinyin":"ling jue","tones":[2,2],"category":"tangshi","gender":"m","source":{"text":"会当凌绝顶，一览众山小","title":"杜甫《望岳》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"凌绝：凌绝顶。登峰造极，一览众山小。","tags":["事业","坚韧"],"frequency":"classic","verified":true},
+  {"id":"xing-he","given":"星河","length":2,"pinyin":"xing he","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"五更鼓角声悲壮，三峡星河影动摇","title":"杜甫《阁夜》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"星河：银河倒映。星汉灿烂，浩瀚无垠。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"bai-lu2","given":"白鹭","length":2,"pinyin":"bai lu","tones":[2,4],"category":"tangshi","gender":"u","source":{"text":"两个黄鹂鸣翠柳，一行白鹭上青天","title":"杜甫《绝句》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"白鹭：白鹭上青天。身姿轻盈，志向高远。","tags":["自然","事业"],"frequency":"classic","verified":true},
+  {"id":"cui-liu","given":"翠柳","length":2,"pinyin":"cui liu","tones":[4,3],"category":"tangshi","season":[1],"gender":"f","source":{"text":"两个黄鹂鸣翠柳，一行白鹭上青天","title":"杜甫《绝句》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"翠柳：翠绿的柳色。春意盎然。","tags":["自然"],"frequency":"classic","verified":true},
+  {"id":"wan-qing","given":"晚晴","length":2,"pinyin":"wan qing","tones":[3,2],"category":"tangshi","gender":"u","source":{"text":"天意怜幽草，人间重晚晴","title":"李商隐《晚晴》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"晚晴：傍晚放晴。风雨之后，云开月明。","tags":["平安","清朗"],"frequency":"legend","verified":true},
+  {"id":"jin-se","given":"锦瑟","length":2,"pinyin":"jin se","tones":[3,4],"category":"tangshi","gender":"f","source":{"text":"锦瑟无端五十弦，一弦一柱思华年","title":"李商隐《锦瑟》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"锦瑟：华美的瑟。弦歌雅意，华年似锦。","tags":["风雅","爱情"],"frequency":"legend","verified":true},
+  {"id":"ling-xi","given":"灵犀","length":2,"pinyin":"ling xi","tones":[2,1],"category":"tangshi","gender":"u","source":{"text":"身无彩凤双飞翼，心有灵犀一点通","title":"李商隐《无题》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"灵犀：犀牛角中白纹，相传通灵。心有灵犀，默契天成。","tags":["聪慧","爱情"],"frequency":"legend","verified":true},
+  {"id":"cang-hai","given":"沧海","length":2,"pinyin":"cang hai","tones":[1,3],"category":"tangshi","gender":"u","source":{"text":"曾经沧海难为水，除却巫山不是云","title":"元稹《离思五首·其四》","author":"元稹","dynasty":"唐","genre":"shi"},"meaning":"沧海：沧海桑田。曾经沧海，胸怀辽阔。","tags":["事业","自然"],"frequency":"legend","verified":true},
+  {"id":"qing-quan","given":"清泉","length":2,"pinyin":"qing quan","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"明月松间照，清泉石上流","title":"王维《山居秋暝》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"清泉：石上清泉。清澈见底，润物无声。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"kong-shan","given":"空山","length":2,"pinyin":"kong shan","tones":[1,1],"category":"tangshi","gender":"u","source":{"text":"空山新雨后，天气晚来秋","title":"王维《山居秋暝》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"空山：空山新雨。静谧空灵，清幽出尘。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"qiu-shui","given":"秋水","length":2,"pinyin":"qiu shui","tones":[1,3],"category":"hanfu","season":[3],"gender":"u","source":{"text":"落霞与孤鹜齐飞，秋水共长天一色","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"fu"},"meaning":"秋水：秋水共长天一色。亦《庄子》「秋水时至」，望穿秋水之深情。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"chang-tian","given":"长天","length":2,"pinyin":"chang tian","tones":[2,1],"category":"hanfu","gender":"u","source":{"text":"落霞与孤鹜齐飞，秋水共长天一色","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"fu"},"meaning":"长天：长天一色。天高地迥，气象万千。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"luo-xia","given":"落霞","length":2,"pinyin":"luo xia","tones":[4,2],"category":"hanfu","gender":"f","source":{"text":"落霞与孤鹜齐飞，秋水共长天一色","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"fu"},"meaning":"落霞：晚霞满天。绚烂之美。","tags":["风雅","自然"],"frequency":"legend","verified":true},
+  {"id":"sang-yu","given":"桑榆","length":2,"pinyin":"sang yu","tones":[1,2],"category":"hanfu","gender":"u","source":{"text":"东隅已逝，桑榆非晚","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"fu"},"meaning":"桑榆：日落处，喻晚景。「桑榆非晚」，为时未晚。","tags":["福寿","事业"],"frequency":"classic","verified":true},
+  {"id":"yu-ji","given":"雨霁","length":2,"pinyin":"yu ji","tones":[3,4],"category":"hanfu","gender":"u","source":{"text":"云销雨霁，彩彻区明","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"fu"},"meaning":"雨霁：雨过天晴。云销雨霁，豁然开朗。","tags":["清朗","平安"],"frequency":"classic","verified":true},
+  {"id":"qing-yun","given":"青云","length":2,"pinyin":"qing yun","tones":[1,2],"category":"hanfu","gender":"m","source":{"text":"穷且益坚，不坠青云之志","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"fu"},"meaning":"青云：青云之志。「平步青云」，志向高远。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"chun-jiang","given":"春江","length":2,"pinyin":"chun jiang","tones":[1,1],"category":"tangshi","season":[1],"gender":"u","source":{"text":"春江潮水连海平，海上明月共潮生","title":"张若虚《春江花月夜》","author":"张若虚","dynasty":"唐","genre":"shi"},"meaning":"春江：春江潮水。月照春江，孤篇横绝全唐。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"jiang-yue","given":"江月","length":2,"pinyin":"jiang yue","tones":[1,4],"category":"tangshi","gender":"u","source":{"text":"江畔何人初见月，江月何年初照人","title":"张若虚《春江花月夜》","author":"张若虚","dynasty":"唐","genre":"shi"},"meaning":"江月：江上明月。江月年年，亘古长存。","tags":["清朗"],"frequency":"legend","verified":true},
+  {"id":"yan-yan2","given":"滟滟","length":2,"pinyin":"yan yan","tones":[4,4],"category":"tangshi","gender":"f","source":{"text":"滟滟随波千万里，何处春江无月明","title":"张若虚《春江花月夜》","author":"张若虚","dynasty":"唐","genre":"shi"},"meaning":"滟滟：波光荡漾。月光随波，滟滟千里。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"zhi-qiu","given":"知秋","length":2,"pinyin":"zhi qiu","tones":[1,1],"category":"wenyan","season":[3],"gender":"u","source":{"text":"见一叶落而知岁之将暮","title":"《淮南子·说山训》","author":"刘安","dynasty":"汉","genre":"classic"},"meaning":"知秋：一叶知秋。见微知著，明察秋毫。","tags":["聪慧"],"frequency":"legend","verified":true},
+  {"id":"shuang-ye","given":"霜叶","length":2,"pinyin":"shuang ye","tones":[1,4],"category":"tangshi","season":[3],"gender":"u","source":{"text":"停车坐爱枫林晚，霜叶红于二月花","title":"杜牧《山行》","author":"杜牧","dynasty":"唐","genre":"shi"},"meaning":"霜叶：经霜的红叶。霜重色愈浓，历经风霜而愈艳。","tags":["自然","坚韧"],"frequency":"legend","verified":true},
+  {"id":"song-feng","given":"松风","length":2,"pinyin":"song feng","tones":[1,1],"category":"tangshi","gender":"u","source":{"text":"松风吹解带，山月照弹琴","title":"王维《酬张少府》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"松风：松间清风。松风山月，隐逸之趣。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"shan-yue","given":"山月","length":2,"pinyin":"shan yue","tones":[1,4],"category":"tangshi","gender":"u","source":{"text":"松风吹解带，山月照弹琴","title":"王维《酬张少府》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"山月：山间明月。清辉遍洒。","tags":["清朗"],"frequency":"classic","verified":true},
+  {"id":"hong-dou","given":"红豆","length":2,"pinyin":"hong dou","tones":[2,4],"category":"tangshi","gender":"f","source":{"text":"红豆生南国，春来发几枝","title":"王维《相思》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"红豆：相思之种。此物最相思。","tags":["爱情","风雅"],"frequency":"classic","verified":true},
+  {"id":"chun-hui","given":"春晖","length":2,"pinyin":"chun hui","tones":[1,1],"category":"tangshi","season":[1],"gender":"u","source":{"text":"谁言寸草心，报得三春晖","title":"孟郊《游子吟》","author":"孟郊","dynasty":"唐","genre":"shi"},"meaning":"春晖：春日暖阳，喻母爱。寸草春晖，孝亲之意。","tags":["仁善","福寿"],"frequency":"legend","verified":true},
+  {"id":"chun-xiao","given":"春晓","length":2,"pinyin":"chun xiao","tones":[1,3],"category":"tangshi","season":[1],"gender":"u","source":{"text":"春眠不觉晓，处处闻啼鸟","title":"孟浩然《春晓》","author":"孟浩然","dynasty":"唐","genre":"shi"},"meaning":"春晓：春天的清晨。万物初醒，生机盎然。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"he-feng","given":"荷风","length":2,"pinyin":"he feng","tones":[2,1],"category":"tangshi","season":[2],"gender":"u","source":{"text":"荷风送香气，竹露滴清响","title":"孟浩然《夏日南亭怀辛大》","author":"孟浩然","dynasty":"唐","genre":"shi"},"meaning":"荷风：拂过荷塘的凉风。荷风送香。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"zhu-lu","given":"竹露","length":2,"pinyin":"zhu lu","tones":[2,4],"category":"tangshi","season":[2],"gender":"u","source":{"text":"荷风送香气，竹露滴清响","title":"孟浩然《夏日南亭怀辛大》","author":"孟浩然","dynasty":"唐","genre":"shi"},"meaning":"竹露：竹上清露。晶莹剔透。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"qing-xiang","given":"清响","length":2,"pinyin":"qing xiang","tones":[1,3],"category":"tangshi","season":[2],"gender":"u","source":{"text":"荷风送香气，竹露滴清响","title":"孟浩然《夏日南亭怀辛大》","author":"孟浩然","dynasty":"唐","genre":"shi"},"meaning":"清响：清脆的声响。竹露滴落，清音入耳。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"you-huang","given":"幽篁","length":2,"pinyin":"you huang","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"独坐幽篁里，弹琴复长啸","title":"王维《竹里馆》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"幽篁：幽静的竹林。清幽自处，琴啸相和。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"chun-shan","given":"春山","length":2,"pinyin":"chun shan","tones":[1,1],"category":"tangshi","season":[1],"gender":"u","source":{"text":"人闲桂花落，夜静春山空","title":"王维《鸟鸣涧》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"春山：春夜空山。静谧安然。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"bing-xin","given":"冰心","length":2,"pinyin":"bing xin","tones":[1,1],"category":"tangshi","gender":"f","source":{"text":"洛阳亲友如相问，一片冰心在玉壶","title":"王昌龄《芙蓉楼送辛渐》","author":"王昌龄","dynasty":"唐","genre":"shi"},"meaning":"冰心：冰清玉洁之心。","tags":["清朗","仁善"],"frequency":"legend","verified":true},
+  {"id":"yu-hu","given":"玉壶","length":2,"pinyin":"yu hu","tones":[4,2],"category":"tangshi","gender":"u","source":{"text":"洛阳亲友如相问，一片冰心在玉壶","title":"王昌龄《芙蓉楼送辛渐》","author":"王昌龄","dynasty":"唐","genre":"shi"},"meaning":"玉壶：白玉之壶。冰心玉壶，表里澄澈。","tags":["仁善","清朗"],"frequency":"classic","verified":true},
+  {"id":"chun-feng","given":"春风","length":2,"pinyin":"chun feng","tones":[1,1],"category":"tangshi","season":[1],"gender":"u","source":{"text":"野火烧不尽，春风吹又生","title":"白居易《赋得古原草送别》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"春风：春风吹又生。生生不息，温暖和煦。","tags":["自然","坚韧"],"frequency":"legend","verified":true},
+  {"id":"huai-yuan","given":"怀远","length":2,"pinyin":"huai yuan","tones":[2,3],"category":"tangshi","gender":"u","source":{"text":"问君何能尔？心远地自偏","title":"陶渊明《饮酒·其五》","author":"陶渊明","dynasty":"东晋","genre":"shi"},"meaning":"怀远：心远地自偏。心怀远方，超然物外。","tags":["爱情","事业"],"frequency":"classic","verified":true},
+  {"id":"tian-ya","given":"天涯","length":2,"pinyin":"tian ya","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"海上生明月，天涯共此时","title":"张九龄《望月怀远》","author":"张九龄","dynasty":"唐","genre":"shi"},"meaning":"天涯：天涯共此时。无论多远，心意相连。","tags":["爱情","清朗"],"frequency":"legend","verified":true},
+  {"id":"jing-hong","given":"惊鸿","length":2,"pinyin":"jing hong","tones":[1,2],"category":"hanfu","gender":"f","source":{"text":"翩若惊鸿，婉若游龙","title":"曹植《洛神赋》","author":"曹植","dynasty":"三国","genre":"fu"},"meaning":"惊鸿：惊飞之鸿雁。翩若惊鸿，婉若游龙，绝代风华。","tags":["风雅"],"frequency":"legend","verified":true},
+  {"id":"fu-qu","given":"芙蕖","length":2,"pinyin":"fu qu","tones":[2,2],"category":"hanfu","season":[2],"gender":"f","source":{"text":"灼若芙蕖出渌波","title":"曹植《洛神赋》","author":"曹植","dynasty":"三国","genre":"fu"},"meaning":"芙蕖：荷花。灼若芙蕖，清丽脱俗。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"zhao-xia","given":"朝霞","length":2,"pinyin":"zhao xia","tones":[1,2],"category":"hanfu","gender":"f","source":{"text":"远而望之，皎若太阳升朝霞","title":"曹植《洛神赋》","author":"曹植","dynasty":"三国","genre":"fu"},"meaning":"朝霞：清晨的霞光。旭日朝霞，明媚动人。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"chun-song","given":"春松","length":2,"pinyin":"chun song","tones":[1,1],"category":"hanfu","season":[1],"gender":"u","source":{"text":"荣曜秋菊，华茂春松","title":"曹植《洛神赋》","author":"曹植","dynasty":"三国","genre":"fu"},"meaning":"春松：华茂春松。风华正茂。","tags":["坚韧","自然"],"frequency":"classic","verified":true},
+  {"id":"ling-bo","given":"凌波","length":2,"pinyin":"ling bo","tones":[2,1],"category":"hanfu","gender":"f","source":{"text":"凌波微步，罗袜生尘","title":"曹植《洛神赋》","author":"曹植","dynasty":"三国","genre":"fu"},"meaning":"凌波：踏波而行。轻盈飘逸，超然出尘。","tags":["风雅","事业"],"frequency":"legend","verified":true},
+  {"id":"bai-xue","given":"白雪","length":2,"pinyin":"bai xue","tones":[2,3],"category":"wenyan","season":[4],"gender":"u","source":{"text":"客有歌于郢中者……其为《阳春》《白雪》","title":"宋玉《对楚王问》","author":"宋玉","dynasty":"战国","genre":"classic"},"meaning":"白雪：阳春白雪。曲高和寡之清贵。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"yang-chun","given":"阳春","length":2,"pinyin":"yang chun","tones":[2,1],"category":"wenyan","season":[1],"gender":"u","source":{"text":"客有歌于郢中者……其为《阳春》《白雪》","title":"宋玉《对楚王问》","author":"宋玉","dynasty":"战国","genre":"classic"},"meaning":"阳春：温暖的春天。阳春布德泽，万物生光辉。","tags":["自然","仁善"],"frequency":"classic","verified":true},
+  {"id":"wu-tong","given":"梧桐","length":2,"pinyin":"wu tong","tones":[2,2],"category":"shijing","gender":"u","source":{"text":"凤凰鸣矣，于彼高冈。梧桐生矣，于彼朝阳","title":"《诗经·大雅·卷阿》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"梧桐：凤凰所栖之木。栽下梧桐树，引得凤凰来。","tags":["自然","爱情"],"frequency":"legend","verified":true},
+  {"id":"feng-huang","given":"凤凰","length":2,"pinyin":"feng huang","tones":[4,2],"category":"shijing","gender":"u","source":{"text":"凤凰于飞，翙翙其羽","title":"《诗经·大雅·卷阿》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"凤凰：百鸟之王。凤凰于飞，和鸣锵锵。","tags":["富贵","爱情"],"frequency":"legend","verified":true},
+  {"id":"zhao-yang","given":"朝阳","length":2,"pinyin":"zhao yang","tones":[1,2],"category":"shijing","gender":"u","source":{"text":"梧桐生矣，于彼朝阳","title":"《诗经·大雅·卷阿》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"朝阳：初升的太阳。朝气蓬勃。","tags":["事业","清朗"],"frequency":"legend","verified":true},
+  {"id":"jiang-nan","given":"江南","length":2,"pinyin":"jiang nan","tones":[1,2],"category":"hanfu","season":[2],"gender":"u","source":{"text":"江南可采莲，莲叶何田田","title":"汉乐府《江南》","author":"佚名","dynasty":"汉","genre":"yuefu"},"meaning":"江南：江南采莲。杏花春雨，温柔之乡。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"you-ran","given":"悠然","length":2,"pinyin":"you ran","tones":[1,2],"category":"hanfu","gender":"u","source":{"text":"采菊东篱下，悠然见南山","title":"陶渊明《饮酒·其五》","author":"陶渊明","dynasty":"东晋","genre":"shi"},"meaning":"悠然：悠然自得。闲适从容，岁月静好。","tags":["风雅","平安"],"frequency":"legend","verified":true},
+  {"id":"dong-li","given":"东篱","length":2,"pinyin":"dong li","tones":[1,2],"category":"hanfu","season":[3],"gender":"u","source":{"text":"采菊东篱下，悠然见南山","title":"陶渊明《饮酒·其五》","author":"陶渊明","dynasty":"东晋","genre":"shi"},"meaning":"东篱：东篱菊香。归隐田园之趣。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"cai-ju","given":"采菊","length":2,"pinyin":"cai ju","tones":[3,2],"category":"hanfu","season":[3],"gender":"u","source":{"text":"采菊东篱下，悠然见南山","title":"陶渊明《饮酒·其五》","author":"陶渊明","dynasty":"东晋","genre":"shi"},"meaning":"采菊：采菊东篱。恬淡闲适。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"tao-yuan","given":"桃源","length":2,"pinyin":"tao yuan","tones":[2,2],"category":"hanfu","season":[1],"gender":"u","source":{"text":"忽逢桃花林，夹岸数百步","title":"陶渊明《桃花源记》","author":"陶渊明","dynasty":"东晋","genre":"fu"},"meaning":"桃源：桃花源。世外桃源，人间乐土。","tags":["平安","自然"],"frequency":"legend","verified":true},
+  {"id":"cheng-jiang","given":"澄江","length":2,"pinyin":"cheng jiang","tones":[2,1],"category":"hanfu","gender":"u","source":{"text":"余霞散成绮，澄江静如练","title":"谢朓《晚登三山还望京邑》","author":"谢朓","dynasty":"南朝","genre":"shi"},"meaning":"澄江：澄澈如练的江水。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"qing-hui","given":"清辉","length":2,"pinyin":"qing hui","tones":[1,1],"category":"tangshi","gender":"f","source":{"text":"香雾云鬟湿，清辉玉臂寒","title":"杜甫《月夜》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"清辉：清冷的月光。皎洁如水。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"qing-chuan","given":"晴川","length":2,"pinyin":"qing chuan","tones":[2,1],"category":"tangshi","gender":"u","source":{"text":"晴川历历汉阳树，芳草萋萋鹦鹉洲","title":"崔颢《黄鹤楼》","author":"崔颢","dynasty":"唐","genre":"shi"},"meaning":"晴川：晴日下的江流。历历在目，清明开阔。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"zhao-lu","given":"朝露","length":2,"pinyin":"zhao lu","tones":[1,4],"category":"hanfu","gender":"u","source":{"text":"青青园中葵，朝露待日晞","title":"汉乐府《长歌行》","author":"佚名","dynasty":"汉","genre":"yuefu"},"meaning":"朝露：清晨的露珠。晶莹而珍贵，惜取少年时。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"qing-lian","given":"青莲","length":2,"pinyin":"qing lian","tones":[1,2],"category":"wenyan","season":[2],"gender":"u","source":{"text":"青莲居士，李白自号","title":"李白自号「青莲居士」","author":"李白","dynasty":"唐","genre":"classic"},"meaning":"青莲：李白自号青莲居士。青莲出尘，仙风道骨。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"yi-de","given":"懿德","length":2,"pinyin":"yi de","tones":[4,2],"category":"shijing","gender":"f","source":{"text":"民之秉彝，好是懿德","title":"《诗经·大雅·烝民》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"懿德：美好的品德。","tags":["仁善"],"frequency":"classic","verified":true},
+  {"id":"huai-jin","given":"怀瑾","length":2,"pinyin":"huai jin","tones":[2,3],"category":"chuci","gender":"m","source":{"text":"怀瑾握瑜兮，穷不知所示","title":"屈原《九章·怀沙》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"怀瑾：怀揣美玉。怀瑾握瑜，品德高洁。","tags":["仁善","风雅"],"frequency":"legend","verified":true},
+  {"id":"wo-yu","given":"握瑜","length":2,"pinyin":"wo yu","tones":[4,2],"category":"chuci","gender":"u","source":{"text":"怀瑾握瑜兮，穷不知所示","title":"屈原《九章·怀沙》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"握瑜：手握美玉。怀瑾握瑜，德才兼备。","tags":["仁善","风雅"],"frequency":"classic","verified":true},
+  {"id":"jia-shu","given":"嘉树","length":2,"pinyin":"jia shu","tones":[1,4],"category":"chuci","gender":"u","source":{"text":"后皇嘉树，橘徕服兮。受命不迁，生南国兮","title":"屈原《九章·橘颂》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"嘉树：美好的树木。受命不迁，深固难徙。","tags":["坚韧","仁善"],"frequency":"classic","verified":true},
+  {"id":"bing-de","given":"秉德","length":2,"pinyin":"bing de","tones":[3,2],"category":"chuci","gender":"u","source":{"text":"秉德无私，参天地兮","title":"屈原《九章·橘颂》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"秉德：秉持美德。秉德无私。","tags":["仁善"],"frequency":"classic","verified":true},
+  {"id":"zhi-yuan","given":"致远","length":2,"pinyin":"zhi yuan","tones":[4,3],"category":"hanfu","gender":"m","source":{"text":"非淡泊无以明志，非宁静无以致远","title":"诸葛亮《诫子书》","author":"诸葛亮","dynasty":"三国","genre":"classic"},"meaning":"致远：宁静致远。行稳致远，志存高远。","tags":["事业","聪慧"],"frequency":"legend","verified":true},
+  {"id":"ning-jing","given":"宁静","length":2,"pinyin":"ning jing","tones":[2,4],"category":"hanfu","gender":"f","source":{"text":"非淡泊无以明志，非宁静无以致远","title":"诸葛亮《诫子书》","author":"诸葛亮","dynasty":"三国","genre":"classic"},"meaning":"宁静：宁静致远。内心安宁，志向高远。","tags":["平安","聪慧"],"frequency":"legend","verified":true},
+  {"id":"dan-bo","given":"淡泊","length":2,"pinyin":"dan bo","tones":[4,2],"category":"hanfu","gender":"u","source":{"text":"非淡泊无以明志，非宁静无以致远","title":"诸葛亮《诫子书》","author":"诸葛亮","dynasty":"三国","genre":"classic"},"meaning":"淡泊：淡泊明志。不慕荣利，心境澄明。","tags":["风雅","仁善"],"frequency":"legend","verified":true},
+  {"id":"ming-zhi","given":"明志","length":2,"pinyin":"ming zhi","tones":[2,4],"category":"hanfu","gender":"u","source":{"text":"非淡泊无以明志，非宁静无以致远","title":"诸葛亮《诫子书》","author":"诸葛亮","dynasty":"三国","genre":"classic"},"meaning":"明志：明确志向。淡泊明志。","tags":["事业","聪慧"],"frequency":"classic","verified":true},
+  {"id":"lan-ting","given":"兰亭","length":2,"pinyin":"lan ting","tones":[2,2],"category":"hanfu","season":[1],"gender":"u","source":{"text":"会于会稽山阴之兰亭，修禊事也","title":"王羲之《兰亭集序》","author":"王羲之","dynasty":"东晋","genre":"fu"},"meaning":"兰亭：兰亭雅集。曲水流觞，天下第一行书之地。","tags":["风雅","聪慧"],"frequency":"legend","verified":true},
+  {"id":"hui-feng","given":"惠风","length":2,"pinyin":"hui feng","tones":[4,1],"category":"hanfu","season":[1],"gender":"u","source":{"text":"是日也，天朗气清，惠风和畅","title":"王羲之《兰亭集序》","author":"王羲之","dynasty":"东晋","genre":"fu"},"meaning":"惠风：和煦的春风。惠风和畅。","tags":["仁善","清朗"],"frequency":"legend","verified":true},
+  {"id":"he-chang","given":"和畅","length":2,"pinyin":"he chang","tones":[2,4],"category":"hanfu","season":[1],"gender":"u","source":{"text":"是日也，天朗气清，惠风和畅","title":"王羲之《兰亭集序》","author":"王羲之","dynasty":"东晋","genre":"fu"},"meaning":"和畅：惠风和畅。和乐舒畅。","tags":["清朗","平安"],"frequency":"classic","verified":true},
+  {"id":"xiu-zhu","given":"修竹","length":2,"pinyin":"xiu zhu","tones":[1,2],"category":"hanfu","gender":"u","source":{"text":"此地有崇山峻岭，茂林修竹","title":"王羲之《兰亭集序》","author":"王羲之","dynasty":"东晋","genre":"fu"},"meaning":"修竹：修长的翠竹。高洁挺拔。","tags":["风雅","坚韧"],"frequency":"classic","verified":true},
+  {"id":"qing-liu","given":"清流","length":2,"pinyin":"qing liu","tones":[1,2],"category":"hanfu","gender":"u","source":{"text":"又有清流激湍，映带左右","title":"王羲之《兰亭集序》","author":"王羲之","dynasty":"东晋","genre":"fu"},"meaning":"清流：清澈的溪流。亦喻清正之流。","tags":["清朗","仁善"],"frequency":"classic","verified":true},
+  {"id":"qu-shui","given":"曲水","length":2,"pinyin":"qu shui","tones":[1,3],"category":"hanfu","gender":"u","source":{"text":"引以为流觞曲水，列坐其次","title":"王羲之《兰亭集序》","author":"王羲之","dynasty":"东晋","genre":"fu"},"meaning":"曲水：流觞曲水。文人雅集之趣。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"tian-lang","given":"天朗","length":2,"pinyin":"tian lang","tones":[1,3],"category":"hanfu","gender":"u","source":{"text":"是日也，天朗气清，惠风和畅","title":"王羲之《兰亭集序》","author":"王羲之","dynasty":"东晋","genre":"fu"},"meaning":"天朗：天朗气清。晴空万里。","tags":["清朗"],"frequency":"classic","verified":true},
+  {"id":"chang-le","given":"长乐","length":2,"pinyin":"chang le","tones":[2,4],"category":"hanfu","gender":"u","source":{"text":"长乐未央，瓦当吉语","title":"汉瓦当铭「长乐未央」","author":"佚名","dynasty":"汉","genre":"classic"},"meaning":"长乐：长久安乐。长乐未央，福泽绵长。","tags":["福寿","平安"],"frequency":"classic","verified":true},
+  {"id":"shou-zhuo","given":"守拙","length":2,"pinyin":"shou zhuo","tones":[3,1],"category":"hanfu","gender":"u","source":{"text":"开荒南野际，守拙归园田","title":"陶渊明《归园田居·其一》","author":"陶渊明","dynasty":"东晋","genre":"shi"},"meaning":"守拙：大巧若拙。抱朴守拙，返璞归真。","tags":["坚韧","风雅"],"frequency":"classic","verified":true},
+  {"id":"xiang-ru","given":"相如","length":2,"pinyin":"xiang ru","tones":[1,2],"category":"wenyan","gender":"m","source":{"text":"司马相如者，蜀郡成都人也","title":"《史记·司马相如列传》","author":"司马迁","dynasty":"汉","genre":"classic"},"meaning":"相如：司马相如，汉代辞赋大家。文采斐然。","tags":["风雅","聪慧"],"frequency":"legend","verified":true},
+  {"id":"chang-qing","given":"长卿","length":2,"pinyin":"chang qing","tones":[2,1],"category":"wenyan","gender":"u","source":{"text":"司马相如，字长卿","title":"《史记·司马相如列传》","author":"司马迁","dynasty":"汉","genre":"classic"},"meaning":"长卿：司马相如之字。亦本草「徐长卿」之名，雅趣天成。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"hao-ran","given":"浩然","length":2,"pinyin":"hao ran","tones":[4,2],"category":"wenyan","gender":"m","source":{"text":"我善养吾浩然之气","title":"《孟子·公孙丑上》","author":"孟子","dynasty":"战国","genre":"classic"},"meaning":"浩然：浩然之气，至大至刚。","tags":["仁善","坚韧"],"frequency":"legend","verified":true},
+  {"id":"ming-de","given":"明德","length":2,"pinyin":"ming de","tones":[2,2],"category":"wenyan","gender":"u","source":{"text":"大学之道，在明明德，在亲民，在止于至善","title":"《大学》","author":"曾子","dynasty":"春秋","genre":"classic"},"meaning":"明德：光明的品德。「大学之道，在明明德」。","tags":["仁善","聪慧"],"frequency":"legend","verified":true},
+  {"id":"zhi-shan","given":"至善","length":2,"pinyin":"zhi shan","tones":[4,4],"category":"wenyan","gender":"u","source":{"text":"大学之道，在明明德，在亲民，在止于至善","title":"《大学》","author":"曾子","dynasty":"春秋","genre":"classic"},"meaning":"至善：止于至善。臻于至善之境。","tags":["仁善"],"frequency":"classic","verified":true},
+  {"id":"zhi-cheng","given":"至诚","length":2,"pinyin":"zhi cheng","tones":[4,2],"category":"wenyan","gender":"u","source":{"text":"唯天下至诚，为能尽其性","title":"《中庸》","author":"子思","dynasty":"战国","genre":"classic"},"meaning":"至诚：至诚之心。精诚所至，金石为开。","tags":["仁善"],"frequency":"classic","verified":true},
+  {"id":"wen-run","given":"温润","length":2,"pinyin":"wen run","tones":[1,4],"category":"wenyan","gender":"u","source":{"text":"夫昔者君子比德于玉焉：温润而泽，仁也","title":"《礼记·聘义》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"温润：温润如玉。谦谦君子，温润而泽。","tags":["仁善","风雅"],"frequency":"legend","verified":true},
+  {"id":"guan-lan","given":"观澜","length":2,"pinyin":"guan lan","tones":[1,2],"category":"wenyan","gender":"m","source":{"text":"观水有术，必观其澜","title":"《孟子·尽心上》","author":"孟子","dynasty":"战国","genre":"classic"},"meaning":"观澜：观水必观其澜。眼界宏阔，见其大者。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"ruo-shui","given":"若水","length":2,"pinyin":"ruo shui","tones":[4,3],"category":"wenyan","gender":"u","source":{"text":"上善若水，水善利万物而不争","title":"《道德经》","author":"老子","dynasty":"春秋","genre":"classic"},"meaning":"若水：上善若水。利万物而不争，至柔至善。","tags":["仁善","聪慧"],"frequency":"legend","verified":true},
+  {"id":"shang-shan","given":"上善","length":2,"pinyin":"shang shan","tones":[4,4],"category":"wenyan","gender":"u","source":{"text":"上善若水，水善利万物而不争","title":"《道德经》","author":"老子","dynasty":"春秋","genre":"classic"},"meaning":"上善：至善。上善若水。","tags":["仁善"],"frequency":"classic","verified":true},
+  {"id":"zhi-wei","given":"知微","length":2,"pinyin":"zhi wei","tones":[1,1],"category":"wenyan","gender":"u","source":{"text":"圣人见微以知萌，见端以知末","title":"《韩非子·说林上》","author":"韩非","dynasty":"战国","genre":"classic"},"meaning":"知微：见微知著。明察秋毫。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"gui-zhen","given":"归真","length":2,"pinyin":"gui zhen","tones":[1,1],"category":"wenyan","gender":"u","source":{"text":"归真反璞，则终身不辱","title":"《战国策·齐策》","author":"刘向","dynasty":"汉","genre":"classic"},"meaning":"归真：返璞归真。回归本真。","tags":["仁善","风雅"],"frequency":"classic","verified":true},
+  {"id":"bao-pu","given":"抱朴","length":2,"pinyin":"bao pu","tones":[4,3],"category":"wenyan","gender":"u","source":{"text":"见素抱朴，少私寡欲","title":"《道德经》","author":"老子","dynasty":"春秋","genre":"classic"},"meaning":"抱朴：抱朴守拙。质朴自然，葛洪亦自号抱朴子。","tags":["仁善","坚韧"],"frequency":"classic","verified":true},
+  {"id":"yun-shu","given":"云舒","length":2,"pinyin":"yun shu","tones":[2,1],"category":"wenyan","gender":"u","source":{"text":"宠辱不惊，看庭前花开花落；去留无意，望天上云卷云舒","title":"陈继儒《小窗幽记》","author":"陈继儒","dynasty":"明","genre":"classic"},"meaning":"云舒：云卷云舒。宠辱不惊，从容自在。","tags":["风雅","平安"],"frequency":"classic","verified":true},
+  {"id":"ji-yue","given":"霁月","length":2,"pinyin":"ji yue","tones":[4,4],"category":"wenyan","gender":"u","source":{"text":"光风霁月，胸怀洒落","title":"黄庭坚评周敦颐语","author":"黄庭坚","dynasty":"宋","genre":"classic"},"meaning":"霁月：雨后的明月。光风霁月，光明磊落。","tags":["清朗","仁善"],"frequency":"classic","verified":true},
+  {"id":"guang-feng","given":"光风","length":2,"pinyin":"guang feng","tones":[1,1],"category":"wenyan","gender":"u","source":{"text":"光风霁月，胸怀洒落","title":"黄庭坚评周敦颐语","author":"黄庭坚","dynasty":"宋","genre":"classic"},"meaning":"光风：雨霁后的和风。光风霁月。","tags":["清朗"],"frequency":"classic","verified":true},
+  {"id":"chao-yun","given":"朝云","length":2,"pinyin":"zhao yun","tones":[1,2],"category":"hanfu","gender":"f","source":{"text":"妾在巫山之阳，高丘之阻，旦为朝云，暮为行雨","title":"宋玉《高唐赋》","author":"宋玉","dynasty":"战国","genre":"fu"},"meaning":"朝云：清晨的云霞。亦苏轼侍妾王朝云之名，才情相伴。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"qing-zhao","given":"清照","length":2,"pinyin":"qing zhao","tones":[1,4],"category":"tangshi","gender":"f","source":{"text":"明月松间照，清泉石上流","title":"王维《山居秋暝》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"清照：清泉映照。亦李清照之名，明月清泉，千古才女。","tags":["风雅","聪慧"],"frequency":"legend","verified":true},
+  {"id":"jin-shu","given":"锦书","length":2,"pinyin":"jin shu","tones":[3,1],"category":"songci","gender":"f","source":{"text":"云中谁寄锦书来，雁字回时，月满西楼","title":"李清照《一剪梅》","author":"李清照","dynasty":"宋","genre":"ci"},"meaning":"锦书：锦字回文，书信之美称。","tags":["爱情","风雅"],"frequency":"classic","verified":true},
+  {"id":"ou-hua","given":"藕花","length":2,"pinyin":"ou hua","tones":[3,1],"category":"songci","season":[2],"gender":"f","source":{"text":"兴尽晚回舟，误入藕花深处","title":"李清照《如梦令》","author":"李清照","dynasty":"宋","genre":"ci"},"meaning":"藕花：荷花。藕花深处，青春欢畅。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"an-xiang","given":"暗香","length":2,"pinyin":"an xiang","tones":[4,1],"category":"songci","season":[4],"gender":"f","source":{"text":"疏影横斜水清浅，暗香浮动月黄昏","title":"林逋《山园小梅》","author":"林逋","dynasty":"宋","genre":"shi"},"meaning":"暗香：梅香幽微。疏影暗香，梅之绝唱。","tags":["风雅","坚韧"],"frequency":"legend","verified":true},
+  {"id":"shu-ying","given":"疏影","length":2,"pinyin":"shu ying","tones":[1,3],"category":"songci","season":[4],"gender":"f","source":{"text":"疏影横斜水清浅，暗香浮动月黄昏","title":"林逋《山园小梅》","author":"林逋","dynasty":"宋","genre":"shi"},"meaning":"疏影：梅枝疏朗之影。清雅出尘。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"dao-xiang","given":"稻香","length":2,"pinyin":"dao xiang","tones":[4,1],"category":"songci","season":[3],"gender":"u","source":{"text":"稻花香里说丰年，听取蛙声一片","title":"辛弃疾《西江月·夜行黄沙道中》","author":"辛弃疾","dynasty":"宋","genre":"ci"},"meaning":"稻香：稻花香里说丰年。丰收之喜，朴实之福。","tags":["自然","福寿"],"frequency":"legend","verified":true},
+  {"id":"qing-qiu","given":"清秋","length":2,"pinyin":"qing qiu","tones":[1,1],"category":"songci","season":[3],"gender":"u","source":{"text":"多情自古伤离别，更那堪，冷落清秋节","title":"柳永《雨霖铃》","author":"柳永","dynasty":"宋","genre":"ci"},"meaning":"清秋：清朗的秋天。天高云淡。","tags":["清朗"],"frequency":"legend","verified":true},
+  {"id":"xiao-feng","given":"晓风","length":2,"pinyin":"xiao feng","tones":[3,1],"category":"songci","gender":"u","source":{"text":"今宵酒醒何处，杨柳岸，晓风残月","title":"柳永《雨霖铃》","author":"柳永","dynasty":"宋","genre":"ci"},"meaning":"晓风：拂晓的清风。杨柳岸晓风。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"lan-zhou","given":"兰舟","length":2,"pinyin":"lan zhou","tones":[2,1],"category":"songci","gender":"u","source":{"text":"都门帐饮无绪，留恋处，兰舟催发","title":"柳永《雨霖铃》","author":"柳永","dynasty":"宋","genre":"ci"},"meaning":"兰舟：木兰之舟。李白「轻舟已过万重山」之快意。","tags":["风雅","事业"],"frequency":"classic","verified":true},
+  {"id":"jin-feng","given":"金风","length":2,"pinyin":"jin feng","tones":[1,1],"category":"songci","season":[3],"gender":"u","source":{"text":"金风玉露一相逢，便胜却人间无数","title":"秦观《鹊桥仙》","author":"秦观","dynasty":"宋","genre":"ci"},"meaning":"金风：秋风。金风玉露一相逢，便胜却人间无数。","tags":["爱情","清朗"],"frequency":"legend","verified":true},
+  {"id":"yu-lu","given":"玉露","length":2,"pinyin":"yu lu","tones":[4,4],"category":"songci","season":[3],"gender":"f","source":{"text":"金风玉露一相逢，便胜却人间无数","title":"秦观《鹊桥仙》","author":"秦观","dynasty":"宋","genre":"ci"},"meaning":"玉露：晶莹的秋露。金风玉露，天上人间。","tags":["爱情","清朗"],"frequency":"legend","verified":true},
+  {"id":"xian-yun","given":"纤云","length":2,"pinyin":"xian yun","tones":[1,2],"category":"songci","gender":"f","source":{"text":"纤云弄巧，飞星传恨，银汉迢迢暗度","title":"秦观《鹊桥仙》","author":"秦观","dynasty":"宋","genre":"ci"},"meaning":"纤云：纤薄的云丝。纤云弄巧。","tags":["风雅","爱情"],"frequency":"classic","verified":true},
+  {"id":"yin-han","given":"银汉","length":2,"pinyin":"yin han","tones":[2,4],"category":"songci","gender":"u","source":{"text":"纤云弄巧，飞星传恨，银汉迢迢暗度","title":"秦观《鹊桥仙》","author":"秦观","dynasty":"宋","genre":"ci"},"meaning":"银汉：银河。银汉迢迢。","tags":["清朗","爱情"],"frequency":"classic","verified":true},
+  {"id":"jia-qi","given":"佳期","length":2,"pinyin":"jia qi","tones":[1,1],"category":"songci","gender":"u","source":{"text":"柔情似水，佳期如梦，忍顾鹊桥归路","title":"秦观《鹊桥仙》","author":"秦观","dynasty":"宋","genre":"ci"},"meaning":"佳期：美好的时光。佳期如梦，良辰美景。","tags":["爱情","福寿"],"frequency":"classic","verified":true},
+  {"id":"que-qiao","given":"鹊桥","length":2,"pinyin":"que qiao","tones":[4,2],"category":"songci","gender":"u","source":{"text":"柔情似水，佳期如梦，忍顾鹊桥归路","title":"秦观《鹊桥仙》","author":"秦观","dynasty":"宋","genre":"ci"},"meaning":"鹊桥：喜鹊搭桥，七夕相会。爱情忠贞。","tags":["爱情"],"frequency":"legend","verified":true},
+  {"id":"wei-yun","given":"微云","length":2,"pinyin":"wei yun","tones":[1,2],"category":"songci","gender":"u","source":{"text":"山抹微云，天连衰草，画角声断谯门","title":"秦观《满庭芳》","author":"秦观","dynasty":"宋","genre":"ci"},"meaning":"微云：山间薄云。淡雅朦胧。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"hua-ming","given":"花明","length":2,"pinyin":"hua ming","tones":[1,2],"category":"songci","season":[1],"gender":"u","source":{"text":"山重水复疑无路，柳暗花明又一村","title":"陆游《游山西村》","author":"陆游","dynasty":"宋","genre":"shi"},"meaning":"花明：柳暗花明。绝处逢生，豁然开朗。","tags":["事业","平安"],"frequency":"classic","verified":true},
+  {"id":"chan-juan","given":"婵娟","length":2,"pinyin":"chan juan","tones":[2,1],"category":"songci","gender":"f","source":{"text":"但愿人长久，千里共婵娟","title":"苏轼《水调歌头》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"婵娟：月色美好，亦喻美人。千里共婵娟。","tags":["清朗","爱情"],"frequency":"legend","verified":true},
+  {"id":"yu-yu","given":"玉宇","length":2,"pinyin":"yu yu","tones":[4,3],"category":"songci","gender":"u","source":{"text":"我欲乘风归去，又恐琼楼玉宇，高处不胜寒","title":"苏轼《水调歌头》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"玉宇：琼楼玉宇。华美高远。","tags":["清朗","富贵"],"frequency":"classic","verified":true},
+  {"id":"pian-zhou","given":"扁舟","length":2,"pinyin":"pian zhou","tones":[1,1],"category":"hanfu","gender":"u","source":{"text":"驾一叶之扁舟，举匏樽以相属","title":"苏轼《前赤壁赋》","author":"苏轼","dynasty":"宋","genre":"fu"},"meaning":"扁舟：一叶扁舟。自在逍遥。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"yan-yu","given":"烟雨","length":2,"pinyin":"yan yu","tones":[1,3],"category":"songci","season":[1],"gender":"u","source":{"text":"一蓑烟雨任平生","title":"苏轼《定风波》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"烟雨：江南烟雨。一蓑烟雨任平生，豁达通透。","tags":["清朗","坚韧"],"frequency":"legend","verified":true},
+  {"id":"qing-huan","given":"清欢","length":2,"pinyin":"qing huan","tones":[1,1],"category":"songci","gender":"u","source":{"text":"人间有味是清欢","title":"苏轼《浣溪沙·细雨斜风作晓寒》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"清欢：清淡的欢愉。人间至味。","tags":["风雅","平安"],"frequency":"legend","verified":true},
+  {"id":"nian-hua","given":"年华","length":2,"pinyin":"nian hua","tones":[2,2],"category":"songci","gender":"u","source":{"text":"诗酒趁年华","title":"苏轼《望江南·超然台作》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"年华：美好的年岁。不负年华。","tags":["福寿","事业"],"frequency":"classic","verified":true},
+  {"id":"shu-tong","given":"疏桐","length":2,"pinyin":"shu tong","tones":[1,2],"category":"songci","gender":"u","source":{"text":"缺月挂疏桐，漏断人初静","title":"苏轼《卜算子·黄州定慧院寓居作》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"疏桐：疏朗的梧桐。清高自守。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"fei-hong","given":"飞鸿","length":2,"pinyin":"fei hong","tones":[1,2],"category":"songci","gender":"u","source":{"text":"人生到处知何似，应似飞鸿踏雪泥","title":"苏轼《和子由渑池怀旧》","author":"苏轼","dynasty":"宋","genre":"shi"},"meaning":"飞鸿：高飞的大雁。飞鸿踏雪，志在千里。","tags":["事业","自然"],"frequency":"classic","verified":true},
+  {"id":"chu-qing","given":"初晴","length":2,"pinyin":"chu qing","tones":[1,2],"category":"songci","gender":"u","source":{"text":"水光潋滟晴方好，山色空蒙雨亦奇","title":"苏轼《饮湖上初晴后雨》","author":"苏轼","dynasty":"宋","genre":"shi"},"meaning":"初晴：雨后初晴。云开日出，万象更新。","tags":["清朗","平安"],"frequency":"classic","verified":true},
+  {"id":"lian-yan","given":"潋滟","length":2,"pinyin":"lian yan","tones":[4,4],"category":"songci","gender":"f","source":{"text":"水光潋滟晴方好，山色空蒙雨亦奇","title":"苏轼《饮湖上初晴后雨》","author":"苏轼","dynasty":"宋","genre":"shi"},"meaning":"潋滟：水波荡漾，光彩夺目。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"kong-meng","given":"空蒙","length":2,"pinyin":"kong meng","tones":[1,2],"category":"songci","gender":"u","source":{"text":"水光潋滟晴方好，山色空蒙雨亦奇","title":"苏轼《饮湖上初晴后雨》","author":"苏轼","dynasty":"宋","genre":"shi"},"meaning":"空蒙：烟雨迷蒙。亦「空蒙」灵动之境。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"chun-shui","given":"春水","length":2,"pinyin":"chun shui","tones":[1,3],"category":"songci","season":[1],"gender":"u","source":{"text":"问君能有几多愁，恰似一江春水向东流","title":"李煜《虞美人》","author":"李煜","dynasty":"五代","genre":"ci"},"meaning":"春水：一江春水。绵绵不绝，温润灵动。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"nong-ying","given":"弄影","length":2,"pinyin":"nong ying","tones":[4,3],"category":"songci","gender":"f","source":{"text":"沙上并禽池上暝，云破月来花弄影","title":"张先《天仙子》","author":"张先","dynasty":"宋","genre":"ci"},"meaning":"弄影：花枝弄影。灵动婀娜。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"fang-cao","given":"芳草","length":2,"pinyin":"fang cao","tones":[1,3],"category":"songci","season":[1],"gender":"u","source":{"text":"枝上柳绵吹又少，天涯何处无芳草","title":"苏轼《蝶恋花·春景》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"芳草：天涯何处无芳草。生机处处，前路有光。","tags":["自然","坚韧"],"frequency":"classic","verified":true},
+  {"id":"liu-shui","given":"流水","length":2,"pinyin":"liu shui","tones":[2,3],"category":"yuanqu","gender":"u","source":{"text":"枯藤老树昏鸦，小桥流水人家","title":"马致远《天净沙·秋思》","author":"马致远","dynasty":"元","genre":"qu"},"meaning":"流水：小桥流水。亦高山流水，知音之谊。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"bi-yun","given":"碧云","length":2,"pinyin":"bi yun","tones":[4,2],"category":"yuanqu","gender":"f","source":{"text":"碧云天，黄花地，西风紧，北雁南飞","title":"王实甫《西厢记·长亭送别》","author":"王实甫","dynasty":"元","genre":"qu"},"meaning":"碧云：碧空云霞。秋日晴空。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"chun-yu","given":"春雨","length":2,"pinyin":"chun yu","tones":[1,3],"category":"yuanqu","season":[1],"gender":"u","source":{"text":"报道先生归也，杏花春雨江南","title":"虞集《风入松·寄柯敬仲》","author":"虞集","dynasty":"元","genre":"qu"},"meaning":"春雨：杏花春雨江南。温润如诗。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"chun-he","given":"春和","length":2,"pinyin":"chun he","tones":[1,2],"category":"wenyan","season":[1],"gender":"u","source":{"text":"至若春和景明，波澜不惊","title":"范仲淹《岳阳楼记》","author":"范仲淹","dynasty":"宋","genre":"classic"},"meaning":"春和：春和景明。和煦明媚。","tags":["平安","清朗"],"frequency":"legend","verified":true},
+  {"id":"jing-ming","given":"景明","length":2,"pinyin":"jing ming","tones":[3,2],"category":"wenyan","season":[1],"gender":"u","source":{"text":"至若春和景明，波澜不惊","title":"范仲淹《岳阳楼记》","author":"范仲淹","dynasty":"宋","genre":"classic"},"meaning":"景明：春和景明。春光明媚。","tags":["清朗"],"frequency":"legend","verified":true},
+  {"id":"hao-yue","given":"皓月","length":2,"pinyin":"hao yue","tones":[4,4],"category":"wenyan","gender":"u","source":{"text":"而或长烟一空，皓月千里，浮光跃金","title":"范仲淹《岳阳楼记》","author":"范仲淹","dynasty":"宋","genre":"classic"},"meaning":"皓月：皓月千里。皎洁明亮。","tags":["清朗"],"frequency":"classic","verified":true},
+  {"id":"liu-guang","given":"流光","length":2,"pinyin":"liu guang","tones":[2,1],"category":"songci","gender":"u","source":{"text":"流光容易把人抛，红了樱桃，绿了芭蕉","title":"蒋捷《一剪梅·舟过吴江》","author":"蒋捷","dynasty":"宋","genre":"ci"},"meaning":"流光：流动的光华。流光溢彩，惜时之意。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"wan-zi","given":"万紫","length":2,"pinyin":"wan zi","tones":[4,3],"category":"songci","season":[1],"gender":"f","source":{"text":"等闲识得东风面，万紫千红总是春","title":"朱熹《春日》","author":"朱熹","dynasty":"宋","genre":"shi"},"meaning":"万紫：万紫千红。春色满园。","tags":["自然","福寿"],"frequency":"classic","verified":true},
+  {"id":"qian-hong","given":"千红","length":2,"pinyin":"qian hong","tones":[1,2],"category":"songci","season":[1],"gender":"f","source":{"text":"等闲识得东风面，万紫千红总是春","title":"朱熹《春日》","author":"朱熹","dynasty":"宋","genre":"shi"},"meaning":"千红：万紫千红。繁花似锦。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"dong-feng","given":"东风","length":2,"pinyin":"dong feng","tones":[1,1],"category":"songci","season":[1],"gender":"u","source":{"text":"等闲识得东风面，万紫千红总是春","title":"朱熹《春日》","author":"朱熹","dynasty":"宋","genre":"shi"},"meaning":"东风：春天的风。东风拂面，万物生发。","tags":["自然","事业"],"frequency":"classic","verified":true},
+  {"id":"yun-ying","given":"云影","length":2,"pinyin":"yun ying","tones":[2,3],"category":"songci","gender":"u","source":{"text":"半亩方塘一鉴开，天光云影共徘徊","title":"朱熹《观书有感》","author":"朱熹","dynasty":"宋","genre":"shi"},"meaning":"云影：天光云影。澄澈如鉴。","tags":["清朗","聪慧"],"frequency":"classic","verified":true},
+  {"id":"qing-ru","given":"清如","length":2,"pinyin":"qing ru","tones":[1,2],"category":"songci","gender":"u","source":{"text":"问渠那得清如许，为有源头活水来","title":"朱熹《观书有感》","author":"朱熹","dynasty":"宋","genre":"shi"},"meaning":"清如：清澈如许。清明澄澈。","tags":["清朗","聪慧"],"frequency":"classic","verified":true},
+  {"id":"da-jiang","given":"大江","length":2,"pinyin":"da jiang","tones":[4,1],"category":"songci","gender":"m","source":{"text":"大江东去，浪淘尽，千古风流人物","title":"苏轼《念奴娇·赤壁怀古》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"大江：大江东去。气吞万里。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"jiang-shan","given":"江山","length":2,"pinyin":"jiang shan","tones":[1,1],"category":"songci","gender":"m","source":{"text":"江山如画，一时多少豪杰","title":"苏轼《念奴娇·赤壁怀古》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"江山：江山如画。家国天下，气象万千。","tags":["事业"],"frequency":"legend","verified":true},
+  {"id":"ru-hua","given":"如画","length":2,"pinyin":"ru hua","tones":[2,4],"category":"songci","gender":"f","source":{"text":"江山如画，一时多少豪杰","title":"苏轼《念奴娇·赤壁怀古》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"如画：江山如画。美景如绘。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"tan-xiao","given":"谈笑","length":2,"pinyin":"tan xiao","tones":[2,4],"category":"songci","gender":"u","source":{"text":"羽扇纶巾，谈笑间，樯橹灰飞烟灭","title":"苏轼《念奴娇·赤壁怀古》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"谈笑：谈笑风生。从容不迫，举重若轻。","tags":["风雅","事业"],"frequency":"classic","verified":true},
+  {"id":"xi-yun","given":"溪云","length":2,"pinyin":"xi yun","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"溪云初起日沉阁，山雨欲来风满楼","title":"许浑《咸阳城东楼》","author":"许浑","dynasty":"唐","genre":"shi"},"meaning":"溪云：溪上云雾。云水相依。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"shan-yu","given":"山雨","length":2,"pinyin":"shan yu","tones":[1,3],"category":"tangshi","gender":"u","source":{"text":"溪云初起日沉阁，山雨欲来风满楼","title":"许浑《咸阳城东楼》","author":"许浑","dynasty":"唐","genre":"shi"},"meaning":"山雨：山雨欲来。风雨之中，自成气象。","tags":["自然","坚韧"],"frequency":"classic","verified":true},
+  {"id":"gui-hua","given":"桂花","length":2,"pinyin":"gui hua","tones":[4,1],"category":"tangshi","season":[3],"gender":"f","source":{"text":"人闲桂花落，夜静春山空","title":"王维《鸟鸣涧》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"桂花：金秋桂子。清香远播，亦「蟾宫折桂」之吉。","tags":["自然","事业"],"frequency":"classic","verified":true},
+  {"id":"mei-xue","given":"梅雪","length":2,"pinyin":"mei xue","tones":[2,3],"category":"songci","season":[4],"gender":"f","source":{"text":"梅须逊雪三分白，雪却输梅一段香","title":"卢梅坡《雪梅》","author":"卢梅坡","dynasty":"宋","genre":"shi"},"meaning":"梅雪：梅雪争春。各有千秋，相映成辉。","tags":["风雅","坚韧"],"frequency":"classic","verified":true},
+  {"id":"zhi-xing","given":"知行","length":2,"pinyin":"zhi xing","tones":[1,2],"category":"wenyan","gender":"u","source":{"text":"知是行之始，行是知之成","title":"王阳明《传习录》","author":"王阳明","dynasty":"明","genre":"classic"},"meaning":"知行：知行合一。学思并重，身体力行。","tags":["聪慧","事业"],"frequency":"classic","verified":true},
+  {"id":"du-xing","given":"笃行","length":2,"pinyin":"du xing","tones":[3,2],"category":"wenyan","gender":"u","source":{"text":"博学之，审问之，慎思之，明辨之，笃行之","title":"《礼记·中庸》","author":"子思","dynasty":"战国","genre":"classic"},"meaning":"笃行：笃行不怠。知行合一，踏实致远。","tags":["事业","坚韧"],"frequency":"classic","verified":true},
+  {"id":"shen-si","given":"慎思","length":2,"pinyin":"shen si","tones":[4,1],"category":"wenyan","gender":"u","source":{"text":"博学之，审问之，慎思之，明辨之，笃行之","title":"《礼记·中庸》","author":"子思","dynasty":"战国","genre":"classic"},"meaning":"慎思：审慎思考。思虑周密。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"bo-xue","given":"博学","length":2,"pinyin":"bo xue","tones":[2,2],"category":"wenyan","gender":"u","source":{"text":"博学之，审问之，慎思之，明辨之，笃行之","title":"《礼记·中庸》","author":"子思","dynasty":"战国","genre":"classic"},"meaning":"博学：博学多识。学问广博。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"chang-ge","given":"长歌","length":2,"pinyin":"chang ge","tones":[2,1],"category":"hanfu","gender":"u","source":{"text":"长歌吟松风，曲尽河星稀","title":"李白《下终南山过斛斯山人宿置酒》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"长歌：长歌当行。慷慨激越，惜时奋进。","tags":["风雅","事业"],"frequency":"classic","verified":true},
+  {"id":"jiang-xue","given":"江雪","length":2,"pinyin":"jiang xue","tones":[1,3],"category":"tangshi","season":[4],"gender":"u","source":{"text":"孤舟蓑笠翁，独钓寒江雪","title":"柳宗元《江雪》","author":"柳宗元","dynasty":"唐","genre":"shi"},"meaning":"江雪：江天雪色。清冷高洁，遗世独立。","tags":["清朗","坚韧"],"frequency":"classic","verified":true},
+  {"id":"song-bai","given":"松柏","length":2,"pinyin":"song bai","tones":[1,3],"category":"wenyan","gender":"u","source":{"text":"岁寒，然后知松柏之后凋也","title":"《论语·子罕》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"松柏：岁寒不凋。坚韧长青。","tags":["坚韧","福寿"],"frequency":"classic","verified":true},
+  {"id":"sui-han","given":"岁寒","length":2,"pinyin":"sui han","tones":[4,2],"category":"wenyan","season":[4],"gender":"u","source":{"text":"岁寒，然后知松柏之后凋也","title":"《论语·子罕》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"岁寒：岁寒知松柏。历经考验，方显本色。","tags":["坚韧"],"frequency":"classic","verified":true},
+  {"id":"chun-lan","given":"春兰","length":2,"pinyin":"chun lan","tones":[1,2],"category":"chuci","season":[1],"gender":"f","source":{"text":"春兰兮秋菊，长无绝兮终古","title":"屈原《九歌·礼魂》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"春兰：春兰秋菊。各擅胜场，芳华不绝。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"xing-qiao","given":"星桥","length":2,"pinyin":"xing qiao","tones":[1,2],"category":"songci","gender":"u","source":{"text":"星桥鹊驾，经年才见，想离情别恨难穷","title":"李清照《行香子·七夕》","author":"李清照","dynasty":"宋","genre":"ci"},"meaning":"星桥：鹊桥星汉。七夕相会。","tags":["爱情","清朗"],"frequency":"classic","verified":true},
+  {"id":"bai-zhi","given":"白芷","length":2,"pinyin":"bai zhi","tones":[2,3],"category":"medicine","season":[1,2],"gender":"f","source":{"text":"扈江离与辟芷兮，纫秋兰以为佩","title":"《楚辞·离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"白芷：楚辞香草，亦本草名。芳香通窍，玉骨冰肌。","tags":["风雅","健康"],"frequency":"classic","verified":true},
+  {"id":"ban-xia","given":"半夏","length":2,"pinyin":"ban xia","tones":[4,4],"category":"medicine","season":[2],"gender":"u","source":{"text":"半夏生，木堇荣","title":"《礼记·月令》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"半夏：生于夏之半。万物正盛，欣欣向荣。","tags":["健康","自然"],"frequency":"classic","verified":true},
+  {"id":"qing-dai","given":"青黛","length":2,"pinyin":"qing dai","tones":[1,4],"category":"medicine","gender":"f","source":{"text":"青黛画眉红锦靴","title":"李白《对酒》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"青黛：青如远山，黛为画眉之色。清雅深沉。","tags":["风雅","健康"],"frequency":"classic","verified":true},
+  {"id":"chen-xiang","given":"沉香","length":2,"pinyin":"chen xiang","tones":[2,1],"category":"medicine","gender":"u","source":{"text":"博山炉中沉香火，双烟一气凌紫霞","title":"李白《杨叛儿》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"沉香：名贵香木，入水即沉。历久弥香，深沉内敛。","tags":["风雅","健康"],"frequency":"legend","verified":true},
+  {"id":"zi-su","given":"紫苏","length":2,"pinyin":"zi su","tones":[3,1],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：紫苏","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"紫苏：紫叶香草。解表散寒，温润平易。","tags":["健康","自然"],"frequency":"classic","verified":true},
+  {"id":"fu-ling","given":"茯苓","length":2,"pinyin":"fu ling","tones":[2,2],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：茯苓","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"茯苓：松根灵气所结。淡泊宁心，健脾安神。","tags":["健康","平安"],"frequency":"classic","verified":true},
+  {"id":"bai-zhu","given":"白术","length":2,"pinyin":"bai zhu","tones":[2,2],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：白术","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"白术：健脾益气之品。温厚平和，如良师益友。","tags":["健康","仁善"],"frequency":"classic","verified":true},
+  {"id":"dang-gui","given":"当归","length":2,"pinyin":"dang gui","tones":[1,1],"category":"medicine","gender":"f","source":{"text":"良田百顷，不在一亩；但有远志，不在当归也","title":"《三国志·姜维传》注引","author":"姜维","dynasty":"三国","genre":"classic"},"meaning":"当归：本草名，亦「应当归来」之意。游子思归，深情之典。","tags":["爱情","健康"],"frequency":"legend","verified":true},
+  {"id":"ren-dong","given":"忍冬","length":2,"pinyin":"ren dong","tones":[3,1],"category":"medicine","season":[4],"gender":"u","source":{"text":"《本草纲目》药名：忍冬","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"忍冬：金银花之别名。经冬不凋，坚韧如松。","tags":["坚韧","健康"],"frequency":"legend","verified":true},
+  {"id":"ling-xiao","given":"凌霄","length":2,"pinyin":"ling xiao","tones":[2,1],"category":"medicine","season":[2],"gender":"f","source":{"text":"有木名凌霄，擢秀非孤标","title":"白居易《有木诗八首》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"凌霄：凌霄花，攀援凌云。《有木诗》借其讽劝自立；后世多取凌云之志，志存高远。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"xin-yi","given":"辛夷","length":2,"pinyin":"xin yi","tones":[1,2],"category":"medicine","season":[1],"gender":"f","source":{"text":"桂栋兮兰橑，辛夷楣兮药房","title":"《九歌·湘夫人》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"辛夷：玉兰之别称，望春之花。涧户寂无人，纷纷开且落。","tags":["风雅","健康"],"frequency":"legend","verified":true},
+  {"id":"pei-lan","given":"佩兰","length":2,"pinyin":"pei lan","tones":[4,2],"category":"medicine","gender":"u","source":{"text":"扈江离与辟芷兮，纫秋兰以为佩","title":"《楚辞·离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"佩兰：纫兰为佩。香草随身，德馨自远。","tags":["风雅","仁善"],"frequency":"classic","verified":true},
+  {"id":"ze-lan","given":"泽兰","length":2,"pinyin":"ze lan","tones":[2,2],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：泽兰","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"泽兰：泽畔之兰。生于水泽，香远益清。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"qing-hao","given":"青蒿","length":2,"pinyin":"qing hao","tones":[1,1],"category":"medicine","gender":"u","source":{"text":"呦呦鹿鸣，食野之蒿","title":"《诗经·小雅·鹿鸣》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"青蒿：青蒿一握，以水二升渍。屠呦呦据此发现青蒿素，青蒿济世。","tags":["健康","清朗"],"frequency":"legend","verified":true},
+  {"id":"mu-xiang","given":"木香","length":2,"pinyin":"mu xiang","tones":[4,1],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：木香","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"木香：行气之药。木之芬芳，清雅悠长。","tags":["健康","自然"],"frequency":"classic","verified":true},
+  {"id":"tan-xiang","given":"檀香","length":2,"pinyin":"tan xiang","tones":[2,1],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：檀香","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"檀香：檀木之香。庄重沉静，古寺禅意。","tags":["风雅","平安"],"frequency":"classic","verified":true},
+  {"id":"jing-tian","given":"景天","length":2,"pinyin":"jing tian","tones":[3,1],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：景天","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"景天：本草名。景仰苍天，胸怀高远。","tags":["健康","清朗"],"frequency":"legend","verified":true},
+  {"id":"bai-wei","given":"白薇","length":2,"pinyin":"bai wei","tones":[2,1],"category":"medicine","gender":"f","source":{"text":"《本草纲目》药名：白薇","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"白薇：白薇之草，清雅素净。","tags":["风雅","健康"],"frequency":"classic","verified":true},
+  {"id":"lian-qiao","given":"连翘","length":2,"pinyin":"lian qiao","tones":[2,2],"category":"medicine","season":[1],"gender":"u","source":{"text":"《本草纲目》药名：连翘","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"连翘：早春黄花。连捷翘楚，名列前茅。","tags":["健康","事业"],"frequency":"classic","verified":true},
+  {"id":"jie-geng","given":"桔梗","length":2,"pinyin":"jie geng","tones":[2,3],"category":"medicine","season":[2],"gender":"u","source":{"text":"《本草纲目》药名：桔梗","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"桔梗：蓝紫之花，铃铛之形。清亮可爱。","tags":["健康","自然"],"frequency":"classic","verified":true},
+  {"id":"du-zhong","given":"杜仲","length":2,"pinyin":"du zhong","tones":[4,4],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：杜仲","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"杜仲：以人名入药。强筋健骨，柔韧如丝。","tags":["健康","坚韧"],"frequency":"classic","verified":true},
+  {"id":"tian-dong","given":"天冬","length":2,"pinyin":"tian dong","tones":[1,1],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：天冬","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"天冬：天门冬。养阴润燥，清润如水。","tags":["健康","清朗"],"frequency":"classic","verified":true},
+  {"id":"mai-dong","given":"麦冬","length":2,"pinyin":"mai dong","tones":[4,1],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：麦冬","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"麦冬：麦冬润肺养心。性味甘平，温润如玉。","tags":["健康","平安"],"frequency":"classic","verified":true},
+  {"id":"che-qian","given":"车前","length":2,"pinyin":"che qian","tones":[1,2],"category":"medicine","gender":"u","source":{"text":"采采芣苢，薄言采之（芣苢即车前草）","title":"《诗经·周南·芣苢》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"车前：车前草，长于道旁。一往无前，随遇而安。","tags":["健康","坚韧"],"frequency":"classic","verified":true},
+  {"id":"long-kui","given":"龙葵","length":2,"pinyin":"long kui","tones":[2,2],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：龙葵","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"龙葵：本草名。龙腾之势，葵心向阳。","tags":["健康","事业"],"frequency":"classic","verified":true},
+  {"id":"shi-hu","given":"石斛","length":2,"pinyin":"shi hu","tones":[2,2],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：石斛","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"石斛：九大仙草之首，生于石上。坚劲清高。","tags":["健康","坚韧"],"frequency":"classic","verified":true},
+  {"id":"zhi-mu","given":"知母","length":2,"pinyin":"zhi mu","tones":[1,3],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：知母","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"知母：本草名。亦含知恩报母之意，孝亲之情。","tags":["健康","仁善"],"frequency":"classic","verified":true},
+  {"id":"yuan-zhi","given":"远志","length":2,"pinyin":"yuan zhi","tones":[3,4],"category":"medicine","gender":"u","source":{"text":"良田百顷，不在一亩；但有远志，不在当归也","title":"《三国志·姜维传》注引","author":"姜维","dynasty":"三国","genre":"classic"},"meaning":"远志：本草名，亦「志向远大」之双关。","tags":["事业","健康"],"frequency":"legend","verified":true},
+  {"id":"fang-feng","given":"防风","length":2,"pinyin":"fang feng","tones":[2,1],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：防风","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"防风：御风之草。护身御疾，稳健如山。","tags":["健康","平安"],"frequency":"classic","verified":true},
+  {"id":"xi-xin","given":"细辛","length":2,"pinyin":"xi xin","tones":[4,1],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：细辛","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"细辛：根细味辛。细致入微，坚韧不拔。","tags":["健康","坚韧"],"frequency":"classic","verified":true},
+  {"id":"chuan-xiong","given":"川芎","length":2,"pinyin":"chuan xiong","tones":[1,1],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：川芎","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"川芎：产自蜀地。川流不息，行气活血。","tags":["健康","自然"],"frequency":"classic","verified":true},
+  {"id":"bai-shao","given":"白芍","length":2,"pinyin":"bai shao","tones":[2,2],"category":"medicine","gender":"f","source":{"text":"《本草纲目》药名：白芍","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"白芍：白芍之花，雍容淡雅。柔肝养血。","tags":["健康","风雅"],"frequency":"classic","verified":true},
+  {"id":"yu-zhu","given":"玉竹","length":2,"pinyin":"yu zhu","tones":[4,2],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：玉竹","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"玉竹：根如白玉，茎如修竹。温润清雅。","tags":["健康","风雅"],"frequency":"classic","verified":true},
+  {"id":"bai-he","given":"百合","length":2,"pinyin":"bai he","tones":[3,2],"category":"medicine","season":[2],"gender":"f","source":{"text":"《本草纲目》药名：百合","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"百合：百合花清雅，亦「百年好合」之谐。爱情美满。","tags":["爱情","福寿"],"frequency":"legend","verified":true},
+  {"id":"ling-zhi","given":"灵芝","length":2,"pinyin":"ling zhi","tones":[2,1],"category":"medicine","gender":"u","source":{"text":"灵芝生天地，朱草被洛滨","title":"曹植《灵芝篇》","author":"曹植","dynasty":"三国","genre":"yuefu"},"meaning":"灵芝：仙草灵芝。祥瑞长寿，灵秀天成。","tags":["福寿","健康"],"frequency":"legend","verified":true},
+  {"id":"dou-kou","given":"豆蔻","length":2,"pinyin":"dou kou","tones":[4,4],"category":"medicine","season":[1],"gender":"f","source":{"text":"娉娉袅袅十三余，豆蔻梢头二月初","title":"杜牧《赠别》","author":"杜牧","dynasty":"唐","genre":"shi"},"meaning":"豆蔻：豆蔻年华。青春正好，含苞待放。","tags":["风雅","健康"],"frequency":"classic","verified":true},
+  {"id":"su-he","given":"苏合","length":2,"pinyin":"su he","tones":[1,2],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：苏合","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"苏合：苏合香，名贵香药。苏醒和合，开窍醒神。","tags":["健康","平安"],"frequency":"classic","verified":true},
+  {"id":"dong-qing","given":"冬青","length":2,"pinyin":"dong qing","tones":[1,1],"category":"medicine","season":[4],"gender":"u","source":{"text":"《本草纲目》药名：冬青","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"冬青：四季常青之木。经冬不凋。","tags":["坚韧","健康"],"frequency":"classic","verified":true},
+  {"id":"chang-pu","given":"菖蒲","length":2,"pinyin":"chang pu","tones":[1,2],"category":"medicine","season":[2],"gender":"u","source":{"text":"我来采菖蒲，服食可延年","title":"李白《嵩山采菖蒲者》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"菖蒲：端午之草，驱邪纳吉。叶如剑，气如兰。","tags":["平安","健康"],"frequency":"classic","verified":true},
+  {"id":"du-huo","given":"独活","length":2,"pinyin":"du huo","tones":[2,2],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：独活","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"独活：一茎直上，不为风摇。遗世独立，卓尔不群。","tags":["坚韧","健康"],"frequency":"classic","verified":true},
+  {"id":"xu-duan","given":"续断","length":2,"pinyin":"xu duan","tones":[4,4],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：续断","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"续断：续骨疗伤之药。生生不息，绵绵不绝。","tags":["健康","坚韧"],"frequency":"classic","verified":true},
+  {"id":"zi-wan","given":"紫菀","length":2,"pinyin":"zi wan","tones":[3,3],"category":"medicine","season":[3],"gender":"f","source":{"text":"《本草纲目》药名：紫菀","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"紫菀：秋日紫花。婉约清丽。","tags":["风雅","健康"],"frequency":"classic","verified":true},
+  {"id":"he-huan","given":"合欢","length":2,"pinyin":"he huan","tones":[2,1],"category":"medicine","season":[2],"gender":"f","source":{"text":"合欢蠲忿，萱草忘忧","title":"嵇康《养生论》","author":"嵇康","dynasty":"魏晋","genre":"classic"},"meaning":"合欢：合欢花昼开夜合。阖家欢乐，爱情和美。","tags":["爱情","福寿"],"frequency":"legend","verified":true},
+  {"id":"wang-you","given":"忘忧","length":2,"pinyin":"wang you","tones":[4,1],"category":"medicine","gender":"u","source":{"text":"合欢蠲忿，萱草忘忧","title":"嵇康《养生论》","author":"嵇康","dynasty":"魏晋","genre":"classic"},"meaning":"忘忧：萱草别名忘忧草。无忧无虑，喜乐安康。","tags":["平安","福寿"],"frequency":"legend","verified":true},
+  {"id":"xuan-cao","given":"萱草","length":2,"pinyin":"xuan cao","tones":[1,3],"category":"medicine","season":[2],"gender":"f","source":{"text":"焉得谖草，言树之背","title":"《诗经·卫风·伯兮》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"萱草：谖草即萱草，母亲花。萱堂之乐，孝亲之思。","tags":["仁善","平安"],"frequency":"classic","verified":true},
+  {"id":"su-xin","given":"素馨","length":2,"pinyin":"su xin","tones":[4,1],"category":"medicine","season":[2],"gender":"f","source":{"text":"《本草纲目》药名：素馨","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"素馨：素馨花，色白如雪，香清似兰。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"han-xiao","given":"含笑","length":2,"pinyin":"han xiao","tones":[2,4],"category":"medicine","season":[1],"gender":"f","source":{"text":"南方花木之美者，莫若含笑","title":"李纲《含笑花赋》","author":"李纲","dynasty":"宋","genre":"fu"},"meaning":"含笑：含笑花，将开未开似含笑。笑靥如花。","tags":["平安","风雅"],"frequency":"classic","verified":true},
+  {"id":"mu-jin","given":"木槿","length":2,"pinyin":"mu jin","tones":[4,3],"category":"medicine","season":[2],"gender":"f","source":{"text":"有女同车，颜如舜华（舜华即木槿）","title":"《诗经·郑风·有女同车》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"木槿：舜华即木槿。朝开暮落，生生不息。","tags":["自然","坚韧"],"frequency":"classic","verified":true},
+  {"id":"gan-song","given":"甘松","length":2,"pinyin":"gan song","tones":[1,1],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：甘松","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"甘松：甘松之香。甘之如饴，松之坚韧。","tags":["健康","平安"],"frequency":"classic","verified":true},
+  {"id":"bai-ji","given":"白及","length":2,"pinyin":"bai ji","tones":[2,2],"category":"medicine","season":[2],"gender":"u","source":{"text":"《本草纲目》药名：白及","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"白及：兰科之花，清雅如兰。","tags":["健康","风雅"],"frequency":"classic","verified":true},
+  {"id":"zhi-zi","given":"栀子","length":2,"pinyin":"zhi zi","tones":[1,3],"category":"medicine","season":[2],"gender":"f","source":{"text":"栀子比众木，人间诚未多","title":"杜甫《栀子》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"栀子：栀子花开，清香满庭。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"hou-po","given":"厚朴","length":2,"pinyin":"hou po","tones":[4,3],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：厚朴","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"厚朴：厚道朴实。亦行气化湿之药。","tags":["仁善","健康"],"frequency":"classic","verified":true},
+  {"id":"yi-zhi","given":"益智","length":2,"pinyin":"yi zhi","tones":[4,4],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：益智","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"益智：益智仁，本草名。增益智慧。","tags":["聪慧","健康"],"frequency":"classic","verified":true},
+  {"id":"tian-ma","given":"天麻","length":2,"pinyin":"tian ma","tones":[1,2],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：天麻","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"天麻：天赐之麻，息风定惊。","tags":["健康","平安"],"frequency":"classic","verified":true},
+  {"id":"san-qi","given":"三七","length":2,"pinyin":"san qi","tones":[1,1],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：三七","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"三七：金疮圣药，亦名田七。","tags":["健康"],"frequency":"classic","verified":true},
+  {"id":"dan-shen","given":"丹参","length":2,"pinyin":"dan shen","tones":[1,1],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：丹参","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"丹参：丹心入药。活血化瘀，赤诚温润。","tags":["健康","仁善"],"frequency":"classic","verified":true},
+  {"id":"huo-xiang","given":"藿香","length":2,"pinyin":"huo xiang","tones":[4,1],"category":"medicine","season":[2],"gender":"u","source":{"text":"《本草纲目》药名：藿香","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"藿香：藿香正气。芳香化湿，正气凛然。","tags":["健康","清朗"],"frequency":"classic","verified":true},
+  {"id":"bo-he","given":"薄荷","length":2,"pinyin":"bo he","tones":[4,2],"category":"medicine","season":[2],"gender":"u","source":{"text":"《本草纲目》药名：薄荷","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"薄荷：清凉之草。沁人心脾，清新自在。","tags":["健康","清朗"],"frequency":"classic","verified":true},
+  {"id":"li-chun","given":"立春","length":2,"pinyin":"li chun","tones":[4,1],"category":"solar","season":[1],"gender":"u","source":{"text":"立春，正月节。立，建始也","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"立春：万物起始。一年之计在于春。","tags":["自然","福寿"],"frequency":"classic","verified":true},
+  {"id":"yu-shui","given":"雨水","length":2,"pinyin":"yu shui","tones":[3,3],"category":"solar","season":[1],"gender":"u","source":{"text":"雨水，正月中。天一生水","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"雨水：天一生水。润泽万物。","tags":["自然","平安"],"frequency":"classic","verified":true},
+  {"id":"jing-zhe","given":"惊蛰","length":2,"pinyin":"jing zhe","tones":[1,2],"category":"solar","season":[1],"gender":"u","source":{"text":"惊蛰，二月节。万物出乎震，震为雷，故曰惊蛰","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"惊蛰：春雷乍动，万物复苏。一鸣惊人。","tags":["自然","事业"],"frequency":"classic","verified":true},
+  {"id":"chun-fen","given":"春分","length":2,"pinyin":"chun fen","tones":[1,1],"category":"solar","season":[1],"gender":"u","source":{"text":"春分，二月中。分者，半也","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"春分：昼夜均分。不偏不倚，恰到好处。","tags":["自然","平安"],"frequency":"classic","verified":true},
+  {"id":"qing-ming","given":"清明","length":2,"pinyin":"qing ming","tones":[1,2],"category":"solar","season":[1],"gender":"u","source":{"text":"清明，三月节。物至此时，皆以洁齐而清明矣","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"清明：气清景明。天清地明，万物洁净。","tags":["清朗","平安"],"frequency":"legend","verified":true},
+  {"id":"gu-yu","given":"谷雨","length":2,"pinyin":"gu yu","tones":[3,3],"category":"solar","season":[1],"gender":"u","source":{"text":"谷雨，三月中。雨其谷于水也","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"谷雨：雨生百谷。播谷降雨，仓廪之望。","tags":["自然","福寿"],"frequency":"classic","verified":true},
+  {"id":"li-xia","given":"立夏","length":2,"pinyin":"li xia","tones":[4,4],"category":"solar","season":[2],"gender":"u","source":{"text":"立夏，四月节。立，始建也","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"立夏：夏季之始。万物繁茂。","tags":["自然"],"frequency":"classic","verified":true},
+  {"id":"xiao-man","given":"小满","length":2,"pinyin":"xiao man","tones":[3,3],"category":"solar","season":[2],"gender":"u","source":{"text":"小满，四月中。物致于此，小得盈满","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"小满：小得盈满。「小满胜万全」，不求圆满，知足常乐。","tags":["平安","福寿"],"frequency":"legend","verified":true},
+  {"id":"xia-zhi","given":"夏至","length":2,"pinyin":"xia zhi","tones":[4,4],"category":"solar","season":[2],"gender":"u","source":{"text":"夏至，五月中。夏，假也，至，极也","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"夏至：日至极处。盛极而生新。","tags":["自然"],"frequency":"classic","verified":true},
+  {"id":"li-qiu","given":"立秋","length":2,"pinyin":"li qiu","tones":[4,1],"category":"solar","season":[3],"gender":"u","source":{"text":"立秋，七月节。秋，揪也，物于此而揪敛也","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"立秋：秋之始。金风送爽。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"bai-lu3","given":"白露","length":2,"pinyin":"bai lu","tones":[2,4],"category":"solar","season":[3],"gender":"u","source":{"text":"蒹葭苍苍，白露为霜","title":"《诗经·秦风·蒹葭》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"白露：二十四节气，亦《蒹葭》名句。露凝而白，秋意初生。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"qiu-fen","given":"秋分","length":2,"pinyin":"qiu fen","tones":[1,1],"category":"solar","season":[3],"gender":"u","source":{"text":"秋分，八月中。分者，半也","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"秋分：秋色平分。天高云淡。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"han-lu","given":"寒露","length":2,"pinyin":"han lu","tones":[2,4],"category":"solar","season":[3],"gender":"u","source":{"text":"寒露，九月节。露气寒冷，将凝结也","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"寒露：秋露将凝。清冷高洁。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"shuang-jiang","given":"霜降","length":2,"pinyin":"shuang jiang","tones":[1,4],"category":"solar","season":[3],"gender":"u","source":{"text":"霜降，九月中。气肃而凝，露结为霜矣","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"霜降：露结为霜。经霜愈劲，如霜叶之红。","tags":["坚韧","自然"],"frequency":"classic","verified":true},
+  {"id":"li-dong","given":"立冬","length":2,"pinyin":"li dong","tones":[4,1],"category":"solar","season":[4],"gender":"u","source":{"text":"立冬，十月节。冬，终也，万物收藏也","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"立冬：万物收藏。蓄势待春。","tags":["自然","福寿"],"frequency":"classic","verified":true},
+  {"id":"xiao-xue","given":"小雪","length":2,"pinyin":"xiao xue","tones":[3,3],"category":"solar","season":[4],"gender":"f","source":{"text":"小雪，十月中。雨下而为寒气所薄，故凝而为雪","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"小雪：初雪将至。轻灵洁净。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"da-xue","given":"大雪","length":2,"pinyin":"da xue","tones":[4,3],"category":"solar","season":[4],"gender":"u","source":{"text":"大雪，十一月节。大者，盛也，至此而雪盛矣","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"大雪：瑞雪兆丰年。银装素裹。","tags":["自然","福寿"],"frequency":"classic","verified":true},
+  {"id":"dong-zhi","given":"冬至","length":2,"pinyin":"dong zhi","tones":[1,4],"category":"solar","season":[4],"gender":"u","source":{"text":"冬至，十一月中。终藏之气至此而极也","title":"《月令七十二候集解》","author":"吴澄","dynasty":"元","genre":"classic"},"meaning":"冬至：阴极阳生。冬至一阳生，否极泰来。","tags":["福寿","坚韧"],"frequency":"legend","verified":true},
+  {"id":"xing-han","given":"星汉","length":2,"pinyin":"xing han","tones":[1,4],"category":"hanfu","gender":"u","source":{"text":"日月之行，若出其中；星汉灿烂，若出其里","title":"曹操《观沧海》","author":"曹操","dynasty":"东汉","genre":"yuefu"},"meaning":"星汉：银河。星汉灿烂，浩瀚如海。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"yun-xiu","given":"云岫","length":2,"pinyin":"yun xiu","tones":[2,4],"category":"hanfu","gender":"u","source":{"text":"云无心以出岫，鸟倦飞而知还","title":"陶渊明《归去来兮辞》","author":"陶渊明","dynasty":"东晋","genre":"fu"},"meaning":"云岫：云出山间。闲云出岫，悠然自得。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"yue-hua","given":"月华","length":2,"pinyin":"yue hua","tones":[4,2],"category":"tangshi","gender":"f","source":{"text":"此时相望不相闻，愿逐月华流照君","title":"张若虚《春江花月夜》","author":"张若虚","dynasty":"唐","genre":"shi"},"meaning":"月华：月光。月华如水，流光千里。","tags":["清朗","爱情"],"frequency":"legend","verified":true},
+  {"id":"chun-jian","given":"春涧","length":2,"pinyin":"chun jian","tones":[1,4],"category":"tangshi","season":[1],"gender":"u","source":{"text":"人闲桂花落，夜静春山空","title":"王维《鸟鸣涧》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"春涧：春日山涧。清泉流淌，鸟鸣山幽。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"song-yue","given":"松月","length":2,"pinyin":"song yue","tones":[1,4],"category":"tangshi","gender":"u","source":{"text":"明月松间照，清泉石上流","title":"王维《山居秋暝》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"松月：松间明月。清幽高洁。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"he-xiang","given":"荷香","length":2,"pinyin":"he xiang","tones":[2,1],"category":"tangshi","season":[2],"gender":"u","source":{"text":"荷风送香气，竹露滴清响","title":"孟浩然《夏日南亭怀辛大》","author":"孟浩然","dynasty":"唐","genre":"shi"},"meaning":"荷香：荷花之香。清芬远播。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"qing-yin","given":"清音","length":2,"pinyin":"qing yin","tones":[1,1],"category":"hanfu","gender":"u","source":{"text":"非必丝与竹，山水有清音","title":"左思《招隐诗》","author":"左思","dynasty":"晋","genre":"shi"},"meaning":"清音：山水清音。天然之声，胜于丝竹。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"shan-shui","given":"山水","length":2,"pinyin":"shan shui","tones":[1,3],"category":"hanfu","gender":"u","source":{"text":"非必丝与竹，山水有清音","title":"左思《招隐诗》","author":"左思","dynasty":"晋","genre":"shi"},"meaning":"山水：山水清音。亦山水画之意境。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"qing-kong","given":"晴空","length":2,"pinyin":"qing kong","tones":[2,1],"category":"tangshi","season":[3],"gender":"u","source":{"text":"晴空一鹤排云上，便引诗情到碧霄","title":"刘禹锡《秋词》","author":"刘禹锡","dynasty":"唐","genre":"shi"},"meaning":"晴空：晴空万里。秋高气爽，心怀开阔。","tags":["清朗","事业"],"frequency":"legend","verified":true},
+  {"id":"shi-qing","given":"诗情","length":2,"pinyin":"shi qing","tones":[1,2],"category":"tangshi","gender":"f","source":{"text":"晴空一鹤排云上，便引诗情到碧霄","title":"刘禹锡《秋词》","author":"刘禹锡","dynasty":"唐","genre":"shi"},"meaning":"诗情：诗情画意。心中有诗，眼中有光。","tags":["风雅","聪慧"],"frequency":"classic","verified":true},
+  {"id":"bi-xiao","given":"碧霄","length":2,"pinyin":"bi xiao","tones":[4,1],"category":"tangshi","gender":"u","source":{"text":"晴空一鹤排云上，便引诗情到碧霄","title":"刘禹锡《秋词》","author":"刘禹锡","dynasty":"唐","genre":"shi"},"meaning":"碧霄：碧空云霄。志在高远。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"chun-chao","given":"春潮","length":2,"pinyin":"chun chao","tones":[1,2],"category":"tangshi","season":[1],"gender":"u","source":{"text":"春江潮水连海平，海上明月共潮生","title":"张若虚《春江花月夜》","author":"张若虚","dynasty":"唐","genre":"shi"},"meaning":"春潮：春江潮水。生机涌动。","tags":["自然","事业"],"frequency":"classic","verified":true},
+  {"id":"tian-lai","given":"天籁","length":2,"pinyin":"tian lai","tones":[1,4],"category":"wenyan","gender":"u","source":{"text":"女闻人籁而未闻地籁，女闻地籁而未闻天籁夫","title":"《庄子·齐物论》","author":"庄子","dynasty":"战国","genre":"classic"},"meaning":"天籁：天籁之音。至美至纯之声。","tags":["风雅","聪慧"],"frequency":"legend","verified":true},
+  {"id":"ming-cha","given":"明察","length":2,"pinyin":"ming cha","tones":[2,2],"category":"wenyan","gender":"u","source":{"text":"明足以察秋毫之末，而不见舆薪","title":"《孟子·梁惠王上》","author":"孟子","dynasty":"战国","genre":"classic"},"meaning":"明察：明察秋毫。洞明事理。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-zhao","given":"昭","length":1,"pinyin":"zhao","tones":[1],"category":"chuci","gender":"u","source":{"text":"芳与泽其杂糅兮，唯昭质其犹未亏","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"昭：光明。「以其昭昭，使人昭昭」，明达之象。","tags":["清朗","仁善"],"frequency":"classic","verified":true},
+  {"id":"dan-heng","given":"珩","length":1,"pinyin":"heng","tones":[2],"category":"wenyan","gender":"u","source":{"text":"珩，佩上玉也","title":"《说文解字》","author":"许慎","dynasty":"东汉","genre":"classic"},"meaning":"珩：玉佩之横玉。君子佩玉，珩璜之德。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-zhang","given":"璋","length":1,"pinyin":"zhang","tones":[1],"category":"shijing","gender":"m","source":{"text":"乃生男子，载寝之床，载衣之裳，载弄之璋","title":"《诗经·小雅·斯干》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"璋：半圭之玉。「弄璋之喜」，贵子之兆。","tags":["事业","富贵"],"frequency":"legend","verified":true},
+  {"id":"dan-wan","given":"琬","length":1,"pinyin":"wan","tones":[3],"category":"chuci","gender":"f","source":{"text":"怀琬琰之华英","title":"《楚辞·远游》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"琬：美玉。琬琰华英，温润美好。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-yan","given":"琰","length":1,"pinyin":"yan","tones":[3],"category":"chuci","gender":"u","source":{"text":"怀琬琰之华英","title":"《楚辞·远游》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"琰：美玉之华光。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-yao","given":"瑶","length":1,"pinyin":"yao","tones":[2],"category":"shijing","gender":"f","source":{"text":"投我以木桃，报之以琼瑶","title":"《诗经·卫风·木瓜》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"瑶：美玉。琼瑶报德，情比玉坚。","tags":["风雅","爱情"],"frequency":"legend","verified":true},
+  {"id":"dan-lin2","given":"琳","length":1,"pinyin":"lin","tones":[2],"category":"hanfu","gender":"f","source":{"text":"玫瑰碧琳，珊瑚丛生","title":"司马相如《上林赋》","author":"司马相如","dynasty":"汉","genre":"fu"},"meaning":"琳：美玉。碧琳之美，清贵自持。","tags":["风雅","富贵"],"frequency":"classic","verified":true},
+  {"id":"dan-chen","given":"琛","length":1,"pinyin":"chen","tones":[1],"category":"shijing","gender":"u","source":{"text":"憬彼淮夷，来献其琛","title":"《诗经·鲁颂·泮水》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"琛：珍宝。献琛之宝，弥足珍贵。","tags":["富贵"],"frequency":"classic","verified":true},
+  {"id":"dan-yu2","given":"瑜","length":1,"pinyin":"yu","tones":[2],"category":"chuci","gender":"f","source":{"text":"怀瑾握瑜兮，穷不知所示","title":"屈原《九章·怀沙》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"瑜：美玉。瑜不掩瑕，瑕不掩瑜。","tags":["仁善","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-jin","given":"瑾","length":1,"pinyin":"jin","tones":[3],"category":"chuci","gender":"m","source":{"text":"怀瑾握瑜兮，穷不知所示","title":"屈原《九章·怀沙》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"瑾：美玉。怀瑾之德，光华内敛。","tags":["仁善","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-xuan","given":"璇","length":1,"pinyin":"xuan","tones":[2],"category":"wenyan","gender":"f","source":{"text":"在璇玑玉衡，以齐七政","title":"《尚书·舜典》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"璇：美玉，亦指北斗。璇玑玉衡，星辰之精。","tags":["聪慧","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-ji","given":"玑","length":1,"pinyin":"ji","tones":[1],"category":"wenyan","gender":"u","source":{"text":"在璇玑玉衡，以齐七政","title":"《尚书·舜典》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"玑：不圆之珠。璇玑为北斗之象。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-bi","given":"璧","length":1,"pinyin":"bi","tones":[4],"category":"wenyan","gender":"u","source":{"text":"和氏璧，天下所共传宝也","title":"《史记·廉颇蔺相如列传》","author":"司马迁","dynasty":"汉","genre":"classic"},"meaning":"璧：玉璧。「完璧归赵」，价值连城。","tags":["富贵","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-chen2","given":"晨","length":1,"pinyin":"chen","tones":[2],"category":"shijing","gender":"u","source":{"text":"夜如何其？夜乡晨","title":"《诗经·小雅·庭燎》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"晨：清晨。一日之计在于晨。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-xiao2","given":"晓","length":1,"pinyin":"xiao","tones":[3],"category":"tangshi","gender":"u","source":{"text":"春眠不觉晓，处处闻啼鸟","title":"孟浩然《春晓》","author":"孟浩然","dynasty":"唐","genre":"shi"},"meaning":"晓：拂晓。亦「知晓」之聪慧。","tags":["清朗","聪慧"],"frequency":"legend","verified":true},
+  {"id":"dan-hui","given":"晖","length":1,"pinyin":"hui","tones":[1],"category":"tangshi","gender":"u","source":{"text":"谁言寸草心，报得三春晖","title":"孟郊《游子吟》","author":"孟郊","dynasty":"唐","genre":"shi"},"meaning":"晖：阳光。三春晖，母爱之暖。","tags":["仁善","福寿"],"frequency":"classic","verified":true},
+  {"id":"dan-yao2","given":"曜","length":1,"pinyin":"yao","tones":[4],"category":"hanfu","gender":"m","source":{"text":"荣曜秋菊，华茂春松","title":"曹植《洛神赋》","author":"曹植","dynasty":"三国","genre":"fu"},"meaning":"曜：日光。光曜天地。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-qing","given":"晴","length":1,"pinyin":"qing","tones":[2],"category":"tangshi","gender":"f","source":{"text":"东边日出西边雨，道是无晴却有晴","title":"刘禹锡《竹枝词》","author":"刘禹锡","dynasty":"唐","genre":"shi"},"meaning":"晴：晴天。晴谐「情」，道是无晴却有晴，双关之妙。","tags":["爱情","清朗"],"frequency":"legend","verified":true},
+  {"id":"dan-lan2","given":"岚","length":1,"pinyin":"lan","tones":[2],"category":"tangshi","gender":"u","source":{"text":"瀑布杉松常带雨，夕阳彩翠忽成岚","title":"王维《送方尊师归嵩山》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"岚：山间雾气。烟岚缥缈。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-shuang","given":"霜","length":1,"pinyin":"shuang","tones":[1],"category":"shijing","season":[3],"gender":"u","source":{"text":"蒹葭苍苍，白露为霜","title":"《诗经·秦风·蒹葭》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"霜：清霜。霜重色愈浓，高洁自持。","tags":["清朗","坚韧"],"frequency":"classic","verified":true},
+  {"id":"dan-xia2","given":"霞","length":1,"pinyin":"xia","tones":[2],"category":"hanfu","gender":"f","source":{"text":"落霞与孤鹜齐飞，秋水共长天一色","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"fu"},"meaning":"霞：云霞。落霞满天，绚烂之姿。","tags":["风雅","自然"],"frequency":"legend","verified":true},
+  {"id":"dan-hong","given":"虹","length":1,"pinyin":"hong","tones":[2],"category":"tangshi","gender":"u","source":{"text":"两水夹明镜，双桥落彩虹","title":"李白《秋登宣城谢朓北楼》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"虹：彩虹。风雨之后，霓虹横空。","tags":["清朗","爱情"],"frequency":"classic","verified":true},
+  {"id":"dan-ni","given":"霓","length":1,"pinyin":"ni","tones":[2],"category":"tangshi","gender":"f","source":{"text":"霓为衣兮风为马，云之君兮纷纷而来下","title":"李白《梦游天姥吟留别》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"霓：虹霓。霓裳羽衣，仙气飘飘。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-chen3","given":"辰","length":1,"pinyin":"chen","tones":[2],"category":"wenyan","gender":"u","source":{"text":"为政以德，譬如北辰，居其所而众星共之","title":"《论语·为政》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"辰：星辰。北辰居中，众星拱之。","tags":["聪慧","清朗"],"frequency":"classic","verified":true},
+  {"id":"dan-shan2","given":"珊","length":1,"pinyin":"shan","tones":[1],"category":"hanfu","gender":"f","source":{"text":"玫瑰碧琳，珊瑚丛生","title":"司马相如《上林赋》","author":"司马相如","dynasty":"汉","genre":"fu"},"meaning":"珊：珊瑚。海底灵树，珍贵如玉。","tags":["风雅","富贵"],"frequency":"classic","verified":true},
+  {"id":"dan-hu","given":"瑚","length":1,"pinyin":"hu","tones":[2],"category":"hanfu","gender":"u","source":{"text":"玫瑰碧琳，珊瑚丛生","title":"司马相如《上林赋》","author":"司马相如","dynasty":"汉","genre":"fu"},"meaning":"瑚：珊瑚。瑚琏之器，庙堂之才。","tags":["富贵","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-yuan","given":"渊","length":1,"pinyin":"yuan","tones":[1],"category":"shijing","gender":"u","source":{"text":"鹤鸣于九皋，声闻于天。鱼在于渚，或潜在渊","title":"《诗经·小雅·鹤鸣》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"渊：深渊。渊渟岳峙，学问渊博。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-che","given":"澈","length":1,"pinyin":"che","tones":[4],"category":"tangshi","gender":"u","source":{"text":"日光下澈，影布石上","title":"柳宗元《小石潭记》","author":"柳宗元","dynasty":"唐","genre":"classic"},"meaning":"澈：清澈见底。澄澈之心。","tags":["清朗"],"frequency":"classic","verified":true},
+  {"id":"dan-cheng","given":"澄","length":1,"pinyin":"cheng","tones":[2],"category":"hanfu","gender":"u","source":{"text":"余霞散成绮，澄江静如练","title":"谢朓《晚登三山还望京邑》","author":"谢朓","dynasty":"南朝","genre":"shi"},"meaning":"澄：澄澈。澄江如练，心境澄明。","tags":["清朗"],"frequency":"classic","verified":true},
+  {"id":"dan-qing2","given":"清","length":1,"pinyin":"qing","tones":[1],"category":"tangshi","gender":"u","source":{"text":"明月松间照，清泉石上流","title":"王维《山居秋暝》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"清：清澈。清者自清，濯濯如泉。","tags":["清朗","仁善"],"frequency":"legend","verified":true},
+  {"id":"dan-bai","given":"柏","length":1,"pinyin":"bai","tones":[3],"category":"wenyan","gender":"u","source":{"text":"岁寒，然后知松柏之后凋也","title":"《论语·子罕》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"柏：柏树。岁寒不凋，坚贞长青。","tags":["坚韧","福寿"],"frequency":"classic","verified":true},
+  {"id":"dan-tong","given":"桐","length":1,"pinyin":"tong","tones":[2],"category":"shijing","gender":"u","source":{"text":"凤凰鸣矣，于彼高冈。梧桐生矣，于彼朝阳","title":"《诗经·大雅·卷阿》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"桐：梧桐，凤凰所栖。高洁之木。","tags":["自然","坚韧"],"frequency":"classic","verified":true},
+  {"id":"dan-liu","given":"柳","length":1,"pinyin":"liu","tones":[3],"category":"shijing","season":[1],"gender":"f","source":{"text":"昔我往矣，杨柳依依","title":"《诗经·小雅·采薇》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"柳：杨柳依依。柔美多情。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-gui2","given":"桂","length":1,"pinyin":"gui","tones":[4],"category":"tangshi","season":[3],"gender":"u","source":{"text":"人闲桂花落，夜静春山空","title":"王维《鸟鸣涧》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"桂：桂花。「蟾宫折桂」，金榜题名。","tags":["事业","自然"],"frequency":"classic","verified":true},
+  {"id":"dan-hui2","given":"蕙","length":1,"pinyin":"hui","tones":[4],"category":"chuci","gender":"f","source":{"text":"既替余以蕙纕兮，又申之以揽茝","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"蕙：蕙兰。蕙质兰心。","tags":["风雅","仁善"],"frequency":"classic","verified":true},
+  {"id":"dan-lian","given":"莲","length":1,"pinyin":"lian","tones":[2],"category":"wenyan","season":[2],"gender":"f","source":{"text":"予独爱莲之出淤泥而不染，濯清涟而不妖","title":"周敦颐《爱莲说》","author":"周敦颐","dynasty":"宋","genre":"classic"},"meaning":"莲：莲花。出淤泥而不染。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"dan-feng2","given":"枫","length":1,"pinyin":"feng","tones":[1],"category":"tangshi","season":[3],"gender":"u","source":{"text":"停车坐爱枫林晚，霜叶红于二月花","title":"杜牧《山行》","author":"杜牧","dynasty":"唐","genre":"shi"},"meaning":"枫：枫叶。经霜愈红。","tags":["自然","坚韧"],"frequency":"classic","verified":true},
+  {"id":"dan-fan","given":"帆","length":1,"pinyin":"fan","tones":[1],"category":"tangshi","gender":"m","source":{"text":"长风破浪会有时，直挂云帆济沧海","title":"李白《行路难·其一》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"帆：风帆。扬帆远航，一帆风顺。","tags":["事业"],"frequency":"legend","verified":true},
+  {"id":"dan-xi","given":"溪","length":1,"pinyin":"xi","tones":[1],"category":"tangshi","gender":"u","source":{"text":"清溪清我心，水色异诸水","title":"李白《清溪行》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"溪：溪流。清溪潺潺。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"dan-jian","given":"涧","length":1,"pinyin":"jian","tones":[4],"category":"tangshi","season":[1],"gender":"u","source":{"text":"独怜幽草涧边生，上有黄鹂深树鸣","title":"韦应物《滁州西涧》","author":"韦应物","dynasty":"唐","genre":"shi"},"meaning":"涧：山涧。清泉石上，鸟鸣山幽。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"dan-hu2","given":"湖","length":1,"pinyin":"hu","tones":[2],"category":"songci","gender":"u","source":{"text":"湖光秋月两相和，潭面无风镜未磨","title":"刘禹锡《望洞庭》","author":"刘禹锡","dynasty":"唐","genre":"shi"},"meaning":"湖：湖泊。湖光山色。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-jiang","given":"江","length":1,"pinyin":"jiang","tones":[1],"category":"songci","gender":"u","source":{"text":"大江东去，浪淘尽，千古风流人物","title":"苏轼《念奴娇·赤壁怀古》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"江：大江。江河行地，日月经天。","tags":["事业","自然"],"frequency":"legend","verified":true},
+  {"id":"dan-bo2","given":"波","length":1,"pinyin":"bo","tones":[1],"category":"hanfu","gender":"u","source":{"text":"清风徐来，水波不兴","title":"苏轼《前赤壁赋》","author":"苏轼","dynasty":"宋","genre":"fu"},"meaning":"波：水波。波澜不惊，从容有度。","tags":["清朗","平安"],"frequency":"classic","verified":true},
+  {"id":"dan-lan3","given":"澜","length":1,"pinyin":"lan","tones":[2],"category":"wenyan","gender":"u","source":{"text":"观水有术，必观其澜","title":"《孟子·尽心上》","author":"孟子","dynasty":"战国","genre":"classic"},"meaning":"澜：波澜。微澜惊鸿，气度不凡。","tags":["聪慧","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-feng3","given":"峰","length":1,"pinyin":"feng","tones":[1],"category":"songci","gender":"m","source":{"text":"横看成岭侧成峰，远近高低各不同","title":"苏轼《题西林壁》","author":"苏轼","dynasty":"宋","genre":"shi"},"meaning":"峰：山峰。登峰造极，勇攀高峰。","tags":["事业","坚韧"],"frequency":"classic","verified":true},
+  {"id":"dan-yue2","given":"岳","length":1,"pinyin":"yue","tones":[4],"category":"shijing","gender":"m","source":{"text":"崧高维岳，骏极于天","title":"《诗经·大雅·崧高》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"岳：高山。五岳之尊，稳重如山。","tags":["坚韧","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-yu4","given":"宇","length":1,"pinyin":"yu","tones":[3],"category":"songci","gender":"u","source":{"text":"我欲乘风归去，又恐琼楼玉宇","title":"苏轼《水调歌头》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"宇：宇宙。器宇轩昂。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-xuan2","given":"轩","length":1,"pinyin":"xuan","tones":[1],"category":"tangshi","gender":"m","source":{"text":"红颜弃轩冕，白首卧松云","title":"李白《赠孟浩然》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"轩：高轩。气宇轩昂。","tags":["事业","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-rui","given":"睿","length":1,"pinyin":"rui","tones":[4],"category":"wenyan","gender":"u","source":{"text":"思曰睿，睿作圣","title":"《尚书·洪范》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"睿：睿智。思虑通达，明智深远。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-zhe","given":"哲","length":1,"pinyin":"zhe","tones":[2],"category":"wenyan","gender":"u","source":{"text":"知人则哲，能官人","title":"《尚书·皋陶谟》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"哲：智慧。知人则哲。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-min","given":"敏","length":1,"pinyin":"min","tones":[3],"category":"wenyan","gender":"u","source":{"text":"敏而好学，不耻下问","title":"《论语·公冶长》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"敏：聪敏。敏而好学。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-si","given":"思","length":1,"pinyin":"si","tones":[1],"category":"wenyan","gender":"u","source":{"text":"学而不思则罔，思而不学则殆","title":"《论语·为政》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"思：思考。学思并重。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-xue2","given":"学","length":1,"pinyin":"xue","tones":[2],"category":"wenyan","gender":"u","source":{"text":"学而时习之，不亦说乎","title":"《论语·学而》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"学：学问。学而不厌，诲人不倦。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-wen","given":"文","length":1,"pinyin":"wen","tones":[2],"category":"wenyan","gender":"u","source":{"text":"质胜文则野，文胜质则史。文质彬彬，然后君子","title":"《论语·雍也》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"文：文采。文质彬彬。","tags":["风雅","聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-zhang2","given":"章","length":1,"pinyin":"zhang","tones":[1],"category":"wenyan","gender":"u","source":{"text":"吾党之小子狂简，斐然成章","title":"《论语·公冶长》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"章：文章。斐然成章，出口成章。","tags":["风雅","聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-shu","given":"书","length":1,"pinyin":"shu","tones":[1],"category":"tangshi","gender":"u","source":{"text":"烽火连三月，家书抵万金","title":"杜甫《春望》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"书：诗书。书香门第。","tags":["风雅","聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-qin","given":"琴","length":1,"pinyin":"qin","tones":[2],"category":"shijing","gender":"f","source":{"text":"窈窕淑女，琴瑟友之","title":"《诗经·周南·关雎》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"琴：古琴。琴瑟和鸣，高山流水。","tags":["风雅","爱情"],"frequency":"classic","verified":true},
+  {"id":"dan-hua2","given":"画","length":1,"pinyin":"hua","tones":[4],"category":"songci","gender":"u","source":{"text":"江山如画，一时多少豪杰","title":"苏轼《念奴娇·赤壁怀古》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"画：画卷。江山如画，诗情画意。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-ge","given":"歌","length":1,"pinyin":"ge","tones":[1],"category":"shijing","gender":"u","source":{"text":"心之忧矣，我歌且谣","title":"《诗经·魏风·园有桃》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"歌：歌唱。长歌一曲，快意人生。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-le","given":"乐","length":1,"pinyin":"le","tones":[4],"category":"wenyan","gender":"u","source":{"text":"有朋自远方来，不亦乐乎","title":"《论语·学而》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"乐：快乐。知足常乐。","tags":["平安","福寿"],"frequency":"legend","verified":true},
+  {"id":"dan-he2","given":"和","length":1,"pinyin":"he","tones":[2],"category":"wenyan","gender":"u","source":{"text":"礼之用，和为贵","title":"《论语·学而》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"和：和谐。家和万事兴。","tags":["平安","仁善"],"frequency":"legend","verified":true},
+  {"id":"dan-kang","given":"康","length":1,"pinyin":"kang","tones":[1],"category":"wenyan","gender":"u","source":{"text":"五福：一曰寿，二曰富，三曰康宁","title":"《尚书·洪范》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"康：安康。五福康宁。","tags":["健康","福寿"],"frequency":"classic","verified":true},
+  {"id":"dan-tai","given":"泰","length":1,"pinyin":"tai","tones":[4],"category":"wenyan","gender":"u","source":{"text":"泰，小往大来，吉亨","title":"《易经·泰卦》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"泰：通泰。否极泰来，国泰民安。","tags":["平安","福寿"],"frequency":"classic","verified":true},
+  {"id":"dan-ping","given":"平","length":1,"pinyin":"ping","tones":[2],"category":"wenyan","gender":"u","source":{"text":"无偏无党，王道荡荡；无党无偏，王道平平","title":"《尚书·洪范》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"平：平安。平平安安，岁岁年年。","tags":["平安"],"frequency":"classic","verified":true},
+  {"id":"dan-qian","given":"谦","length":1,"pinyin":"qian","tones":[1],"category":"wenyan","gender":"u","source":{"text":"谦谦君子，卑以自牧也","title":"《易经·谦卦》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"谦：谦逊。谦谦君子。","tags":["仁善"],"frequency":"classic","verified":true},
+  {"id":"dan-heng2","given":"恒","length":1,"pinyin":"heng","tones":[2],"category":"shijing","gender":"u","source":{"text":"如月之恒，如日之升","title":"《诗经·小雅·天保》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"恒：恒久。持之以恒，如月之恒。","tags":["坚韧","福寿"],"frequency":"classic","verified":true},
+  {"id":"dan-yi","given":"毅","length":1,"pinyin":"yi","tones":[4],"category":"wenyan","gender":"m","source":{"text":"士不可以不弘毅，任重而道远","title":"《论语·泰伯》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"毅：坚毅。士不可以不弘毅。","tags":["坚韧","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-hong2","given":"弘","length":1,"pinyin":"hong","tones":[2],"category":"wenyan","gender":"m","source":{"text":"士不可以不弘毅，任重而道远","title":"《论语·泰伯》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"弘：宏大。弘毅之志。","tags":["事业","坚韧"],"frequency":"classic","verified":true},
+  {"id":"dan-zheng","given":"正","length":1,"pinyin":"zheng","tones":[4],"category":"chuci","gender":"u","source":{"text":"名余曰正则兮，字余曰灵均","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"正：正直。正则之名，刚正不阿。","tags":["仁善","清朗"],"frequency":"classic","verified":true},
+  {"id":"dan-cheng2","given":"诚","length":1,"pinyin":"cheng","tones":[2],"category":"wenyan","gender":"u","source":{"text":"诚者，天之道也；诚之者，人之道也","title":"《中庸》","author":"子思","dynasty":"战国","genre":"classic"},"meaning":"诚：真诚。精诚所至，金石为开。","tags":["仁善"],"frequency":"classic","verified":true},
+  {"id":"dan-xin2","given":"信","length":1,"pinyin":"xin","tones":[4],"category":"wenyan","gender":"u","source":{"text":"人而无信，不知其可也","title":"《论语·为政》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"信：诚信。言必信，行必果。","tags":["仁善"],"frequency":"classic","verified":true},
+  {"id":"dan-ren","given":"仁","length":1,"pinyin":"ren","tones":[2],"category":"wenyan","gender":"u","source":{"text":"仁者爱人，有礼者敬人","title":"《孟子·离娄下》","author":"孟子","dynasty":"战国","genre":"classic"},"meaning":"仁：仁爱。仁者爱人，仁者无敌。","tags":["仁善"],"frequency":"classic","verified":true},
+  {"id":"dan-de","given":"德","length":1,"pinyin":"de","tones":[2],"category":"wenyan","gender":"u","source":{"text":"大学之道，在明明德","title":"《大学》","author":"曾子","dynasty":"春秋","genre":"classic"},"meaning":"德：德行。厚德载物。","tags":["仁善"],"frequency":"classic","verified":true},
+  {"id":"dan-jing","given":"静","length":1,"pinyin":"jing","tones":[4],"category":"shijing","gender":"f","source":{"text":"静女其姝，俟我于城隅","title":"《诗经·邶风·静女》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"静：娴静。静水流深。","tags":["风雅","平安"],"frequency":"classic","verified":true},
+  {"id":"dan-ya","given":"雅","length":1,"pinyin":"ya","tones":[3],"category":"shijing","gender":"u","source":{"text":"雅者，正也，言王政之所由废兴也","title":"《毛诗序》","author":"佚名","dynasty":"汉","genre":"classic"},"meaning":"雅：高雅。温文尔雅，大雅之才。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-zhi3","given":"知","length":1,"pinyin":"zhi","tones":[1],"category":"wenyan","gender":"u","source":{"text":"知者不惑，仁者不忧，勇者不惧","title":"《论语·子罕》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"知：智慧。知者不惑，知行合一。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-wang","given":"望","length":1,"pinyin":"wang","tones":[4],"category":"tangshi","gender":"u","source":{"text":"举头望明月，低头思故乡","title":"李白《静夜思》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"望：远望。前程在望，希望满怀。","tags":["爱情","事业"],"frequency":"classic","verified":true},
+  {"id":"qing-bo","given":"清波","length":2,"pinyin":"qing bo","tones":[1,1],"category":"tangshi","gender":"u","source":{"text":"白毛浮绿水，红掌拨清波","title":"骆宾王《咏鹅》","author":"骆宾王","dynasty":"唐","genre":"shi"},"meaning":"清波：清澈的水波。灵动活泼。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"qian-li","given":"千里","length":2,"pinyin":"qian li","tones":[1,3],"category":"tangshi","gender":"u","source":{"text":"欲穷千里目，更上一层楼","title":"王之涣《登鹳雀楼》","author":"王之涣","dynasty":"唐","genre":"shi"},"meaning":"千里：千里目。「千里之行，始于足下」，志存高远。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"bai-yun","given":"白云","length":2,"pinyin":"bai yun","tones":[2,2],"category":"tangshi","gender":"u","source":{"text":"黄河远上白云间，一片孤城万仞山","title":"王之涣《凉州词》","author":"王之涣","dynasty":"唐","genre":"shi"},"meaning":"白云：白云深处。飘逸自在。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"bi-yu","given":"碧玉","length":2,"pinyin":"bi yu","tones":[4,4],"category":"tangshi","season":[1],"gender":"f","source":{"text":"碧玉妆成一树高，万条垂下绿丝绦","title":"贺知章《咏柳》","author":"贺知章","dynasty":"唐","genre":"shi"},"meaning":"碧玉：碧玉妆成。小家碧玉，清丽可人。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"chang-yun","given":"长云","length":2,"pinyin":"chang yun","tones":[2,2],"category":"tangshi","gender":"u","source":{"text":"青海长云暗雪山，孤城遥望玉门关","title":"王昌龄《从军行》","author":"王昌龄","dynasty":"唐","genre":"shi"},"meaning":"长云：连绵的云。辽阔苍茫。","tags":["自然","事业"],"frequency":"classic","verified":true},
+  {"id":"li-hua","given":"梨花","length":2,"pinyin":"li hua","tones":[2,1],"category":"tangshi","season":[1],"gender":"f","source":{"text":"忽如一夜春风来，千树万树梨花开","title":"岑参《白雪歌送武判官归京》","author":"岑参","dynasty":"唐","genre":"shi"},"meaning":"梨花：梨花如雪。一树梨花一树春。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"qu-jing","given":"曲径","length":2,"pinyin":"qu jing","tones":[1,4],"category":"tangshi","gender":"u","source":{"text":"曲径通幽处，禅房花木深","title":"常建《题破山寺后禅院》","author":"常建","dynasty":"唐","genre":"shi"},"meaning":"曲径：曲径通幽。幽深雅致，别有意趣。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"hua-mu","given":"花木","length":2,"pinyin":"hua mu","tones":[1,4],"category":"tangshi","gender":"u","source":{"text":"曲径通幽处，禅房花木深","title":"常建《题破山寺后禅院》","author":"常建","dynasty":"唐","genre":"shi"},"meaning":"花木：花木深深。生机盎然而幽静。","tags":["自然"],"frequency":"classic","verified":true},
+  {"id":"xin-yan","given":"新燕","length":2,"pinyin":"xin yan","tones":[1,4],"category":"tangshi","season":[1],"gender":"u","source":{"text":"几处早莺争暖树，谁家新燕啄春泥","title":"白居易《钱塘湖春行》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"新燕：春归的新燕。新旧交替，生机勃发。","tags":["自然","福寿"],"frequency":"classic","verified":true},
+  {"id":"chun-ni","given":"春泥","length":2,"pinyin":"chun ni","tones":[1,2],"category":"tangshi","season":[1],"gender":"u","source":{"text":"几处早莺争暖树，谁家新燕啄春泥","title":"白居易《钱塘湖春行》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"春泥：春日的泥土。滋养万物，润物无声。","tags":["自然","仁善"],"frequency":"classic","verified":true},
+  {"id":"cao-se","given":"草色","length":2,"pinyin":"cao se","tones":[3,4],"category":"tangshi","season":[1],"gender":"u","source":{"text":"天街小雨润如酥，草色遥看近却无","title":"韩愈《早春呈水部张十八员外》","author":"韩愈","dynasty":"唐","genre":"shi"},"meaning":"草色：草色遥看近却无。初春的朦胧之美。","tags":["自然"],"frequency":"classic","verified":true},
+  {"id":"liu-ying","given":"流萤","length":2,"pinyin":"liu ying","tones":[2,2],"category":"tangshi","season":[2],"gender":"f","source":{"text":"银烛秋光冷画屏，轻罗小扇扑流萤","title":"杜牧《秋夕》","author":"杜牧","dynasty":"唐","genre":"shi"},"meaning":"流萤：飞舞的萤火。夏夜流光，灵动可爱。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"qiu-guang","given":"秋光","length":2,"pinyin":"qiu guang","tones":[1,1],"category":"tangshi","season":[3],"gender":"u","source":{"text":"银烛秋光冷画屏，轻罗小扇扑流萤","title":"杜牧《秋夕》","author":"杜牧","dynasty":"唐","genre":"shi"},"meaning":"秋光：秋日的光景。秋高气爽。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"qiu-chi","given":"秋池","length":2,"pinyin":"qiu chi","tones":[1,2],"category":"tangshi","season":[3],"gender":"u","source":{"text":"君问归期未有期，巴山夜雨涨秋池","title":"李商隐《夜雨寄北》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"秋池：秋夜之池。雨涨秋池，情意绵长。","tags":["爱情","自然"],"frequency":"classic","verified":true},
+  {"id":"ye-yu","given":"夜雨","length":2,"pinyin":"ye yu","tones":[4,3],"category":"tangshi","season":[3],"gender":"u","source":{"text":"君问归期未有期，巴山夜雨涨秋池","title":"李商隐《夜雨寄北》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"夜雨：巴山夜雨。润物细无声。","tags":["爱情","清朗"],"frequency":"classic","verified":true},
+  {"id":"chang-he","given":"长河","length":2,"pinyin":"chang he","tones":[2,2],"category":"tangshi","gender":"u","source":{"text":"大漠孤烟直，长河落日圆","title":"王维《使至塞上》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"长河：长河落日。壮阔雄浑，源远流长。","tags":["事业","自然"],"frequency":"legend","verified":true},
+  {"id":"shen-lin","given":"深林","length":2,"pinyin":"shen lin","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"返景入深林，复照青苔上","title":"王维《鹿柴》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"深林：幽深的山林。林深时见鹿。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"yu-di","given":"玉笛","length":2,"pinyin":"yu di","tones":[4,2],"category":"tangshi","gender":"u","source":{"text":"谁家玉笛暗飞声，散入春风满洛城","title":"李白《春夜洛城闻笛》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"玉笛：玉笛飞声。清音入云。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"lu-hua","given":"露华","length":2,"pinyin":"lu hua","tones":[4,2],"category":"tangshi","season":[1],"gender":"f","source":{"text":"云想衣裳花想容，春风拂槛露华浓","title":"李白《清平调·其一》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"露华：露珠的光华。露华浓，倾国倾城。","tags":["风雅","爱情"],"frequency":"legend","verified":true},
+  {"id":"yun-shang","given":"云裳","length":2,"pinyin":"yun chang","tones":[2,2],"category":"tangshi","season":[1],"gender":"f","source":{"text":"云想衣裳花想容，春风拂槛露华浓","title":"李白《清平调·其一》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"云裳：云为衣裳。霓裳羽衣，仙姿绰约。","tags":["风雅"],"frequency":"legend","verified":true},
+  {"id":"jiang-qing","given":"江清","length":2,"pinyin":"jiang qing","tones":[1,1],"category":"tangshi","gender":"u","source":{"text":"野旷天低树，江清月近人","title":"孟浩然《宿建德江》","author":"孟浩然","dynasty":"唐","genre":"shi"},"meaning":"江清：江清月近。清澈如洗，月近人亲。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"jiang-feng","given":"江枫","length":2,"pinyin":"jiang feng","tones":[1,1],"category":"tangshi","season":[3],"gender":"u","source":{"text":"月落乌啼霜满天，江枫渔火对愁眠","title":"张继《枫桥夜泊》","author":"张继","dynasty":"唐","genre":"shi"},"meaning":"江枫：江畔的枫树。霜叶红于二月花。","tags":["自然","坚韧"],"frequency":"legend","verified":true},
+  {"id":"yu-huo","given":"渔火","length":2,"pinyin":"yu huo","tones":[2,3],"category":"tangshi","season":[3],"gender":"u","source":{"text":"月落乌啼霜满天，江枫渔火对愁眠","title":"张继《枫桥夜泊》","author":"张继","dynasty":"唐","genre":"shi"},"meaning":"渔火：江上渔灯。点点渔火，温暖人间。","tags":["自然","平安"],"frequency":"classic","verified":true},
+  {"id":"tao-hua","given":"桃花","length":2,"pinyin":"tao hua","tones":[2,1],"category":"tangshi","season":[1],"gender":"f","source":{"text":"人面不知何处去，桃花依旧笑春风","title":"崔护《题都城南庄》","author":"崔护","dynasty":"唐","genre":"shi"},"meaning":"桃花：桃花依旧笑春风。明媚如春。","tags":["自然","爱情"],"frequency":"classic","verified":true},
+  {"id":"yue-se","given":"月色","length":2,"pinyin":"yue se","tones":[4,4],"category":"tangshi","gender":"u","source":{"text":"更深月色半人家，北斗阑干南斗斜","title":"刘方平《月夜》","author":"刘方平","dynasty":"唐","genre":"shi"},"meaning":"月色：月色如水。温柔静谧。","tags":["清朗","爱情"],"frequency":"classic","verified":true},
+  {"id":"qiu-yue","given":"秋月","length":2,"pinyin":"qiu yue","tones":[1,4],"category":"tangshi","season":[3],"gender":"u","source":{"text":"湖光秋月两相和，潭面无风镜未磨","title":"刘禹锡《望洞庭》","author":"刘禹锡","dynasty":"唐","genre":"shi"},"meaning":"秋月：秋夜的明月。湖光秋月，两相和美。","tags":["清朗","平安"],"frequency":"legend","verified":true},
+  {"id":"hu-guang","given":"湖光","length":2,"pinyin":"hu guang","tones":[2,1],"category":"tangshi","season":[3],"gender":"u","source":{"text":"湖光秋月两相和，潭面无风镜未磨","title":"刘禹锡《望洞庭》","author":"刘禹锡","dynasty":"唐","genre":"shi"},"meaning":"湖光：湖光山色。波光潋滟。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"qin-huai","given":"秦淮","length":2,"pinyin":"qin huai","tones":[2,2],"category":"tangshi","gender":"u","source":{"text":"烟笼寒水月笼沙，夜泊秦淮近酒家","title":"杜牧《泊秦淮》","author":"杜牧","dynasty":"唐","genre":"shi"},"meaning":"秦淮：秦淮河。六朝金粉，风雅之地。","tags":["风雅"],"frequency":"legend","verified":true},
+  {"id":"su-e","given":"素娥","length":2,"pinyin":"su e","tones":[4,2],"category":"tangshi","gender":"f","source":{"text":"青女素娥俱耐冷，月中霜里斗婵娟","title":"李商隐《霜月》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"素娥：嫦娥之别称。清冷高洁。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"xing-hua","given":"杏花","length":2,"pinyin":"xing hua","tones":[4,1],"category":"tangshi","season":[1],"gender":"f","source":{"text":"春日游，杏花吹满头","title":"韦庄《思帝乡》","author":"韦庄","dynasty":"唐","genre":"ci"},"meaning":"杏花：杏花春雨。陌上花开，青春正好。","tags":["自然","爱情"],"frequency":"classic","verified":true},
+  {"id":"jing-ting","given":"敬亭","length":2,"pinyin":"jing ting","tones":[4,2],"category":"tangshi","gender":"u","source":{"text":"相看两不厌，只有敬亭山","title":"李白《独坐敬亭山》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"敬亭：敬亭山。相看两不厌，淡泊自守。","tags":["风雅","平安"],"frequency":"classic","verified":true},
+  {"id":"qing-shan","given":"青山","length":2,"pinyin":"qing shan","tones":[1,1],"category":"tangshi","gender":"u","source":{"text":"青山横北郭，白水绕东城","title":"李白《送友人》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"青山：青山不老。绿水青山，安稳绵长。","tags":["自然","坚韧"],"frequency":"classic","verified":true},
+  {"id":"dong-liu","given":"东流","length":2,"pinyin":"dong liu","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"天门中断楚江开，碧水东流至此回","title":"李白《望天门山》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"东流：一江春水向东流。后浪奔涌，川流不息。","tags":["事业","自然"],"frequency":"classic","verified":true},
+  {"id":"bi-shui","given":"碧水","length":2,"pinyin":"bi shui","tones":[4,3],"category":"tangshi","gender":"u","source":{"text":"天门中断楚江开，碧水东流至此回","title":"李白《望天门山》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"碧水：碧水东流。澄碧如洗。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"tian-ji","given":"天际","length":2,"pinyin":"tian ji","tones":[1,4],"category":"tangshi","gender":"u","source":{"text":"孤帆远影碧空尽，唯见长江天际流","title":"李白《黄鹤楼送孟浩然之广陵》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"天际：天际流。天高地阔，前程远大。","tags":["事业","清朗"],"frequency":"classic","verified":true},
+  {"id":"san-yue","given":"三月","length":2,"pinyin":"san yue","tones":[1,4],"category":"tangshi","season":[1],"gender":"u","source":{"text":"故人西辞黄鹤楼，烟花三月下扬州","title":"李白《黄鹤楼送孟浩然之广陵》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"三月：烟花三月。春光最好的时节。","tags":["自然","爱情"],"frequency":"classic","verified":true},
+  {"id":"chu-jiang","given":"楚江","length":2,"pinyin":"chu jiang","tones":[3,1],"category":"tangshi","gender":"u","source":{"text":"天门中断楚江开，碧水东流至此回","title":"李白《望天门山》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"楚江：天门中断楚江开。江水奔涌，气势开阔。","tags":["自然","事业"],"frequency":"classic","verified":true},
+  {"id":"tian-xiang","given":"天香","length":2,"pinyin":"tian xiang","tones":[1,1],"category":"tangshi","season":[3],"gender":"u","source":{"text":"桂子月中落，天香云外飘","title":"宋之问《灵隐寺》","author":"宋之问","dynasty":"唐","genre":"shi"},"meaning":"天香：桂香如天外飘来。天香国色。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"shuang-yue","given":"霜月","length":2,"pinyin":"shuang yue","tones":[1,4],"category":"tangshi","season":[3],"gender":"u","source":{"text":"青女素娥俱耐冷，月中霜里斗婵娟","title":"李商隐《霜月》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"霜月：霜天明月。清冷皎洁。","tags":["清朗"],"frequency":"classic","verified":true},
+  {"id":"gao-jie","given":"高洁","length":2,"pinyin":"gao jie","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"无人信高洁，谁为表予心","title":"骆宾王《在狱咏蝉》","author":"骆宾王","dynasty":"唐","genre":"shi"},"meaning":"高洁：高洁自守。品行高洁。","tags":["仁善","坚韧"],"frequency":"classic","verified":true},
+  {"id":"xiang-jing","given":"香径","length":2,"pinyin":"xiang jing","tones":[1,4],"category":"songci","season":[1],"gender":"f","source":{"text":"无可奈何花落去，似曾相识燕归来。小园香径独徘徊","title":"晏殊《浣溪沙》","author":"晏殊","dynasty":"宋","genre":"ci"},"meaning":"香径：落英铺香的小径。雅致幽静。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"wei-yu","given":"微雨","length":2,"pinyin":"wei yu","tones":[1,3],"category":"songci","season":[1],"gender":"f","source":{"text":"落花人独立，微雨燕双飞","title":"晏几道《临江仙》","author":"晏几道","dynasty":"宋","genre":"ci"},"meaning":"微雨：微雨燕双飞。朦胧而灵动。","tags":["自然","爱情"],"frequency":"legend","verified":true},
+  {"id":"gui-zi","given":"桂子","length":2,"pinyin":"gui zi","tones":[4,3],"category":"songci","season":[3],"gender":"u","source":{"text":"重湖叠巘清嘉，有三秋桂子，十里荷花","title":"柳永《望海潮》","author":"柳永","dynasty":"宋","genre":"ci"},"meaning":"桂子：三秋桂子。桂子飘香，蟾宫折桂。","tags":["自然","事业"],"frequency":"classic","verified":true},
+  {"id":"he-hua","given":"荷花","length":2,"pinyin":"he hua","tones":[2,1],"category":"songci","season":[2],"gender":"f","source":{"text":"重湖叠巘清嘉，有三秋桂子，十里荷花","title":"柳永《望海潮》","author":"柳永","dynasty":"宋","genre":"ci"},"meaning":"荷花：十里荷花。接天莲叶，映日荷花。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"yan-liu","given":"烟柳","length":2,"pinyin":"yan liu","tones":[1,3],"category":"songci","season":[1],"gender":"f","source":{"text":"烟柳画桥，风帘翠幕，参差十万人家","title":"柳永《望海潮》","author":"柳永","dynasty":"宋","genre":"ci"},"meaning":"烟柳：烟柳朦胧。春色如烟。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"hua-qiao","given":"画桥","length":2,"pinyin":"hua qiao","tones":[4,2],"category":"songci","season":[1],"gender":"u","source":{"text":"烟柳画桥，风帘翠幕，参差十万人家","title":"柳永《望海潮》","author":"柳永","dynasty":"宋","genre":"ci"},"meaning":"画桥：如画之桥。江南水乡之韵。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"jiang-hai","given":"江海","length":2,"pinyin":"jiang hai","tones":[1,3],"category":"songci","gender":"u","source":{"text":"小舟从此逝，江海寄余生","title":"苏轼《临江仙·夜归临皋》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"江海：江海寄余生。襟怀如江海，潇洒出尘。","tags":["事业","自然"],"frequency":"legend","verified":true},
+  {"id":"hai-tang","given":"海棠","length":2,"pinyin":"hai tang","tones":[3,2],"category":"songci","season":[1],"gender":"f","source":{"text":"试问卷帘人，却道海棠依旧","title":"李清照《如梦令》","author":"李清照","dynasty":"宋","genre":"ci"},"meaning":"海棠：海棠花。花中神仙，明媚娇艳。","tags":["风雅","爱情"],"frequency":"legend","verified":true},
+  {"id":"qing-mei","given":"青梅","length":2,"pinyin":"qing mei","tones":[1,2],"category":"songci","season":[1],"gender":"f","source":{"text":"和羞走，倚门回首，却把青梅嗅","title":"李清照《点绛唇》","author":"李清照","dynasty":"宋","genre":"ci"},"meaning":"青梅：青梅竹马。青涩而美好。","tags":["爱情","自然"],"frequency":"classic","verified":true},
+  {"id":"ting-yu","given":"听雨","length":2,"pinyin":"ting yu","tones":[1,3],"category":"songci","season":[1],"gender":"u","source":{"text":"小楼一夜听春雨，深巷明朝卖杏花","title":"陆游《临安春雨初霁》","author":"陆游","dynasty":"宋","genre":"shi"},"meaning":"听雨：小楼听雨。闲适雅致。","tags":["风雅","平安"],"frequency":"classic","verified":true},
+  {"id":"chu-tian","given":"楚天","length":2,"pinyin":"chu tian","tones":[3,1],"category":"songci","season":[3],"gender":"u","source":{"text":"楚天千里清秋，水随天去秋无际","title":"辛弃疾《水龙吟·登建康赏心亭》","author":"辛弃疾","dynasty":"宋","genre":"ci"},"meaning":"楚天：楚天千里。辽阔清远。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"qing-rou","given":"晴柔","length":2,"pinyin":"qing rou","tones":[2,2],"category":"songci","season":[2],"gender":"f","source":{"text":"泉眼无声惜细流，树阴照水爱晴柔","title":"杨万里《小池》","author":"杨万里","dynasty":"宋","genre":"shi"},"meaning":"晴柔：晴日的柔光。温暖明媚。","tags":["清朗","爱情"],"frequency":"legend","verified":true},
+  {"id":"xi-liu","given":"细流","length":2,"pinyin":"xi liu","tones":[4,2],"category":"songci","season":[2],"gender":"u","source":{"text":"泉眼无声惜细流，树阴照水爱晴柔","title":"杨万里《小池》","author":"杨万里","dynasty":"宋","genre":"shi"},"meaning":"细流：涓涓细流。不拒细流，终成江海。","tags":["坚韧","自然"],"frequency":"classic","verified":true},
+  {"id":"xin-lv","given":"新绿","length":2,"pinyin":"xin lv","tones":[1,4],"category":"songci","season":[1],"gender":"u","source":{"text":"篱落疏疏一径深，树头新绿未成阴","title":"杨万里《宿新市徐公店》","author":"杨万里","dynasty":"宋","genre":"shi"},"meaning":"新绿：树头新绿。初春的嫩芽，生机萌发。","tags":["自然","福寿"],"frequency":"classic","verified":true},
+  {"id":"fang-tang","given":"方塘","length":2,"pinyin":"fang tang","tones":[1,2],"category":"songci","gender":"u","source":{"text":"半亩方塘一鉴开，天光云影共徘徊","title":"朱熹《观书有感》","author":"朱熹","dynasty":"宋","genre":"shi"},"meaning":"方塘：方塘如鉴。明澈照人，心如止水。","tags":["聪慧","清朗"],"frequency":"classic","verified":true},
+  {"id":"chang-jiang","given":"长江","length":2,"pinyin":"chang jiang","tones":[2,1],"category":"songci","gender":"u","source":{"text":"我住长江头，君住长江尾。日日思君不见君，共饮长江水","title":"李之仪《卜算子》","author":"李之仪","dynasty":"宋","genre":"ci"},"meaning":"长江：长江水。源远流长，情深意长。","tags":["爱情","事业"],"frequency":"legend","verified":true},
+  {"id":"qing-yuan","given":"清圆","length":2,"pinyin":"qing yuan","tones":[1,2],"category":"songci","season":[2],"gender":"f","source":{"text":"叶上初阳干宿雨，水面清圆，一一风荷举","title":"周邦彦《苏幕遮》","author":"周邦彦","dynasty":"宋","genre":"ci"},"meaning":"清圆：水面清圆。荷叶田田，清润圆满。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"feng-he","given":"风荷","length":2,"pinyin":"feng he","tones":[1,2],"category":"songci","season":[2],"gender":"f","source":{"text":"叶上初阳干宿雨，水面清圆，一一风荷举","title":"周邦彦《苏幕遮》","author":"周邦彦","dynasty":"宋","genre":"ci"},"meaning":"风荷：风荷举。亭亭玉立，清举出尘。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"su-yue","given":"素月","length":2,"pinyin":"su yue","tones":[4,4],"category":"songci","gender":"u","source":{"text":"素月分辉，明河共影，表里俱澄澈","title":"张孝祥《念奴娇·过洞庭》","author":"张孝祥","dynasty":"宋","genre":"ci"},"meaning":"素月：皎洁的月亮。素月分辉，清光万里。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"ming-he","given":"明河","length":2,"pinyin":"ming he","tones":[2,2],"category":"songci","gender":"u","source":{"text":"素月分辉，明河共影，表里俱澄澈","title":"张孝祥《念奴娇·过洞庭》","author":"张孝祥","dynasty":"宋","genre":"ci"},"meaning":"明河：明河共影。星河璀璨。","tags":["清朗"],"frequency":"classic","verified":true},
+  {"id":"cheng-che","given":"澄澈","length":2,"pinyin":"cheng che","tones":[2,4],"category":"songci","gender":"u","source":{"text":"素月分辉，明河共影，表里俱澄澈","title":"张孝祥《念奴娇·过洞庭》","author":"张孝祥","dynasty":"宋","genre":"ci"},"meaning":"澄澈：表里俱澄澈。内外明净，光明磊落。","tags":["清朗","仁善"],"frequency":"legend","verified":true},
+  {"id":"liu-an","given":"柳暗","length":2,"pinyin":"liu an","tones":[3,4],"category":"songci","season":[1],"gender":"u","source":{"text":"山重水复疑无路，柳暗花明又一村","title":"陆游《游山西村》","author":"陆游","dynasty":"宋","genre":"shi"},"meaning":"柳暗：柳暗花明。绝处逢生，否极泰来。","tags":["平安","坚韧"],"frequency":"classic","verified":true},
+  {"id":"fei-hua","given":"飞花","length":2,"pinyin":"fei hua","tones":[1,1],"category":"songci","season":[1],"gender":"f","source":{"text":"自在飞花轻似梦，无边丝雨细如愁","title":"秦观《浣溪沙》","author":"秦观","dynasty":"宋","genre":"ci"},"meaning":"飞花：自在飞花。轻盈如梦。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"xiang-yang","given":"向阳","length":2,"pinyin":"xiang yang","tones":[4,2],"category":"songci","season":[1],"gender":"u","source":{"text":"近水楼台先得月，向阳花木易为春","title":"苏麟《断句》","author":"苏麟","dynasty":"宋","genre":"shi"},"meaning":"向阳：向阳花木。心怀阳光，处处逢春。","tags":["事业","福寿"],"frequency":"classic","verified":true},
+  {"id":"chun-se","given":"春色","length":2,"pinyin":"chun se","tones":[1,4],"category":"songci","season":[1],"gender":"u","source":{"text":"春色满园关不住，一枝红杏出墙来","title":"叶绍翁《游园不值》","author":"叶绍翁","dynasty":"宋","genre":"shi"},"meaning":"春色：春色满园。生机关不住。","tags":["自然","福寿"],"frequency":"classic","verified":true},
+  {"id":"qiu-se","given":"秋色","length":2,"pinyin":"qiu se","tones":[1,4],"category":"songci","season":[3],"gender":"u","source":{"text":"碧云天，黄叶地，秋色连波，波上寒烟翠","title":"范仲淹《苏幕遮·怀旧》","author":"范仲淹","dynasty":"宋","genre":"ci"},"meaning":"秋色：秋色连波。天高云淡，层林尽染。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"he-han","given":"河汉","length":2,"pinyin":"he han","tones":[2,4],"category":"hanfu","gender":"u","source":{"text":"迢迢牵牛星，皎皎河汉女","title":"《古诗十九首·迢迢牵牛星》","author":"佚名","dynasty":"汉","genre":"shi"},"meaning":"河汉：银河。迢迢河汉，皎皎清辉。","tags":["清朗","爱情"],"frequency":"classic","verified":true},
+  {"id":"fu-yun","given":"浮云","length":2,"pinyin":"fu yun","tones":[2,2],"category":"hanfu","gender":"u","source":{"text":"西北有高楼，上与浮云齐","title":"《古诗十九首·西北有高楼》","author":"佚名","dynasty":"汉","genre":"shi"},"meaning":"浮云：不义而富且贵，于我如浮云。超然物外。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"lan-ze","given":"兰泽","length":2,"pinyin":"lan ze","tones":[2,2],"category":"hanfu","gender":"f","source":{"text":"涉江采芙蓉，兰泽多芳草","title":"《古诗十九首·涉江采芙蓉》","author":"佚名","dynasty":"汉","genre":"shi"},"meaning":"兰泽：兰草芬芳的水泽。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"pan-shi","given":"磐石","length":2,"pinyin":"pan shi","tones":[2,2],"category":"hanfu","gender":"m","source":{"text":"君当作磐石，妾当作蒲苇。蒲苇纫如丝，磐石无转移","title":"《孔雀东南飞》","author":"佚名","dynasty":"汉","genre":"yuefu"},"meaning":"磐石：磐石无转移。坚贞不移。","tags":["坚韧","爱情"],"frequency":"legend","verified":true},
+  {"id":"pu-wei","given":"蒲苇","length":2,"pinyin":"pu wei","tones":[2,3],"category":"hanfu","gender":"f","source":{"text":"君当作磐石，妾当作蒲苇。蒲苇纫如丝，磐石无转移","title":"《孔雀东南飞》","author":"佚名","dynasty":"汉","genre":"yuefu"},"meaning":"蒲苇：蒲苇纫如丝。柔韧而坚贞。","tags":["坚韧","爱情"],"frequency":"legend","verified":true},
+  {"id":"nan-tang","given":"南塘","length":2,"pinyin":"nan tang","tones":[2,2],"category":"hanfu","season":[2],"gender":"u","source":{"text":"采莲南塘秋，莲花过人头。低头弄莲子，莲子清如水","title":"《西洲曲》","author":"佚名","dynasty":"南朝","genre":"yuefu"},"meaning":"南塘：南塘采莲。江南水乡，清雅如画。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"cai-lian","given":"采莲","length":2,"pinyin":"cai lian","tones":[3,2],"category":"hanfu","season":[2],"gender":"f","source":{"text":"采莲南塘秋，莲花过人头。低头弄莲子，莲子清如水","title":"《西洲曲》","author":"佚名","dynasty":"南朝","genre":"yuefu"},"meaning":"采莲：采莲南塘秋。江南可采莲，青春正好。","tags":["自然","爱情"],"frequency":"classic","verified":true},
+  {"id":"luo-fu","given":"罗敷","length":2,"pinyin":"luo fu","tones":[2,1],"category":"hanfu","gender":"f","source":{"text":"秦氏有好女，自名为罗敷","title":"汉乐府《陌上桑》","author":"佚名","dynasty":"汉","genre":"yuefu"},"meaning":"罗敷：陌上桑中的采桑女。美丽而聪慧，不慕权贵。","tags":["风雅","坚韧"],"frequency":"legend","verified":true},
+  {"id":"cang-cang","given":"苍苍","length":2,"pinyin":"cang cang","tones":[1,1],"category":"hanfu","gender":"u","source":{"text":"天苍苍，野茫茫，风吹草低见牛羊","title":"北朝民歌《敕勒歌》","author":"佚名","dynasty":"北朝","genre":"yuefu"},"meaning":"苍苍：天苍苍。辽阔苍茫，雄浑大气。","tags":["自然","事业"],"frequency":"classic","verified":true},
+  {"id":"yue-ming","given":"月明","length":2,"pinyin":"yue ming","tones":[4,2],"category":"hanfu","gender":"u","source":{"text":"月明星稀，乌鹊南飞","title":"曹操《短歌行》","author":"曹操","dynasty":"东汉","genre":"yuefu"},"meaning":"月明：月明星稀。清辉万里。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"xin-xin","given":"欣欣","length":2,"pinyin":"xin xin","tones":[1,1],"category":"hanfu","season":[1],"gender":"u","source":{"text":"木欣欣以向荣，泉涓涓而始流","title":"陶渊明《归去来兮辞》","author":"陶渊明","dynasty":"东晋","genre":"fu"},"meaning":"欣欣：欣欣向荣。蓬勃生长。","tags":["自然","福寿"],"frequency":"classic","verified":true},
+  {"id":"xiang-rong","given":"向荣","length":2,"pinyin":"xiang rong","tones":[4,2],"category":"hanfu","season":[1],"gender":"u","source":{"text":"木欣欣以向荣，泉涓涓而始流","title":"陶渊明《归去来兮辞》","author":"陶渊明","dynasty":"东晋","genre":"fu"},"meaning":"向荣：欣欣向荣。蒸蒸日上。","tags":["事业","福寿"],"frequency":"classic","verified":true},
+  {"id":"chun-cao","given":"春草","length":2,"pinyin":"chun cao","tones":[1,3],"category":"hanfu","season":[1],"gender":"u","source":{"text":"池塘生春草，园柳变鸣禽","title":"谢灵运《登池上楼》","author":"谢灵运","dynasty":"南朝","genre":"shi"},"meaning":"春草：池塘生春草。野火烧不尽，春风吹又生。","tags":["自然","坚韧"],"frequency":"classic","verified":true},
+  {"id":"gui-zhou","given":"归舟","length":2,"pinyin":"gui zhou","tones":[1,1],"category":"hanfu","gender":"u","source":{"text":"天际识归舟，云中辨江树","title":"谢朓《之宣城郡出新林浦向板桥》","author":"谢朓","dynasty":"南朝","genre":"shi"},"meaning":"归舟：归舟自天际来。平安归来，满载而归。","tags":["平安","事业"],"frequency":"classic","verified":true},
+  {"id":"gui-hong","given":"归鸿","length":2,"pinyin":"gui hong","tones":[1,2],"category":"hanfu","gender":"u","source":{"text":"目送归鸿，手挥五弦。俯仰自得，游心太玄","title":"嵇康《赠秀才入军》","author":"嵇康","dynasty":"魏晋","genre":"shi"},"meaning":"归鸿：归来的鸿雁。志在四方，心有所归。","tags":["事业","平安"],"frequency":"classic","verified":true},
+  {"id":"you-xin","given":"游心","length":2,"pinyin":"you xin","tones":[2,1],"category":"hanfu","gender":"u","source":{"text":"目送归鸿，手挥五弦。俯仰自得，游心太玄","title":"嵇康《赠秀才入军》","author":"嵇康","dynasty":"魏晋","genre":"shi"},"meaning":"游心：游心太玄。心游万仞，自在逍遥。","tags":["风雅","聪慧"],"frequency":"classic","verified":true},
+  {"id":"qing-ping","given":"青萍","length":2,"pinyin":"qing ping","tones":[1,2],"category":"chuci","gender":"u","source":{"text":"夫风生于地，起于青蘋之末","title":"宋玉《风赋》","author":"宋玉","dynasty":"战国","genre":"fu"},"meaning":"青萍：风起于青萍之末。见微知著，清新自远。","tags":["聪慧","自然"],"frequency":"classic","verified":true},
+  {"id":"nei-mei","given":"内美","length":2,"pinyin":"nei mei","tones":[4,3],"category":"chuci","gender":"u","source":{"text":"纷吾既有此内美兮，又重之以修能","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"内美：内在的美德。秀外慧中。","tags":["仁善","聪慧"],"frequency":"classic","verified":true},
+  {"id":"xiu-neng","given":"修能","length":2,"pinyin":"xiu neng","tones":[1,2],"category":"chuci","gender":"u","source":{"text":"纷吾既有此内美兮，又重之以修能","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"修能：修身致能。内外兼修。","tags":["聪慧","仁善"],"frequency":"classic","verified":true},
+  {"id":"yu-luan","given":"玉鸾","length":2,"pinyin":"yu luan","tones":[4,2],"category":"chuci","gender":"f","source":{"text":"扬云霓之晻蔼兮，鸣玉鸾之啾啾","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"玉鸾：玉制鸾铃。清音鸣和。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"zhou-liu","given":"周流","length":2,"pinyin":"zhou liu","tones":[1,2],"category":"chuci","gender":"u","source":{"text":"邅吾道夫昆仑兮，路修远以周流","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"周流：周游四方。见闻广博，行遍天下。","tags":["事业","聪慧"],"frequency":"classic","verified":true},
+  {"id":"lin-lang","given":"琳琅","length":2,"pinyin":"lin lang","tones":[2,2],"category":"chuci","gender":"u","source":{"text":"抚长剑兮玉珥，璆锵鸣兮琳琅","title":"《九歌·东皇太一》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"琳琅：美玉相击之声。「琳琅满目」，珠玉盈门。","tags":["富贵","风雅"],"frequency":"legend","verified":true},
+  {"id":"bi-li","given":"薜荔","length":2,"pinyin":"bi li","tones":[4,4],"category":"chuci","gender":"u","source":{"text":"若有人兮山之阿，被薜荔兮带女萝","title":"《九歌·山鬼》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"薜荔：楚辞香草。山间藤蔓，清幽自守。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"chen-yang","given":"辰阳","length":2,"pinyin":"chen yang","tones":[2,2],"category":"chuci","gender":"u","source":{"text":"朝发枉渚兮，夕宿辰阳","title":"《九章·涉江》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"辰阳：星辰与朝阳。晨光熹微，前途光明。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"yu-ying","given":"玉英","length":2,"pinyin":"yu ying","tones":[4,1],"category":"chuci","gender":"f","source":{"text":"登昆仑兮食玉英，与天地兮同寿，与日月兮同光","title":"《九章·涉江》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"玉英：玉之精华。冰清玉洁。","tags":["风雅","福寿"],"frequency":"legend","verified":true},
+  {"id":"tong-guang","given":"同光","length":2,"pinyin":"tong guang","tones":[2,1],"category":"chuci","gender":"u","source":{"text":"登昆仑兮食玉英，与天地兮同寿，与日月兮同光","title":"《九章·涉江》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"同光：与日月同光。光辉永恒。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"bao-zhen","given":"保真","length":2,"pinyin":"bao zhen","tones":[3,1],"category":"chuci","gender":"u","source":{"text":"宁廉洁正直以自清乎……宁超然高举以保真乎","title":"《楚辞·卜居》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"保真：保持本真。抱朴守真。","tags":["仁善","坚韧"],"frequency":"classic","verified":true},
+  {"id":"cang-lang","given":"沧浪","length":2,"pinyin":"cang lang","tones":[1,4],"category":"chuci","gender":"u","source":{"text":"沧浪之水清兮，可以濯吾缨；沧浪之水浊兮，可以濯吾足","title":"《楚辞·渔父》","author":"佚名","dynasty":"战国","genre":"fu"},"meaning":"沧浪：沧浪之水。清者自清，随遇而安。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"zhuo-ying","given":"濯缨","length":2,"pinyin":"zhuo ying","tones":[2,1],"category":"chuci","gender":"u","source":{"text":"沧浪之水清兮，可以濯吾缨","title":"《楚辞·渔父》","author":"佚名","dynasty":"战国","genre":"fu"},"meaning":"濯缨：以清水洗帽缨。超然脱俗，不染尘埃。","tags":["清朗","仁善"],"frequency":"classic","verified":true},
+  {"id":"qing-chun","given":"青春","length":2,"pinyin":"qing chun","tones":[1,1],"category":"chuci","season":[1],"gender":"u","source":{"text":"青春受谢，白日昭只","title":"《楚辞·大招》","author":"佚名","dynasty":"战国","genre":"fu"},"meaning":"青春：青春受谢。春光明媚，正值芳华。","tags":["福寿","清朗"],"frequency":"classic","verified":true},
+  {"id":"qiu-feng","given":"秋风","length":2,"pinyin":"qiu feng","tones":[1,1],"category":"chuci","season":[3],"gender":"u","source":{"text":"袅袅兮秋风，洞庭波兮木叶下","title":"《九歌·湘夫人》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"秋风：袅袅秋风。金风送爽。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"mu-ye","given":"木叶","length":2,"pinyin":"mu ye","tones":[4,4],"category":"chuci","season":[3],"gender":"u","source":{"text":"袅袅兮秋风，洞庭波兮木叶下","title":"《九歌·湘夫人》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"木叶：木叶飘飘。落叶归根。","tags":["自然"],"frequency":"classic","verified":true},
+  {"id":"gui-zhao","given":"桂棹","length":2,"pinyin":"gui zhao","tones":[4,4],"category":"hanfu","gender":"u","source":{"text":"桂棹兮兰桨，击空明兮溯流光","title":"苏轼《前赤壁赋》","author":"苏轼","dynasty":"宋","genre":"fu"},"meaning":"桂棹：桂木之桨。击空明，溯流光，诗意泛舟。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"qing-yun2","given":"轻云","length":2,"pinyin":"qing yun","tones":[1,2],"category":"hanfu","gender":"f","source":{"text":"髣髴兮若轻云之蔽月，飘飖兮若流风之回雪","title":"曹植《洛神赋》","author":"曹植","dynasty":"三国","genre":"fu"},"meaning":"轻云：轻云蔽月。轻盈缥缈。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"liu-feng","given":"流风","length":2,"pinyin":"liu feng","tones":[2,1],"category":"hanfu","gender":"f","source":{"text":"髣髴兮若轻云之蔽月，飘飖兮若流风之回雪","title":"曹植《洛神赋》","author":"曹植","dynasty":"三国","genre":"fu"},"meaning":"流风：流风回雪。飘逸绝尘。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"cui-zhu","given":"翠竹","length":2,"pinyin":"cui zhu","tones":[4,2],"category":"hanfu","gender":"u","source":{"text":"青林翠竹，四时俱备","title":"陶弘景《答谢中书书》","author":"陶弘景","dynasty":"南朝梁","genre":"classic"},"meaning":"翠竹：青林翠竹。虚心有节。","tags":["坚韧","自然"],"frequency":"classic","verified":true},
+  {"id":"si-shi","given":"四时","length":2,"pinyin":"si shi","tones":[4,2],"category":"hanfu","gender":"u","source":{"text":"青林翠竹，四时俱备","title":"陶弘景《答谢中书书》","author":"陶弘景","dynasty":"南朝梁","genre":"classic"},"meaning":"四时：四时俱备。春夏秋冬，各有其美。","tags":["自然","平安"],"frequency":"classic","verified":true},
+  {"id":"kun-peng","given":"鲲鹏","length":2,"pinyin":"kun peng","tones":[1,2],"category":"wenyan","gender":"m","source":{"text":"北冥有鱼，其名为鲲……化而为鸟，其名为鹏","title":"《庄子·逍遥游》","author":"庄子","dynasty":"战国","genre":"classic"},"meaning":"鲲鹏：鲲鹏展翅九万里。志在天际。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"bai-chuan","given":"百川","length":2,"pinyin":"bai chuan","tones":[3,1],"category":"wenyan","gender":"u","source":{"text":"秋水时至，百川灌河","title":"《庄子·秋水》","author":"庄子","dynasty":"战国","genre":"classic"},"meaning":"百川：百川归海。海纳百川，有容乃大。","tags":["事业","自然"],"frequency":"classic","verified":true},
+  {"id":"da-qi","given":"大器","length":2,"pinyin":"da qi","tones":[4,4],"category":"wenyan","gender":"m","source":{"text":"大方无隅，大器晚成，大音希声，大象无形","title":"《道德经》","author":"老子","dynasty":"春秋","genre":"classic"},"meaning":"大器：大器晚成。栋梁之才。","tags":["事业","坚韧"],"frequency":"classic","verified":true},
+  {"id":"zhi-xin","given":"知新","length":2,"pinyin":"zhi xin","tones":[1,1],"category":"wenyan","gender":"u","source":{"text":"温故而知新，可以为师矣","title":"《论语·为政》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"知新：温故知新。学而不厌，日日精进。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"ri-xin","given":"日新","length":2,"pinyin":"ri xin","tones":[4,1],"category":"wenyan","gender":"u","source":{"text":"苟日新，日日新，又日新","title":"《大学》","author":"曾子","dynasty":"春秋","genre":"classic"},"meaning":"日新：日日新。自强不息，日新月异。","tags":["事业","聪慧"],"frequency":"legend","verified":true},
+  {"id":"zhong-he","given":"中和","length":2,"pinyin":"zhong he","tones":[1,2],"category":"wenyan","gender":"u","source":{"text":"致中和，天地位焉，万物育焉","title":"《中庸》","author":"子思","dynasty":"战国","genre":"classic"},"meaning":"中和：中正平和。不偏不倚，温柔敦厚。","tags":["平安","仁善"],"frequency":"classic","verified":true},
+  {"id":"cheng-xi","given":"成蹊","length":2,"pinyin":"cheng xi","tones":[2,1],"category":"wenyan","gender":"u","source":{"text":"桃李不言，下自成蹊","title":"《史记·李将军列传》","author":"司马迁","dynasty":"汉","genre":"classic"},"meaning":"成蹊：桃李不言，下自成蹊。德馨自会吸引人心。","tags":["仁善","聪慧"],"frequency":"classic","verified":true},
+  {"id":"xiao-xiao","given":"萧萧","length":2,"pinyin":"xiao xiao","tones":[1,1],"category":"shijing","gender":"u","source":{"text":"萧萧马鸣，悠悠旆旌","title":"《诗经·小雅·车攻》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"萧萧：萧萧马鸣。清朗洒脱。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"tang-di","given":"棠棣","length":2,"pinyin":"tang di","tones":[2,4],"category":"shijing","season":[1],"gender":"u","source":{"text":"棠棣之华，鄂不韡韡。凡今之人，莫如兄弟","title":"《诗经·小雅·棠棣》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"棠棣：棠棣之花。兄弟情深，手足相亲。","tags":["仁善","爱情"],"frequency":"classic","verified":true},
+  {"id":"you-you2","given":"悠悠","length":2,"pinyin":"you you","tones":[1,1],"category":"shijing","gender":"u","source":{"text":"青青子衿，悠悠我心","title":"《诗经·郑风·子衿》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"悠悠：悠悠我心。闲适悠长，亦念悠悠。","tags":["风雅","爱情"],"frequency":"classic","verified":true},
+  {"id":"hong-yan","given":"鸿雁","length":2,"pinyin":"hong yan","tones":[2,4],"category":"shijing","gender":"u","source":{"text":"鸿雁于飞，肃肃其羽","title":"《诗经·小雅·鸿雁》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"鸿雁：鸿雁于飞。志在千里，书信传情。","tags":["事业","爱情"],"frequency":"classic","verified":true},
+  {"id":"li-li","given":"离离","length":2,"pinyin":"li li","tones":[2,2],"category":"shijing","season":[1],"gender":"u","source":{"text":"彼黍离离，彼稷之苗","title":"《诗经·王风·黍离》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"离离：草木繁茂。「离离原上草」，生机勃勃。","tags":["自然","坚韧"],"frequency":"classic","verified":true},
+  {"id":"yin-xing","given":"银杏","length":2,"pinyin":"yin xing","tones":[2,4],"category":"medicine","season":[3],"gender":"u","source":{"text":"《本草纲目》药名：银杏","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"银杏：银杏树，千年寿木。金秋扇叶，坚韧长寿。","tags":["健康","福寿"],"frequency":"classic","verified":true},
+  {"id":"su-mu","given":"苏木","length":2,"pinyin":"su mu","tones":[1,4],"category":"medicine","gender":"u","source":{"text":"《本草纲目》药名：苏木","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"苏木：行血之药。苏而复生，木有丹心。","tags":["健康","坚韧"],"frequency":"classic","verified":true},
+  {"id":"jue-ming","given":"决明","length":2,"pinyin":"jue ming","tones":[2,2],"category":"medicine","gender":"u","source":{"text":"雨中百草秋烂死，阶下决明颜色鲜","title":"杜甫《秋雨叹》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"决明：决明子，明目之药。明察秋毫，心明眼亮。","tags":["聪慧","健康"],"frequency":"classic","verified":true},
+  {"id":"dan-xian","given":"弦","length":1,"pinyin":"xian","tones":[2],"category":"hanfu","gender":"u","source":{"text":"目送归鸿，手挥五弦。俯仰自得，游心太玄","title":"嵇康《赠秀才入军》","author":"嵇康","dynasty":"魏晋","genre":"shi"},"meaning":"弦：琴弦。弦歌雅意，知音之乐。","tags":["风雅","聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-zheng2","given":"筝","length":1,"pinyin":"zheng","tones":[1],"category":"tangshi","gender":"f","source":{"text":"鸣筝金粟柱，素手玉房前","title":"李端《听筝》","author":"李端","dynasty":"唐","genre":"shi"},"meaning":"筝：古筝。鸣筝素手，清音绕梁。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-xiao3","given":"箫","length":1,"pinyin":"xiao","tones":[1],"category":"hanfu","gender":"u","source":{"text":"客有吹洞箫者，倚歌而和之。其声呜呜然，如怨如慕，如泣如诉","title":"苏轼《前赤壁赋》","author":"苏轼","dynasty":"宋","genre":"fu"},"meaning":"箫：洞箫。清幽之音，超然尘外。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-di","given":"笛","length":1,"pinyin":"di","tones":[2],"category":"tangshi","gender":"u","source":{"text":"谁家玉笛暗飞声，散入春风满洛城","title":"李白《春夜洛城闻笛》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"笛：玉笛飞声。清越悠扬。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"dan-sheng","given":"笙","length":1,"pinyin":"sheng","tones":[1],"category":"shijing","gender":"u","source":{"text":"我有嘉宾，鼓瑟吹笙","title":"《诗经·小雅·鹿鸣》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"笙：笙歌。鼓瑟吹笙，宾主尽欢。","tags":["风雅","爱情"],"frequency":"classic","verified":true},
+  {"id":"dan-mo","given":"墨","length":1,"pinyin":"mo","tones":[4],"category":"songci","gender":"u","source":{"text":"我家洗砚池头树，朵朵花开淡墨痕","title":"王冕《墨梅》","author":"王冕","dynasty":"元","genre":"shi"},"meaning":"墨：墨香。腹有诗书，翰墨传家。","tags":["风雅","聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-fu","given":"赋","length":1,"pinyin":"fu","tones":[4],"category":"wenyan","gender":"u","source":{"text":"赋者，铺也；铺采摛文，体物写志也","title":"刘勰《文心雕龙·诠赋》","author":"刘勰","dynasty":"南朝梁","genre":"classic"},"meaning":"赋：辞赋。铺采摛文，体物写志。","tags":["风雅","聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-yao3","given":"谣","length":1,"pinyin":"yao","tones":[2],"category":"shijing","gender":"u","source":{"text":"心之忧矣，我歌且谣","title":"《诗经·魏风·园有桃》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"谣：歌谣。歌以咏志，谣以传情。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-yi2","given":"弈","length":1,"pinyin":"yi","tones":[4],"category":"wenyan","gender":"u","source":{"text":"弈秋，通国之善弈者也","title":"《孟子·告子上》","author":"孟子","dynasty":"战国","genre":"classic"},"meaning":"弈：弈棋。运筹帷幄，深思熟虑。","tags":["聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-qi","given":"棋","length":1,"pinyin":"qi","tones":[2],"category":"wenyan","gender":"u","source":{"text":"弈秋，通国之善弈者也（弈即棋）","title":"《孟子·告子上》","author":"孟子","dynasty":"战国","genre":"classic"},"meaning":"棋：棋局。人生如棋，落子无悔。","tags":["聪慧","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-wu","given":"舞","length":1,"pinyin":"wu","tones":[3],"category":"songci","gender":"f","source":{"text":"起舞弄清影，何似在人间","title":"苏轼《水调歌头》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"舞：起舞。翩若惊鸿，曼妙多姿。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-yue3","given":"悦","length":1,"pinyin":"yue","tones":[4],"category":"wenyan","gender":"u","source":{"text":"学而时习之，不亦说乎（说通悦）","title":"《论语·学而》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"悦：喜悦（说通悦）。悦己悦人，和乐融融。","tags":["平安","爱情"],"frequency":"classic","verified":true},
+  {"id":"dan-yi3","given":"怡","length":1,"pinyin":"yi","tones":[2],"category":"hanfu","gender":"f","source":{"text":"黄发垂髫，并怡然自乐","title":"陶渊明《桃花源记》","author":"陶渊明","dynasty":"东晋","genre":"fu"},"meaning":"怡：怡然自乐。心旷神怡。","tags":["平安","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-xian2","given":"闲","length":1,"pinyin":"xian","tones":[2],"category":"tangshi","gender":"u","source":{"text":"人闲桂花落，夜静春山空","title":"王维《鸟鸣涧》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"闲：闲适。人闲桂花落，从容自在。","tags":["平安","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-xiang","given":"祥","length":1,"pinyin":"xiang","tones":[2],"category":"wenyan","gender":"u","source":{"text":"作善降之百祥，作不善降之百殃","title":"《尚书·伊训》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"祥：祥瑞。积善之家，必有余庆。","tags":["福寿","平安"],"frequency":"classic","verified":true},
+  {"id":"dan-ji2","given":"吉","length":1,"pinyin":"ji","tones":[2],"category":"wenyan","gender":"u","source":{"text":"自天祐之，吉无不利","title":"《易经·系辞上》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"吉：吉祥。吉无不利。","tags":["福寿","平安"],"frequency":"classic","verified":true},
+  {"id":"dan-qing3","given":"庆","length":1,"pinyin":"qing","tones":[4],"category":"wenyan","gender":"u","source":{"text":"积善之家，必有余庆","title":"《易经·坤卦》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"庆：余庆。善行积福，吉庆绵长。","tags":["福寿"],"frequency":"classic","verified":true},
+  {"id":"dan-jian2","given":"健","length":1,"pinyin":"jian","tones":[4],"category":"wenyan","gender":"m","source":{"text":"天行健，君子以自强不息","title":"《易经·乾卦》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"健：刚健。天行健，自强不息。","tags":["健康","坚韧"],"frequency":"classic","verified":true},
+  {"id":"dan-hao","given":"昊","length":1,"pinyin":"hao","tones":[4],"category":"wenyan","gender":"m","source":{"text":"春为苍天，夏为昊天，秋为旻天，冬为上天","title":"《尔雅·释天》","author":"佚名","dynasty":"汉","genre":"classic"},"meaning":"昊：昊天。辽阔苍穹。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-xu","given":"旭","length":1,"pinyin":"xu","tones":[4],"category":"shijing","gender":"m","source":{"text":"雝雝鸣雁，旭日始旦","title":"《诗经·邶风·匏有苦叶》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"旭：旭日东升。朝气蓬勃。","tags":["事业","清朗"],"frequency":"classic","verified":true},
+  {"id":"dan-yu5","given":"昱","length":1,"pinyin":"yu","tones":[4],"category":"wenyan","gender":"u","source":{"text":"昱，明日也","title":"《说文解字》","author":"许慎","dynasty":"东汉","genre":"classic"},"meaning":"昱：日光明亮。昱昱生辉。","tags":["清朗"],"frequency":"classic","verified":true},
+  {"id":"dan-dan","given":"旦","length":1,"pinyin":"dan","tones":[4],"category":"shijing","gender":"u","source":{"text":"雝雝鸣雁，旭日始旦","title":"《诗经·邶风·匏有苦叶》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"旦：天明。旭日始旦，万象更新。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-qian2","given":"乾","length":1,"pinyin":"qian","tones":[2],"category":"wenyan","gender":"m","source":{"text":"乾，元亨利贞","title":"《易经·乾卦》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"乾：乾天。刚健进取。","tags":["事业","坚韧"],"frequency":"classic","verified":true},
+  {"id":"dan-kun","given":"坤","length":1,"pinyin":"kun","tones":[1],"category":"wenyan","gender":"f","source":{"text":"地势坤，君子以厚德载物","title":"《易经·坤卦》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"坤：坤地。厚德载物，温厚包容。","tags":["仁善","坚韧"],"frequency":"classic","verified":true},
+  {"id":"dan-yan2","given":"彦","length":1,"pinyin":"yan","tones":[4],"category":"shijing","gender":"m","source":{"text":"彼其之子，邦之彦兮","title":"《诗经·郑风·羔裘》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"彦：邦之彦，国士之才。","tags":["事业","聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-xian3","given":"贤","length":1,"pinyin":"xian","tones":[2],"category":"wenyan","gender":"u","source":{"text":"贤哉回也！一箪食，一瓢饮，在陋巷","title":"《论语·雍也》","author":"孔子","dynasty":"春秋","genre":"classic"},"meaning":"贤：贤德。见贤思齐。","tags":["仁善","聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-lin3","given":"麟","length":1,"pinyin":"lin","tones":[2],"category":"shijing","gender":"m","source":{"text":"麟之趾，振振公子，于嗟麟兮","title":"《诗经·周南·麟之趾》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"麟：麒麟。祥瑞之兽，仁厚之征。","tags":["福寿","仁善"],"frequency":"classic","verified":true},
+  {"id":"dan-luan","given":"鸾","length":1,"pinyin":"luan","tones":[2],"category":"chuci","gender":"f","source":{"text":"扬云霓之晻蔼兮，鸣玉鸾之啾啾","title":"《离骚》","author":"屈原","dynasty":"战国","genre":"fu"},"meaning":"鸾：鸾鸟。鸾凤和鸣，吉祥之音。","tags":["爱情","福寿"],"frequency":"classic","verified":true},
+  {"id":"dan-peng","given":"鹏","length":1,"pinyin":"peng","tones":[2],"category":"wenyan","gender":"m","source":{"text":"鹏之徙于南冥也，水击三千里，抟扶摇而上者九万里","title":"《庄子·逍遥游》","author":"庄子","dynasty":"战国","genre":"classic"},"meaning":"鹏：大鹏。鹏程万里。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"dan-kun2","given":"鲲","length":1,"pinyin":"kun","tones":[1],"category":"wenyan","gender":"m","source":{"text":"北冥有鱼，其名为鲲。鲲之大，不知其几千里也","title":"《庄子·逍遥游》","author":"庄子","dynasty":"战国","genre":"classic"},"meaning":"鲲：鲲鱼。鲲化为鹏，志在千里。","tags":["事业","坚韧"],"frequency":"classic","verified":true},
+  {"id":"dan-wei2","given":"苇","length":1,"pinyin":"wei","tones":[3],"category":"shijing","gender":"u","source":{"text":"谁谓河广，一苇杭之","title":"《诗经·卫风·河广》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"苇：芦苇。一苇以航，坚韧渡远。","tags":["坚韧","自然"],"frequency":"classic","verified":true},
+  {"id":"dan-yun2","given":"芸","length":1,"pinyin":"yun","tones":[2],"category":"wenyan","season":[4],"gender":"f","source":{"text":"仲冬之月……芸始生，荔挺出","title":"《礼记·月令》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"芸：芸香草。书香门第，芸窗苦读。","tags":["风雅","聪慧"],"frequency":"classic","verified":true},
+  {"id":"dan-qian4","given":"茜","length":1,"pinyin":"qian","tones":[4],"category":"medicine","gender":"f","source":{"text":"《本草纲目》药名：茜草","title":"《本草纲目》","author":"李时珍","dynasty":"明","genre":"medicine"},"meaning":"茜：茜草，染绛之草。茜色如霞。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-pu","given":"璞","length":1,"pinyin":"pu","tones":[2],"category":"wenyan","gender":"u","source":{"text":"王乃使玉人理其璞而得宝焉","title":"《韩非子·和氏》","author":"韩非","dynasty":"战国","genre":"classic"},"meaning":"璞：璞玉。返璞归真，玉不琢不成器。","tags":["仁善","坚韧"],"frequency":"classic","verified":true},
+  {"id":"dan-qi2","given":"绮","length":1,"pinyin":"qi","tones":[3],"category":"hanfu","gender":"f","source":{"text":"余霞散成绮，澄江静如练","title":"谢朓《晚登三山还望京邑》","author":"谢朓","dynasty":"南朝","genre":"shi"},"meaning":"绮：绮丽的云霞。绮丽美好。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-luo","given":"罗","length":1,"pinyin":"luo","tones":[2],"category":"tangshi","gender":"f","source":{"text":"荷叶罗裙一色裁，芙蓉向脸两边开","title":"王昌龄《采莲曲》","author":"王昌龄","dynasty":"唐","genre":"shi"},"meaning":"罗：罗裙。轻罗曼妙。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-zan","given":"簪","length":1,"pinyin":"zan","tones":[1],"category":"tangshi","gender":"f","source":{"text":"白头搔更短，浑欲不胜簪","title":"杜甫《春望》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"簪：发簪。簪缨世家，书香门第。","tags":["风雅","富贵"],"frequency":"classic","verified":true},
+  {"id":"dan-chai","given":"钗","length":1,"pinyin":"chai","tones":[1],"category":"tangshi","gender":"f","source":{"text":"惟将旧物表深情，钿合金钗寄将去","title":"白居易《长恨歌》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"钗：金钗。钗留一股，情定一生。","tags":["爱情","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-zi","given":"梓","length":1,"pinyin":"zi","tones":[3],"category":"shijing","gender":"u","source":{"text":"维桑与梓，必恭敬止","title":"《诗经·小雅·小弁》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"梓：桑梓之乡。梓木良材，故土情深。","tags":["仁善","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-xing3","given":"杏","length":1,"pinyin":"xing","tones":[4],"category":"tangshi","season":[1],"gender":"f","source":{"text":"春日游，杏花吹满头","title":"韦庄《思帝乡》","author":"韦庄","dynasty":"唐","genre":"ci"},"meaning":"杏：杏花。「杏坛」讲学，亦「杏林」医家。","tags":["自然","仁善"],"frequency":"classic","verified":true},
+  {"id":"dan-li","given":"梨","length":1,"pinyin":"li","tones":[2],"category":"tangshi","season":[1],"gender":"f","source":{"text":"忽如一夜春风来，千树万树梨花开","title":"岑参《白雪歌送武判官归京》","author":"岑参","dynasty":"唐","genre":"shi"},"meaning":"梨：梨花如雪。梨园春色。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"dan-song2","given":"嵩","length":1,"pinyin":"song","tones":[1],"category":"shijing","gender":"m","source":{"text":"崧高维岳，骏极于天（崧通嵩）","title":"《诗经·大雅·崧高》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"嵩：嵩山（崧通嵩）。五岳之尊。","tags":["坚韧","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-dai","given":"岱","length":1,"pinyin":"dai","tones":[4],"category":"tangshi","gender":"m","source":{"text":"岱宗夫如何？齐鲁青未了","title":"杜甫《望岳》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"岱：岱宗，泰山之别称。稳重如岳。","tags":["坚韧","事业"],"frequency":"classic","verified":true},
+  {"id":"dan-yu6","given":"屿","length":1,"pinyin":"yu","tones":[3],"category":"tangshi","gender":"u","source":{"text":"近岸，卷石底以出，为坻，为屿，为嵁，为岩","title":"柳宗元《小石潭记》","author":"柳宗元","dynasty":"唐","genre":"classic"},"meaning":"屿：小岛。海中孤屿，遗世独立。","tags":["自然","坚韧"],"frequency":"classic","verified":true},
+  {"id":"dan-yang","given":"泱","length":1,"pinyin":"yang","tones":[1],"category":"shijing","gender":"u","source":{"text":"瞻彼洛矣，维水泱泱","title":"《诗经·小雅·瞻彼洛矣》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"泱：泱泱大水。泱泱大国，气象万千。","tags":["事业","自然"],"frequency":"classic","verified":true},
+  {"id":"dan-zhou3","given":"洲","length":1,"pinyin":"zhou","tones":[1],"category":"shijing","gender":"u","source":{"text":"关关雎鸠，在河之洲","title":"《诗经·周南·关雎》","author":"佚名","dynasty":"周","genre":"shi"},"meaning":"洲：河中小洲。关雎之洲，芳草萋萋。","tags":["自然","爱情"],"frequency":"classic","verified":true},
+  {"id":"ceng-lin","given":"层林","length":2,"pinyin":"ceng lin","tones":[2,2],"category":"jindai","gender":"u","source":{"text":"看万山红遍，层林尽染","title":"毛泽东《沁园春·长沙》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"层林：层层叠叠的树林。层林尽染，秋色壮阔如画。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"bai-ge","given":"百舸","length":2,"pinyin":"bai ge","tones":[3,3],"category":"jindai","gender":"u","source":{"text":"漫江碧透，百舸争流","title":"毛泽东《沁园春·长沙》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"百舸：众多的船只。百舸争流，奋楫争先。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"zheng-liu","given":"争流","length":2,"pinyin":"zheng liu","tones":[1,2],"category":"jindai","gender":"u","source":{"text":"漫江碧透，百舸争流","title":"毛泽东《沁园春·长沙》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"争流：竞相奔流。百舸争流，奋发争先。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"chang-kong","given":"长空","length":2,"pinyin":"chang kong","tones":[2,1],"category":"jindai","gender":"u","source":{"text":"鹰击长空，鱼翔浅底","title":"毛泽东《沁园春·长沙》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"长空：辽阔的天空。鹰击长空，志存高远。","tags":["自然","事业"],"frequency":"legend","verified":true},
+  {"id":"feng-hua","given":"风华","length":2,"pinyin":"feng hua","tones":[1,2],"category":"jindai","gender":"u","source":{"text":"恰同学少年，风华正茂","title":"毛泽东《沁园春·长沙》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"风华：风采才华。风华正茂，意气飞扬。","tags":["聪慧","风雅"],"frequency":"legend","verified":true},
+  {"id":"fang-qiu","given":"方遒","length":2,"pinyin":"fang qiu","tones":[1,2],"category":"jindai","gender":"u","source":{"text":"书生意气，挥斥方遒","title":"毛泽东《沁园春·长沙》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"方遒：正强劲有力。挥斥方遒，意气风发。","tags":["坚韧","事业"],"frequency":"legend","verified":true},
+  {"id":"fei-zhou","given":"飞舟","length":2,"pinyin":"fei zhou","tones":[1,1],"category":"jindai","gender":"u","source":{"text":"曾记否，到中流击水，浪遏飞舟","title":"毛泽东《沁园春·长沙》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"飞舟：疾驰的船只。浪遏飞舟，勇往直前。","tags":["坚韧","事业"],"frequency":"legend","verified":true},
+  {"id":"shuang-tian","given":"霜天","length":2,"pinyin":"shuang tian","tones":[1,1],"category":"jindai","gender":"u","source":{"text":"鹰击长空，鱼翔浅底，万类霜天竞自由","title":"毛泽东《沁园春·长沙》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"霜天：寒霜的秋空。万类霜天竞自由，清冽旷远。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"cang-mang","given":"苍茫","length":2,"pinyin":"cang mang","tones":[1,2],"category":"jindai","gender":"u","source":{"text":"怅寥廓，问苍茫大地，谁主沉浮","title":"毛泽东《沁园春·长沙》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"苍茫：旷远无边。问苍茫大地，胸襟天下。","tags":["自然","事业"],"frequency":"legend","verified":true},
+  {"id":"jin-zhao","given":"今朝","length":2,"pinyin":"jin zhao","tones":[1,1],"category":"jindai","gender":"u","source":{"text":"俱往矣，数风流人物，还看今朝","title":"毛泽东《沁园春·雪》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"今朝：今天。数风流人物还看今朝，昂扬自信。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"qing-ri","given":"晴日","length":2,"pinyin":"qing ri","tones":[2,4],"category":"jindai","gender":"u","source":{"text":"须晴日，看红装素裹，分外妖娆","title":"毛泽东《沁园春·雪》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"晴日：晴朗的日子。须晴日看红装素裹，明媚开阔。","tags":["平安","清朗"],"frequency":"legend","verified":true},
+  {"id":"chong-yang","given":"重阳","length":2,"pinyin":"chong yang","tones":[2,2],"category":"jindai","gender":"u","source":{"text":"人生易老天难老，岁岁重阳","title":"毛泽东《采桑子·重阳》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"重阳：九九重阳佳节。岁岁重阳，今又重阳，康健高远。","tags":["福寿","平安"],"frequency":"legend","verified":true},
+  {"id":"chun-guang","given":"春光","length":2,"pinyin":"chun guang","tones":[1,1],"category":"jindai","gender":"u","source":{"text":"一年一度秋风劲，不似春光。胜似春光","title":"毛泽东《采桑子·重阳》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"春光：春天的风光。胜似春光，朝气蓬勃。","tags":["自然","健康"],"frequency":"legend","verified":true},
+  {"id":"jiang-tian","given":"江天","length":2,"pinyin":"jiang tian","tones":[1,1],"category":"jindai","gender":"u","source":{"text":"胜似春光，寥廓江天万里霜","title":"毛泽东《采桑子·重阳》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"江天：江上的长天。寥廓江天万里霜，壮阔明净。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"xiong-guan","given":"雄关","length":2,"pinyin":"xiong guan","tones":[2,1],"category":"jindai","gender":"m","source":{"text":"雄关漫道真如铁，而今迈步从头越","title":"毛泽东《忆秦娥·娄山关》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"雄关：雄伟的关隘。雄关漫道真如铁，坚毅无畏。","tags":["坚韧","事业"],"frequency":"legend","verified":true},
+  {"id":"xi-feng","given":"西风","length":2,"pinyin":"xi feng","tones":[1,1],"category":"jindai","gender":"u","source":{"text":"西风烈，长空雁叫霜晨月","title":"毛泽东《忆秦娥·娄山关》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"西风：秋风。西风烈，长空雁叫，苍劲清朗。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"shuang-chen","given":"霜晨","length":2,"pinyin":"shuang chen","tones":[1,2],"category":"jindai","gender":"u","source":{"text":"西风烈，长空雁叫霜晨月","title":"毛泽东《忆秦娥·娄山关》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"霜晨：降霜的清晨。长空雁叫霜晨月，清冽明净。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"cang-shan","given":"苍山","length":2,"pinyin":"cang shan","tones":[1,1],"category":"jindai","gender":"u","source":{"text":"苍山如海，残阳如血","title":"毛泽东《忆秦娥·娄山关》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"苍山：青苍的山峦。苍山如海，雄浑壮阔。","tags":["自然","坚韧"],"frequency":"legend","verified":true},
+  {"id":"xi-lang","given":"细浪","length":2,"pinyin":"xi lang","tones":[4,4],"category":"jindai","gender":"u","source":{"text":"五岭逶迤腾细浪，乌蒙磅礴走泥丸","title":"毛泽东《七律·长征》","author":"毛泽东","dynasty":"近现代","genre":"shi"},"meaning":"细浪：细小的波浪。五岭逶迤腾细浪，举重若轻。","tags":["清朗","坚韧"],"frequency":"legend","verified":true},
+  {"id":"yuan-zheng","given":"远征","length":2,"pinyin":"yuan zheng","tones":[3,1],"category":"jindai","gender":"u","source":{"text":"红军不怕远征难，万水千山只等闲","title":"毛泽东《七律·长征》","author":"毛泽东","dynasty":"近现代","genre":"shi"},"meaning":"远征：远途征行。红军不怕远征难，志坚行远。","tags":["坚韧","事业"],"frequency":"legend","verified":true},
+  {"id":"qian-shan","given":"千山","length":2,"pinyin":"qian shan","tones":[1,1],"category":"jindai","gender":"u","source":{"text":"红军不怕远征难，万水千山只等闲","title":"毛泽东《七律·长征》","author":"毛泽东","dynasty":"近现代","genre":"shi"},"meaning":"千山：群山。万水千山只等闲，气象万千。","tags":["自然","坚韧"],"frequency":"legend","verified":true},
+  {"id":"cang-huang","given":"苍黄","length":2,"pinyin":"cang huang","tones":[1,2],"category":"jindai","gender":"u","source":{"text":"钟山风雨起苍黄，百万雄师过大江","title":"毛泽东《七律·人民解放军占领南京》","author":"毛泽东","dynasty":"近现代","genre":"shi"},"meaning":"苍黄：苍茫翻覆。钟山风雨起苍黄，风云壮阔。","tags":["自然","事业"],"frequency":"legend","verified":true},
+  {"id":"zheng-dao","given":"正道","length":2,"pinyin":"zheng dao","tones":[4,4],"category":"jindai","gender":"m","source":{"text":"天若有情天亦老，人间正道是沧桑","title":"毛泽东《七律·人民解放军占领南京》","author":"毛泽东","dynasty":"近现代","genre":"shi"},"meaning":"正道：人间正道。人间正道是沧桑，光明磊落。","tags":["仁善","事业"],"frequency":"legend","verified":true},
+  {"id":"xin-bu","given":"信步","length":2,"pinyin":"xin bu","tones":[4,4],"category":"jindai","gender":"u","source":{"text":"不管风吹浪打，胜似闲庭信步","title":"毛泽东《水调歌头·游泳》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"信步：从容漫步。闲庭信步，从容不迫，自信坚定。","tags":["坚韧","平安"],"frequency":"legend","verified":true},
+  {"id":"ping-hu","given":"平湖","length":2,"pinyin":"ping hu","tones":[2,2],"category":"jindai","gender":"u","source":{"text":"更立西江石壁，截断巫山云雨，高峡出平湖","title":"毛泽东《水调歌头·游泳》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"平湖：平静的湖面。高峡出平湖，开阔安宁。","tags":["平安","清朗"],"frequency":"legend","verified":true},
+  {"id":"shan-hua","given":"山花","length":2,"pinyin":"shan hua","tones":[1,1],"category":"jindai","gender":"f","source":{"text":"待到山花烂漫时，她在丛中笑","title":"毛泽东《卜算子·咏梅》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"山花：山野之花。待到山花烂漫时，明艳美好。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"lan-man","given":"烂漫","length":2,"pinyin":"lan man","tones":[4,4],"category":"jindai","gender":"f","source":{"text":"待到山花烂漫时，她在丛中笑","title":"毛泽东《卜算子·咏梅》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"烂漫：色彩鲜丽。山花烂漫，天真美好。","tags":["清朗","健康"],"frequency":"legend","verified":true},
+  {"id":"fei-xue","given":"飞雪","length":2,"pinyin":"fei xue","tones":[1,3],"category":"jindai","gender":"f","source":{"text":"风雨送春归，飞雪迎春到","title":"毛泽东《卜算子·咏梅》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"飞雪：纷飞的雪花。飞雪迎春到，纯净灵动。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"yun-dan","given":"云淡","length":2,"pinyin":"yun dan","tones":[2,4],"category":"jindai","gender":"u","source":{"text":"天高云淡，望断南飞雁","title":"毛泽东《清平乐·六盘山》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"云淡：云彩淡薄。天高云淡，心境旷达。","tags":["自然","平安"],"frequency":"legend","verified":true},
+  {"id":"chang-ying","given":"长缨","length":2,"pinyin":"chang ying","tones":[2,1],"category":"jindai","gender":"u","source":{"text":"今日长缨在手，何时缚住苍龙","title":"毛泽东《清平乐·六盘山》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"长缨：长绳、长带。长缨在手，志在必得。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"cang-long","given":"苍龙","length":2,"pinyin":"cang long","tones":[1,2],"category":"jindai","gender":"m","source":{"text":"今日长缨在手，何时缚住苍龙","title":"毛泽东《清平乐·六盘山》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"苍龙：苍青的巨龙。何时缚住苍龙，气吞山河。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"xiao-se","given":"萧瑟","length":2,"pinyin":"xiao se","tones":[1,4],"category":"jindai","gender":"u","source":{"text":"萧瑟秋风今又是，换了人间","title":"毛泽东《浪淘沙·北戴河》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"萧瑟：秋风之声。萧瑟秋风今又是，苍劲辽远。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"wang-yang","given":"汪洋","length":2,"pinyin":"wang yang","tones":[1,2],"category":"jindai","gender":"u","source":{"text":"一片汪洋都不见，知向谁边","title":"毛泽东《浪淘沙·北戴河》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"汪洋：水势浩大。汪洋恣肆，胸怀广阔。","tags":["自然","平安"],"frequency":"legend","verified":true},
+  {"id":"mang-cang","given":"莽苍","length":2,"pinyin":"mang cang","tones":[3,1],"category":"jindai","gender":"u","source":{"text":"烟雨莽苍苍，龟蛇锁大江","title":"毛泽东《菩萨蛮·黄鹤楼》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"莽苍：苍茫辽阔。烟雨莽苍苍，气象浑茫。","tags":["自然","坚韧"],"frequency":"legend","verified":true},
+  {"id":"huang-he","given":"黄鹤","length":2,"pinyin":"huang he","tones":[2,4],"category":"jindai","gender":"u","source":{"text":"黄鹤知何去？剩有游人处","title":"毛泽东《菩萨蛮·黄鹤楼》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"黄鹤：黄鹤楼之仙鹤。黄鹤知何去，高远飘逸。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"xin-chao","given":"心潮","length":2,"pinyin":"xin chao","tones":[1,2],"category":"jindai","gender":"u","source":{"text":"把酒酹滔滔，心潮逐浪高","title":"毛泽东《菩萨蛮·黄鹤楼》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"心潮：起伏的心绪。心潮逐浪高，意气激昂。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"heng-kong","given":"横空","length":2,"pinyin":"heng kong","tones":[2,1],"category":"jindai","gender":"u","source":{"text":"横空出世，莽昆仑，阅尽人间春色","title":"毛泽东《念奴娇·昆仑》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"横空：横亘天空。横空出世，气势磅礴。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"yu-long","given":"玉龙","length":2,"pinyin":"yu long","tones":[4,2],"category":"jindai","gender":"u","source":{"text":"飞起玉龙三百万，搅得周天寒彻","title":"毛泽东《念奴娇·昆仑》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"玉龙：雪白的长龙。飞起玉龙三百万，雄奇壮美。","tags":["自然","事业"],"frequency":"legend","verified":true},
+  {"id":"yi-tian","given":"倚天","length":2,"pinyin":"yi tian","tones":[3,1],"category":"jindai","gender":"m","source":{"text":"安得倚天抽宝剑，把汝裁为三截","title":"毛泽东《念奴娇·昆仑》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"倚天：倚靠青天。安得倚天抽宝剑，气概非凡。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"tai-ping","given":"太平","length":2,"pinyin":"tai ping","tones":[4,2],"category":"jindai","gender":"u","source":{"text":"太平世界，环球同此凉热","title":"毛泽东《念奴娇·昆仑》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"太平：天下太平。太平世界，安宁祥和。","tags":["平安","福寿"],"frequency":"legend","verified":true},
+  {"id":"chang-e","given":"嫦娥","length":2,"pinyin":"chang e","tones":[2,2],"category":"jindai","gender":"f","source":{"text":"寂寞嫦娥舒广袖，万里长空且为忠魂舞","title":"毛泽东《蝶恋花·答李淑一》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"嫦娥：月中仙子。寂寞嫦娥舒广袖，清雅高洁。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"guang-xiu","given":"广袖","length":2,"pinyin":"guang xiu","tones":[3,4],"category":"jindai","gender":"f","source":{"text":"寂寞嫦娥舒广袖，万里长空且为忠魂舞","title":"毛泽东《蝶恋花·答李淑一》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"广袖：宽大的衣袖。嫦娥舒广袖，飘然若仙。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"chong-xiao","given":"重霄","length":2,"pinyin":"chong xiao","tones":[2,1],"category":"jindai","gender":"u","source":{"text":"杨柳轻飏直上重霄九","title":"毛泽东《蝶恋花·答李淑一》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"重霄：九重云霄。直上重霄九，志存高远。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"ji-shi","given":"济世","length":2,"pinyin":"ji shi","tones":[4,4],"category":"jindai","gender":"m","source":{"text":"大江歌罢掉头东，邃密群科济世穷","title":"周恩来《大江歌罢掉头东》","author":"周恩来","dynasty":"近现代","genre":"shi"},"meaning":"济世：救助世人。邃密群科济世穷，胸怀天下。","tags":["仁善","事业"],"frequency":"legend","verified":true},
+  {"id":"ling-yun","given":"凌云","length":2,"pinyin":"ling yun","tones":[2,2],"category":"jindai","gender":"m","source":{"text":"久有凌云志，重上井冈山","title":"毛泽东《水调歌头·重上井冈山》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"凌云：直上云霄。久有凌云志，壮志凌云。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"kai-ge","given":"凯歌","length":2,"pinyin":"kai ge","tones":[3,1],"category":"jindai","gender":"m","source":{"text":"可上九天揽月，可下五洋捉鳖，谈笑凯歌还","title":"毛泽东《水调歌头·重上井冈山》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"凯歌：胜利之歌。谈笑凯歌还，意气风发。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"wu-yang","given":"五洋","length":2,"pinyin":"wu yang","tones":[3,2],"category":"jindai","gender":"u","source":{"text":"可上九天揽月，可下五洋捉鳖，谈笑凯歌还","title":"毛泽东《水调歌头·重上井冈山》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"五洋：五大洋。可下五洋捉鳖，胸襟远大。","tags":["事业","自然"],"frequency":"legend","verified":true},
+  {"id":"cong-rong","given":"从容","length":2,"pinyin":"cong rong","tones":[2,2],"category":"jindai","gender":"u","source":{"text":"暮色苍茫看劲松，乱云飞渡仍从容","title":"毛泽东《七绝·为李进同志题所摄庐山仙人洞照》","author":"毛泽东","dynasty":"近现代","genre":"shi"},"meaning":"从容：镇定自若。乱云飞渡仍从容，泰然处之。","tags":["坚韧","平安"],"frequency":"legend","verified":true},
+  {"id":"man-tian","given":"漫天","length":2,"pinyin":"man tian","tones":[4,1],"category":"jindai","gender":"u","source":{"text":"漫天皆白，雪里行军情更迫","title":"毛泽东《减字木兰花·广昌路上》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"漫天：布满天空。漫天皆白，雪意磅礴。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"xiao-han","given":"霄汉","length":2,"pinyin":"xiao han","tones":[1,4],"category":"jindai","gender":"m","source":{"text":"万木霜天红烂漫，天兵怒气冲霄汉","title":"毛泽东《渔家傲·反第一次大围剿》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"霄汉：云天。气冲霄汉，志气凌云。","tags":["事业","坚韧"],"frequency":"classic","verified":true},
+  {"id":"sang-zi","given":"桑梓","length":2,"pinyin":"sang zi","tones":[1,3],"category":"jindai","gender":"u","source":{"text":"埋骨何须桑梓地，人生无处不青山","title":"毛泽东《七绝·改诗赠父亲》","author":"毛泽东","dynasty":"近现代","genre":"shi"},"meaning":"桑梓：故乡。心怀桑梓，不忘根本。","tags":["仁善","平安"],"frequency":"classic","verified":true},
+  {"id":"hua-zhang","given":"华章","length":2,"pinyin":"hua zhang","tones":[2,1],"category":"jindai","gender":"u","source":{"text":"三十一年还旧国，落花时节读华章","title":"毛泽东《七律·和柳亚子先生》","author":"毛泽东","dynasty":"近现代","genre":"shi"},"meaning":"华章：华美的篇章。落花时节读华章，文采斐然。","tags":["聪慧","风雅"],"frequency":"classic","verified":true},
+  {"id":"yun-shui","given":"云水","length":2,"pinyin":"yun shui","tones":[2,3],"category":"jindai","gender":"u","source":{"text":"四海翻腾云水怒，五洲震荡风雷激","title":"毛泽东《满江红·和郭沫若同志》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"云水：云与水。云水气象，行云流水，开阔浩荡。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"feng-lei","given":"风雷","length":2,"pinyin":"feng lei","tones":[1,2],"category":"jindai","gender":"m","source":{"text":"四海翻腾云水怒，五洲震荡风雷激","title":"毛泽东《满江红·和郭沫若同志》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"风雷：风雨雷电。五洲震荡风雷激，雷霆万钧。","tags":["事业","坚韧"],"frequency":"classic","verified":true},
+  {"id":"qian-jun","given":"千钧","length":2,"pinyin":"qian jun","tones":[1,1],"category":"jindai","gender":"m","source":{"text":"金猴奋起千钧棒，玉宇澄清万里埃","title":"毛泽东《七律·和郭沫若同志》","author":"毛泽东","dynasty":"近现代","genre":"shi"},"meaning":"千钧：极重的分量。金猴奋起千钧棒，力重千钧。","tags":["坚韧","事业"],"frequency":"classic","verified":true},
+  {"id":"dong-yun","given":"冬云","length":2,"pinyin":"dong yun","tones":[1,2],"category":"jindai","gender":"u","source":{"text":"雪压冬云白絮飞，万花纷谢一时稀","title":"毛泽东《七律·冬云》","author":"毛泽东","dynasty":"近现代","genre":"shi"},"meaning":"冬云：冬天的云。雪压冬云白絮飞，沉静坚毅。","tags":["自然","坚韧"],"frequency":"classic","verified":true},
+  {"id":"heng-tang","given":"横塘","length":2,"pinyin":"heng tang","tones":[2,2],"category":"jindai","gender":"u","source":{"text":"今朝霜重东门路，照横塘半天残月","title":"毛泽东《贺新郎·别友》","author":"毛泽东","dynasty":"近现代","genre":"ci"},"meaning":"横塘：横亘之塘。照横塘半天残月，清幽雅致。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"zhao-hui","given":"朝晖","length":2,"pinyin":"zhao hui","tones":[1,1],"category":"jindai","gender":"u","source":{"text":"我欲因之梦寥廓，芙蓉国里尽朝晖","title":"毛泽东《七律·答友人》","author":"毛泽东","dynasty":"近现代","genre":"shi"},"meaning":"朝晖：清晨的阳光。芙蓉国里尽朝晖，朝气蓬勃。","tags":["清朗","健康"],"frequency":"classic","verified":true},
+  {"id":"guang-yu","given":"广宇","length":2,"pinyin":"guang yu","tones":[3,3],"category":"jindai","gender":"u","source":{"text":"心事浩茫连广宇，于无声处听惊雷","title":"鲁迅《无题》","author":"鲁迅","dynasty":"近现代","genre":"shi"},"meaning":"广宇：广大的天地。心事浩茫连广宇，胸怀宽广。","tags":["自然","事业"],"frequency":"classic","verified":true},
+  {"id":"bi-tao","given":"碧涛","length":2,"pinyin":"bi tao","tones":[4,1],"category":"jindai","gender":"u","source":{"text":"一腔热血勤珍重，洒去犹能化碧涛","title":"秋瑾《对酒》","author":"秋瑾","dynasty":"近现代","genre":"shi"},"meaning":"碧涛：碧绿的波涛。洒去犹能化碧涛，激扬壮阔。","tags":["自然","坚韧"],"frequency":"classic","verified":true},
+  {"id":"zhi-yin","given":"知音","length":2,"pinyin":"zhi yin","tones":[1,1],"category":"wenyan","gender":"u","source":{"text":"知音说与知音听，不是知音莫与谈","title":"《增广贤文》","author":"佚名","dynasty":"明","genre":"classic"},"meaning":"知音难得，伯牙子期之谊。寓意善解人意、情谊相契。","tags":["仁善","爱情"],"frequency":"common","verified":true},
+  {"id":"tian-qing","given":"天青","length":2,"pinyin":"tian qing","tones":[1,1],"category":"jindai","gender":"u","source":{"text":"天青色等烟雨，而我在等你","title":"《青花瓷》（周杰伦）","author":"方文山","dynasty":"近现代","genre":"geci"},"meaning":"天青：雨过天青之色。天青色等烟雨，清雅纯净。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"yan-ran","given":"嫣然","length":2,"pinyin":"yan ran","tones":[1,2],"category":"jindai","gender":"f","source":{"text":"而你嫣然的一笑如含苞待放","title":"《青花瓷》（周杰伦）","author":"方文山","dynasty":"近现代","genre":"geci"},"meaning":"嫣然：美好的笑容。嫣然一笑如含苞待放，明媚动人。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"jiao-jie","given":"皎洁","length":2,"pinyin":"jiao jie","tones":[3,2],"category":"jindai","gender":"f","source":{"text":"邀明月，让回忆皎洁","title":"《发如雪》（周杰伦）","author":"方文山","dynasty":"近现代","genre":"geci"},"meaning":"皎洁：明亮洁白。明月皎洁，纯净美好。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"ning-shuang","given":"凝霜","length":2,"pinyin":"ning shuang","tones":[2,1],"category":"jindai","gender":"f","source":{"text":"夜太漫长，凝结成了霜","title":"《菊花台》（周杰伦）","author":"方文山","dynasty":"近现代","genre":"geci"},"meaning":"凝霜：凝结的霜。清冷晶莹，纯净素雅。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"xiang-wan","given":"向晚","length":2,"pinyin":"xiang wan","tones":[4,3],"category":"jindai","gender":"u","source":{"text":"花已向晚，飘落了灿烂","title":"《菊花台》（周杰伦）","author":"方文山","dynasty":"近现代","genre":"geci"},"meaning":"向晚：傍晚时分。花已向晚，静谧悠远。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"yue-guang","given":"月光","length":2,"pinyin":"yue guang","tones":[4,1],"category":"jindai","gender":"u","source":{"text":"庐州月光，洒在心上","title":"《庐州月》（许嵩）","author":"许嵩","dynasty":"近现代","genre":"geci"},"meaning":"月光：月亮的光华。庐州月光洒在心上，温柔清亮。","tags":["清朗","爱情"],"frequency":"legend","verified":true},
+  {"id":"yan-xia","given":"烟霞","length":2,"pinyin":"yan xia","tones":[1,2],"category":"jindai","gender":"f","source":{"text":"三月一路烟霞，莺飞草长","title":"《庐州月》（许嵩）","author":"许嵩","dynasty":"近现代","genre":"geci"},"meaning":"烟霞：烟霭云霞。三月一路烟霞，如诗如画。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"chu-xiao","given":"初晓","length":2,"pinyin":"chu xiao","tones":[1,3],"category":"jindai","gender":"f","source":{"text":"窗透初晓，日照西桥","title":"《清明雨上》（许嵩）","author":"许嵩","dynasty":"近现代","genre":"geci"},"meaning":"初晓：拂晓时分。窗透初晓日照西桥，清新明亮。","tags":["清朗","平安"],"frequency":"legend","verified":true},
+  {"id":"kong-ling","given":"空灵","length":2,"pinyin":"kong ling","tones":[1,2],"category":"jindai","gender":"u","source":{"text":"远方有琴，愀然空灵，声声催天雨","title":"《清明雨上》（许嵩）","author":"许嵩","dynasty":"近现代","genre":"geci"},"meaning":"空灵：空明灵动。琴声空灵，清幽脱俗。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"yue-ying","given":"月影","length":2,"pinyin":"yue ying","tones":[4,3],"category":"jindai","gender":"f","source":{"text":"月影憧憧，烟火几重，烛花红","title":"《清明雨上》（许嵩）","author":"许嵩","dynasty":"近现代","genre":"geci"},"meaning":"月影：月下的影子。月影憧憧，朦胧诗意。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"han-yue","given":"寒月","length":2,"pinyin":"han yue","tones":[2,4],"category":"jindai","gender":"u","source":{"text":"水中寒月如雪，指尖轻点，融化冰雪","title":"《断桥残雪》（许嵩）","author":"许嵩","dynasty":"近现代","genre":"geci"},"meaning":"寒月：清寒的月亮。水中寒月如雪，清冷澄澈。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"yan-gui","given":"燕归","length":2,"pinyin":"yan gui","tones":[4,1],"category":"jindai","gender":"u","source":{"text":"寒梅落尽把冬了，衔春的燕想归巢","title":"《燕归巢》（许嵩）","author":"许嵩","dynasty":"近现代","genre":"geci"},"meaning":"燕归：燕子归来。衔春的燕想归巢，温婉多情。","tags":["自然","仁善"],"frequency":"legend","verified":true},
+  {"id":"po-xiao","given":"破晓","length":2,"pinyin":"po xiao","tones":[4,3],"category":"jindai","gender":"u","source":{"text":"雨后江岸天破晓，老舟新客知多少","title":"《燕归巢》（许嵩）","author":"许嵩","dynasty":"近现代","genre":"geci"},"meaning":"破晓：天刚亮。雨后江岸天破晓，光明初现。","tags":["清朗","事业"],"frequency":"legend","verified":true},
+  {"id":"han-mei","given":"寒梅","length":2,"pinyin":"han mei","tones":[2,2],"category":"jindai","gender":"f","source":{"text":"寒梅落尽把冬了，衔春的燕想归巢","title":"《燕归巢》（许嵩）","author":"许嵩","dynasty":"近现代","genre":"geci"},"meaning":"寒梅：傲雪的梅花。寒梅落尽把冬了，高洁坚韧。","tags":["坚韧","清朗"],"frequency":"legend","verified":true},
+  {"id":"feng-ye","given":"枫叶","length":2,"pinyin":"feng ye","tones":[1,4],"category":"jindai","gender":"u","source":{"text":"枫叶将故事染色，结局我看透","title":"《东风破》（周杰伦）","author":"方文山","dynasty":"近现代","genre":"geci"},"meaning":"枫叶：枫树的叶子。枫叶将故事染色，绚烂多情。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"ji-qing","given":"寄情","length":2,"pinyin":"ji qing","tones":[4,2],"category":"jindai","gender":"u","source":{"text":"若为此弦声寄入一段情","title":"《琴师》（音频怪物）","author":"EDIQ","dynasty":"近现代","genre":"geci"},"meaning":"寄情：寄托情意。若为此弦声寄入一段情，深情绵长。","tags":["风雅","爱情"],"frequency":"legend","verified":true},
+  {"id":"liu-se","given":"柳色","length":2,"pinyin":"liu se","tones":[3,4],"category":"jindai","gender":"f","source":{"text":"衰草连横向晚晴，半城柳色半声笛","title":"《第三十八年夏至》（河图）","author":"狐离","dynasty":"近现代","genre":"geci"},"meaning":"柳色：柳树的颜色。半城柳色半声笛，清新婉约。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"liu-xiang","given":"留香","length":2,"pinyin":"liu xiang","tones":[2,1],"category":"jindai","gender":"u","source":{"text":"饮一盏岁月留香，唱一曲往事飞扬","title":"《燕归巢》（许嵩）","author":"许嵩","dynasty":"近现代","genre":"geci"},"meaning":"留香：留存芬芳。岁月留香，芳名远播。","tags":["风雅","仁善"],"frequency":"classic","verified":true},
+  {"id":"wan-feng","given":"晚风","length":2,"pinyin":"wan feng","tones":[3,1],"category":"jindai","gender":"u","source":{"text":"晚风拂柳笛声残，夕阳山外山","title":"《送别》（李叔同）","author":"李叔同","dynasty":"近现代","genre":"geci"},"meaning":"晚风：傍晚的风。晚风拂柳笛声残，温柔诗意。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"cheng-qi","given":"成器","length":2,"pinyin":"cheng qi","tones":[2,4],"category":"wenyan","gender":"m","source":{"text":"玉不琢，不成器","title":"《礼记·学记》","author":"戴圣","dynasty":"汉","genre":"classic"},"meaning":"美玉不雕琢不成器物，喻人须经磨砺方能成才。寓意精进自砺、终成大器。","tags":["事业","坚韧"],"frequency":"classic","verified":true},
+  {"id":"kong-gu","given":"空谷","length":2,"pinyin":"kong gu","tones":[1,3],"category":"wenyan","gender":"u","source":{"text":"空谷传声，虚堂习听","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"空旷幽深的山谷，回声悠远。寓意胸襟开阔、清幽高远。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"shou-zhen","given":"守真","length":2,"pinyin":"shou zhen","tones":[3,1],"category":"wenyan","gender":"m","source":{"text":"守真志满，逐物意移","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"保持本真之性，志向自然充实。寓意不忘初心、纯真笃定。","tags":["仁善","坚韧"],"frequency":"legend","verified":true},
+  {"id":"xing-jing","given":"性静","length":2,"pinyin":"xing jing","tones":[4,4],"category":"wenyan","gender":"f","source":{"text":"性静情逸，心动神疲","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"性情沉静则情致安逸。寓意心性淡泊、从容安定。","tags":["清朗","平安"],"frequency":"classic","verified":true},
+  {"id":"qing-yi","given":"情逸","length":2,"pinyin":"qing yi","tones":[2,4],"category":"wenyan","gender":"f","source":{"text":"性静情逸，心动神疲","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"心性安定则情致超逸。寓意气质脱俗、闲雅自在。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"ye-guang","given":"夜光","length":2,"pinyin":"ye guang","tones":[4,1],"category":"wenyan","gender":"u","source":{"text":"剑号巨阙，珠称夜光","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"夜光宝珠，暗夜生辉。寓意如珠如玉、光芒自现。","tags":["聪慧","富贵"],"frequency":"classic","verified":true},
+  {"id":"ming-feng","given":"鸣凤","length":2,"pinyin":"ming feng","tones":[2,4],"category":"wenyan","gender":"f","source":{"text":"鸣凤在竹，白驹食场","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"凤凰鸣于竹林，祥和吉瑞。寓意卓尔不群、声名和美。","tags":["风雅","福寿"],"frequency":"classic","verified":true},
+  {"id":"shan-qing","given":"善庆","length":2,"pinyin":"shan qing","tones":[4,4],"category":"wenyan","gender":"u","source":{"text":"祸因恶积，福缘善庆","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"福泽由行善而来。寓意积善之家、福庆绵长。","tags":["仁善","福寿"],"frequency":"classic","verified":true},
+  {"id":"lan-xin","given":"兰馨","length":2,"pinyin":"lan xin","tones":[2,1],"category":"wenyan","gender":"f","source":{"text":"似兰斯馨，如松之盛","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"如幽兰般芬芳，如松柏般茂盛。寓意品性高洁、气韵悠长。","tags":["风雅","健康"],"frequency":"classic","verified":true},
+  {"id":"ruo-si","given":"若思","length":2,"pinyin":"ruo si","tones":[4,1],"category":"wenyan","gender":"u","source":{"text":"容止若思，言辞安定","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"仪容举止如同沉思般端重。寓意沉静善思、稳重安和。","tags":["聪慧","仁善"],"frequency":"classic","verified":true},
+  {"id":"dan-qing4","given":"丹青","length":2,"pinyin":"dan qing","tones":[1,1],"category":"wenyan","gender":"u","source":{"text":"宣威沙漠，驰誉丹青","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"丹青原指史册画卷，喻功业载入青史。寓意才华出众、名留青史。","tags":["事业","风雅"],"frequency":"classic","verified":true},
+  {"id":"bing-zhi","given":"秉直","length":2,"pinyin":"bing zhi","tones":[3,2],"category":"wenyan","gender":"m","source":{"text":"孟轲敦素，史鱼秉直","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"秉持正直，如史鱼之耿介。寓意刚正不阿、品行端方。","tags":["仁善","坚韧"],"frequency":"classic","verified":true},
+  {"id":"wan-cui","given":"晚翠","length":2,"pinyin":"wan cui","tones":[3,4],"category":"wenyan","gender":"f","source":{"text":"枇杷晚翠，梧桐蚤凋","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"枇杷经冬犹翠。寓意青春常驻、历久弥新。","tags":["健康","坚韧"],"frequency":"classic","verified":true},
+  {"id":"cheng-mei","given":"诚美","length":2,"pinyin":"cheng mei","tones":[2,3],"category":"wenyan","gender":"f","source":{"text":"笃初诚美，慎终宜令","title":"《千字文》","author":"周兴嗣","dynasty":"南朝梁","genre":"classic"},"meaning":"笃实于始，确实美好。寓意真诚笃厚、善始善终。","tags":["仁善","聪慧"],"frequency":"classic","verified":true},
+  {"id":"zhi-yu","given":"知鱼","length":2,"pinyin":"zhi yu","tones":[1,2],"category":"wenyan","gender":"u","source":{"text":"近水知鱼性，近山识鸟音","title":"《增广贤文》","author":"佚名","dynasty":"明","genre":"classic"},"meaning":"近水方知鱼性，喻亲近自然、洞明事理。寓意明察善悟、通达智慧。","tags":["聪慧","自然"],"frequency":"classic","verified":true},
+  {"id":"jin-shan","given":"近山","length":2,"pinyin":"jin shan","tones":[4,1],"category":"wenyan","gender":"m","source":{"text":"近水知鱼性，近山识鸟音","title":"《增广贤文》","author":"佚名","dynasty":"明","genre":"classic"},"meaning":"居近山而识鸟音，喻亲近自然、阅历增长。寓意踏实亲近、见多识广。","tags":["自然","聪慧"],"frequency":"classic","verified":true},
+  {"id":"guang-yin","given":"光阴","length":2,"pinyin":"guang yin","tones":[1,1],"category":"wenyan","gender":"u","source":{"text":"一寸光阴一寸金，寸金难买寸光阴","title":"《增广贤文》","author":"佚名","dynasty":"明","genre":"classic"},"meaning":"时光如金，贵不可言。寓意珍惜时光、不负韶华。","tags":["事业","健康"],"frequency":"common","verified":true},
+  {"id":"wan-zhao","given":"晚照","length":2,"pinyin":"wan zhao","tones":[3,4],"category":"wenyan","gender":"f","source":{"text":"云对雨，雪对风，晚照对晴空","title":"《声律启蒙》","author":"车万育","dynasty":"清","genre":"classic"},"meaning":"夕阳余晖，温柔明净。寓意温婉从容、岁月静好。","tags":["风雅","清朗"],"frequency":"common","verified":true},
+  {"id":"cang-song","given":"苍松","length":2,"pinyin":"cang song","tones":[1,1],"category":"wenyan","gender":"m","source":{"text":"观山对玩水，绿竹对苍松","title":"《声律启蒙》","author":"车万育","dynasty":"清","genre":"classic"},"meaning":"苍翠青松，岁寒不凋。寓意坚毅挺拔、高风亮节。","tags":["坚韧","健康"],"frequency":"common","verified":true},
+  {"id":"zhu-ji","given":"珠玑","length":2,"pinyin":"zhu ji","tones":[1,1],"category":"wenyan","gender":"f","source":{"text":"晚霞舒锦绣，朝露缀珠玑","title":"《声律启蒙》","author":"车万育","dynasty":"清","genre":"classic"},"meaning":"珠玉般晶莹珍贵。寓意才思敏捷、字字珠玉。","tags":["聪慧","风雅"],"frequency":"classic","verified":true},
+  {"id":"yue-lang","given":"月朗","length":2,"pinyin":"yue lang","tones":[4,3],"category":"wenyan","gender":"u","source":{"text":"风清对月朗，露重对烟微","title":"《声律启蒙》","author":"车万育","dynasty":"清","genre":"classic"},"meaning":"月色明朗，清辉如洗。寓意心地澄明、光风霁月。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"wen-liang","given":"温良","length":2,"pinyin":"wen liang","tones":[1,2],"category":"wenyan","gender":"m","source":{"text":"夫子温良恭俭让以得之","title":"《论语·学而》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"温和善良，君子之风。寓意性情温厚、谦和仁善。","tags":["仁善","平安"],"frequency":"legend","verified":true},
+  {"id":"min-xing","given":"敏行","length":2,"pinyin":"min xing","tones":[3,2],"category":"wenyan","gender":"m","source":{"text":"君子欲讷于言而敏于行","title":"《论语·里仁》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"言语谨慎而行动敏捷。寓意知行合一、果敢勤勉。","tags":["事业","聪慧"],"frequency":"legend","verified":true},
+  {"id":"du-zhi","given":"笃志","length":2,"pinyin":"du zhi","tones":[3,4],"category":"wenyan","gender":"m","source":{"text":"博学而笃志，切问而近思","title":"《论语·子张》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"志向坚定专一。寓意矢志不渝、专注向学。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"cong-shan","given":"从善","length":2,"pinyin":"cong shan","tones":[2,4],"category":"wenyan","gender":"m","source":{"text":"择其善者而从之，其不善者而改之","title":"《论语·述而》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"择善而从，见贤思齐。寓意向善好学、虚怀若谷。","tags":["仁善","聪慧"],"frequency":"classic","verified":true},
+  {"id":"le-zhi","given":"乐之","length":2,"pinyin":"le zhi","tones":[4,1],"category":"wenyan","gender":"u","source":{"text":"知之者不如好之者，好之者不如乐之者","title":"《论语·雍也》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"以学问为乐，乐在其中。寓意乐学善进、怡然自得。","tags":["聪慧","风雅"],"frequency":"classic","verified":true},
+  {"id":"zhong-xing","given":"中行","length":2,"pinyin":"zhong xing","tones":[1,2],"category":"wenyan","gender":"m","source":{"text":"不得中行而与之，必也狂狷乎","title":"《论语·子路》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"行中庸之道，不偏不倚。寓意持中守正、从容得体。","tags":["仁善","平安"],"frequency":"classic","verified":true},
+  {"id":"you-heng","given":"有恒","length":2,"pinyin":"you heng","tones":[3,2],"category":"wenyan","gender":"m","source":{"text":"人而无恒，不可以作巫医","title":"《论语·子路》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"做事有恒心。寓意持之以恒、坚毅不辍。","tags":["坚韧","事业"],"frequency":"classic","verified":true},
+  {"id":"an-ren","given":"安仁","length":2,"pinyin":"an ren","tones":[1,2],"category":"wenyan","gender":"m","source":{"text":"仁者安仁，知者利仁","title":"《论语·里仁》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"安于仁道，心之所安。寓意仁厚宽和、安定自持。","tags":["仁善","平安"],"frequency":"classic","verified":true},
+  {"id":"ju-jing","given":"居敬","length":2,"pinyin":"ju jing","tones":[1,4],"category":"wenyan","gender":"m","source":{"text":"居敬而行简，以临其民","title":"《论语·雍也》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"心存敬畏，持身庄敬。寓意恭敬谨慎、端方有礼。","tags":["仁善","事业"],"frequency":"classic","verified":true},
+  {"id":"cheng-mei-2","given":"成美","length":2,"pinyin":"cheng mei","tones":[2,3],"category":"wenyan","gender":"u","source":{"text":"君子成人之美，不成人之恶","title":"《论语·颜渊》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"成全他人之美事。寓意成人之美、厚德载物。","tags":["仁善","福寿"],"frequency":"classic","verified":true},
+  {"id":"si-ming","given":"思明","length":2,"pinyin":"si ming","tones":[1,2],"category":"wenyan","gender":"u","source":{"text":"视思明，听思聪","title":"《论语·季氏》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"看要思虑明察。寓意明辨是非、思虑周全。","tags":["聪慧","清朗"],"frequency":"classic","verified":true},
+  {"id":"si-yi","given":"思义","length":2,"pinyin":"si yi","tones":[1,4],"category":"wenyan","gender":"m","source":{"text":"见得思义","title":"《论语·季氏》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"见利思义，先义后利。寓意重义轻利、品行端方。","tags":["仁善","坚韧"],"frequency":"classic","verified":true},
+  {"id":"zhi-xue","given":"志学","length":2,"pinyin":"zhi xue","tones":[4,2],"category":"wenyan","gender":"m","source":{"text":"吾十有五而志于学","title":"《论语·为政》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"十五岁立志于学，孔子自述进学之始。寓意志存高远、勤学不辍。","tags":["事业","聪慧"],"frequency":"legend","verified":true},
+  {"id":"jin-si","given":"近思","length":2,"pinyin":"jin si","tones":[4,1],"category":"wenyan","gender":"u","source":{"text":"博学而笃志，切问而近思","title":"《论语·子张》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"从切身处思考。寓意踏实思考、务实求进。","tags":["聪慧","事业"],"frequency":"classic","verified":true},
+  {"id":"shen-yan","given":"慎言","length":2,"pinyin":"shen yan","tones":[4,2],"category":"wenyan","gender":"u","source":{"text":"敏于事而慎于言","title":"《论语·学而》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"言语谨慎，三思而后言。寓意谨言慎行、沉稳内敛。","tags":["仁善","平安"],"frequency":"classic","verified":true},
+  {"id":"san-xing","given":"三省","length":2,"pinyin":"san xing","tones":[1,3],"category":"wenyan","gender":"m","source":{"text":"吾日三省吾身","title":"《论语·学而》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"每日多次反省自身。寓意自省自律、日进其德。","tags":["仁善","事业"],"frequency":"classic","verified":true},
+  {"id":"hong-dao","given":"弘道","length":2,"pinyin":"hong dao","tones":[2,4],"category":"wenyan","gender":"m","source":{"text":"人能弘道，非道弘人","title":"《论语·卫灵公》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"人能弘扬大道。寓意胸怀大志、发扬正道。","tags":["事业","仁善"],"frequency":"classic","verified":true},
+  {"id":"de-lin","given":"德邻","length":2,"pinyin":"de lin","tones":[2,2],"category":"wenyan","gender":"u","source":{"text":"德不孤，必有邻","title":"《论语·里仁》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"有德之人必有同道为邻。寓意德望所归、人缘和合。","tags":["仁善","平安"],"frequency":"classic","verified":true},
+  {"id":"shi-xi","given":"时习","length":2,"pinyin":"shi xi","tones":[2,2],"category":"wenyan","gender":"m","source":{"text":"学而时习之，不亦说乎","title":"《论语·学而》","author":"孔子及弟子","dynasty":"春秋","genre":"classic"},"meaning":"时常温习，学有所乐。寓意勤学不倦、日有进益。","tags":["聪慧","事业"],"frequency":"classic","verified":true},
+  {"id":"si-cheng","given":"思诚","length":2,"pinyin":"si cheng","tones":[1,2],"category":"wenyan","gender":"m","source":{"text":"诚者，天之道也；思诚者，人之道也","title":"《孟子·离娄上》","author":"孟子及弟子","dynasty":"战国","genre":"classic"},"meaning":"思慕真诚，以诚立身。寓意诚心正意、表里如一。","tags":["仁善","坚韧"],"frequency":"classic","verified":true},
+  {"id":"liang-zhi","given":"良知","length":2,"pinyin":"liang zhi","tones":[2,1],"category":"wenyan","gender":"u","source":{"text":"所不虑而知者，其良知也","title":"《孟子·尽心上》","author":"孟子及弟子","dynasty":"战国","genre":"classic"},"meaning":"生而知之的良善本心。寓意天性纯良、心地明澈。","tags":["仁善","聪慧"],"frequency":"legend","verified":true},
+  {"id":"liang-neng","given":"良能","length":2,"pinyin":"liang neng","tones":[2,2],"category":"wenyan","gender":"u","source":{"text":"所不学而能者，其良能也","title":"《孟子·尽心上》","author":"孟子及弟子","dynasty":"战国","genre":"classic"},"meaning":"不学而能的良善本能。寓意天资聪颖、才德兼备。","tags":["聪慧","仁善"],"frequency":"classic","verified":true},
+  {"id":"zhi-da","given":"至大","length":2,"pinyin":"zhi da","tones":[4,4],"category":"wenyan","gender":"m","source":{"text":"其为气也，至大至刚","title":"《孟子·公孙丑上》","author":"孟子及弟子","dynasty":"战国","genre":"classic"},"meaning":"浩然之气至大至刚。寓意气度恢宏、刚健磊落。","tags":["坚韧","事业"],"frequency":"classic","verified":true},
+  {"id":"ren-he","given":"人和","length":2,"pinyin":"ren he","tones":[2,2],"category":"wenyan","gender":"u","source":{"text":"天时不如地利，地利不如人和","title":"《孟子·公孙丑下》","author":"孟子及弟子","dynasty":"战国","genre":"classic"},"meaning":"人心和睦，最为可贵。寓意亲和仁厚、众望所归。","tags":["仁善","平安"],"frequency":"classic","verified":true},
+  {"id":"shen-du","given":"慎独","length":2,"pinyin":"shen du","tones":[4,2],"category":"wenyan","gender":"m","source":{"text":"莫见乎隐，莫显乎微，故君子慎其独也","title":"《礼记·中庸》","author":"子思","dynasty":"战国","genre":"classic"},"meaning":"独处之时亦谨慎不苟。寓意自律自重、表里如一。","tags":["仁善","坚韧"],"frequency":"legend","verified":true},
+  {"id":"ming-cheng","given":"明诚","length":2,"pinyin":"ming cheng","tones":[2,2],"category":"wenyan","gender":"m","source":{"text":"自诚明，谓之性；自明诚，谓之教","title":"《礼记·中庸》","author":"子思","dynasty":"战国","genre":"classic"},"meaning":"由明达而归于至诚。寓意明理真诚、内外兼修。","tags":["仁善","聪慧"],"frequency":"classic","verified":true},
+  {"id":"zhi-zhi","given":"致知","length":2,"pinyin":"zhi zhi","tones":[4,1],"category":"wenyan","gender":"u","source":{"text":"致知在格物","title":"《礼记·大学》","author":"曾参","dynasty":"战国","genre":"classic"},"meaning":"推极知识、明达事理。寓意求知若渴、学问通达。","tags":["聪慧","事业"],"frequency":"classic","verified":true},
+  {"id":"zheng-xin","given":"正心","length":2,"pinyin":"zheng xin","tones":[4,1],"category":"wenyan","gender":"u","source":{"text":"欲修其身者，先正其心","title":"《礼记·大学》","author":"曾参","dynasty":"战国","genre":"classic"},"meaning":"端正心念，修养之本。寓意心正身修、坦荡光明。","tags":["仁善","清朗"],"frequency":"classic","verified":true},
+  {"id":"xing-yuan","given":"行远","length":2,"pinyin":"xing yuan","tones":[2,3],"category":"wenyan","gender":"m","source":{"text":"行远自迩","title":"成语·出自《礼记·中庸》","author":"子思","dynasty":"战国","genre":"classic"},"meaning":"行远自迩，登高自卑。寓意脚踏实地、循序致远。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"qian-yi","given":"谦益","length":2,"pinyin":"qian yi","tones":[1,4],"category":"wenyan","gender":"m","source":{"text":"满招损，谦受益","title":"《尚书·大禹谟》","author":"佚名","dynasty":"先秦","genre":"classic"},"meaning":"谦虚使人受益。寓意谦逊低调、虚己进德。","tags":["仁善","福寿"],"frequency":"legend","verified":true},
+  {"id":"xing-jian","given":"行健","length":2,"pinyin":"xing jian","tones":[2,4],"category":"wenyan","gender":"m","source":{"text":"天行健，君子以自强不息","title":"《周易·乾卦》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"天体运行刚健不息，君子效法之自强不息。寓意刚健有为、奋发向上。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"zi-qiang","given":"自强","length":2,"pinyin":"zi qiang","tones":[4,2],"category":"wenyan","gender":"m","source":{"text":"天行健，君子以自强不息","title":"《周易·乾卦》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"自我奋发、永不懈怠。寓意自立自强、砥砺前行。","tags":["坚韧","事业"],"frequency":"legend","verified":true},
+  {"id":"hou-de","given":"厚德","length":2,"pinyin":"hou de","tones":[4,2],"category":"wenyan","gender":"m","source":{"text":"地势坤，君子以厚德载物","title":"《周易·坤卦》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"大地宽厚承载万物，喻以深厚德行包容成就一切。寓意宽厚仁德、福泽绵长。","tags":["仁善","福寿"],"frequency":"legend","verified":true},
+  {"id":"han-zhang","given":"含章","length":2,"pinyin":"han zhang","tones":[2,1],"category":"wenyan","gender":"f","source":{"text":"含章可贞，以时发也","title":"《周易·坤卦》","author":"佚名","dynasty":"周","genre":"classic"},"meaning":"内含美质，待时而发。寓意内蕴才华、静美含蓄。","tags":["风雅","聪慧"],"frequency":"classic","verified":true},
+  {"id":"zhi-zhi-2","given":"知止","length":2,"pinyin":"zhi zhi","tones":[1,3],"category":"wenyan","gender":"m","source":{"text":"知足不辱，知止不殆","title":"《道德经》","author":"老子","dynasty":"春秋","genre":"classic"},"meaning":"知道适可而止则不遇危险。寓意明理知度、从容安稳。","tags":["平安","仁善"],"frequency":"classic","verified":true},
+  {"id":"shou-zhong","given":"守中","length":2,"pinyin":"shou zhong","tones":[3,1],"category":"wenyan","gender":"m","source":{"text":"多言数穷，不如守中","title":"《道德经》","author":"老子","dynasty":"春秋","genre":"classic"},"meaning":"守持中道，不偏不倚。寓意持中守正、内心笃定。","tags":["仁善","平安"],"frequency":"classic","verified":true},
+  {"id":"shou-jing","given":"守静","length":2,"pinyin":"shou jing","tones":[3,4],"category":"wenyan","gender":"u","source":{"text":"致虚极，守静笃","title":"《道德经》","author":"老子","dynasty":"春秋","genre":"classic"},"meaning":"守持虚静，心不妄动。寓意宁静致远、淡泊从容。","tags":["清朗","平安"],"frequency":"classic","verified":true},
+  {"id":"jing-du","given":"静笃","length":2,"pinyin":"jing du","tones":[4,3],"category":"wenyan","gender":"u","source":{"text":"致虚极，守静笃","title":"《道德经》","author":"老子","dynasty":"春秋","genre":"classic"},"meaning":"静定专一，笃实不移。寓意内心安定、信念坚定。","tags":["清朗","坚韧"],"frequency":"classic","verified":true},
+  {"id":"han-de","given":"含德","length":2,"pinyin":"han de","tones":[2,2],"category":"wenyan","gender":"u","source":{"text":"含德之厚，比于赤子","title":"《道德经》","author":"老子","dynasty":"春秋","genre":"classic"},"meaning":"含蕴深厚之德，如初生赤子般纯真。寓意德厚纯真、返璞归真。","tags":["仁善","健康"],"frequency":"classic","verified":true},
+  {"id":"xu-huai","given":"虚怀","length":2,"pinyin":"xu huai","tones":[1,2],"category":"wenyan","gender":"m","source":{"text":"虚怀若谷","title":"成语·出自《道德经》","author":"老子","dynasty":"春秋","genre":"classic"},"meaning":"胸怀如山谷般空旷，虚己纳物。寓意谦逊大度、包容万象。","tags":["仁善","清朗"],"frequency":"legend","verified":true},
+  {"id":"xiao-yao","given":"逍遥","length":2,"pinyin":"xiao yao","tones":[1,2],"category":"wenyan","gender":"u","source":{"text":"日出而作，日入而息，逍遥于天地之间而心意自得","title":"《庄子·让王》","author":"庄周","dynasty":"战国","genre":"classic"},"meaning":"悠然自得、无拘无束。寓意洒脱自在、心境开阔。","tags":["风雅","自然"],"frequency":"legend","verified":true},
+  {"id":"tian-guang","given":"天光","length":2,"pinyin":"tian guang","tones":[1,1],"category":"wenyan","gender":"u","source":{"text":"宇泰定者，发乎天光","title":"《庄子·庚桑楚》","author":"庄周","dynasty":"战国","genre":"classic"},"meaning":"心境泰定则自现天然光华。寓意心性澄明、气宇轩朗。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"da-mei","given":"大美","length":2,"pinyin":"da mei","tones":[4,3],"category":"wenyan","gender":"f","source":{"text":"天地有大美而不言，四时有明法而不议","title":"《庄子·知北游》","author":"庄周","dynasty":"战国","genre":"classic"},"meaning":"天地有大美而不自夸。寓意自然天成、美好不言。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"xin-ran","given":"欣然","length":2,"pinyin":"xin ran","tones":[1,2],"category":"wenyan","gender":"u","source":{"text":"于是焉河伯欣然自喜，以天下之美为尽在己","title":"《庄子·秋水》","author":"庄周","dynasty":"战国","genre":"classic"},"meaning":"喜悦自得之貌。寓意欢欣开朗、乐观豁达。","tags":["健康","清朗"],"frequency":"common","verified":true},
+  {"id":"jin-shi","given":"金石","length":2,"pinyin":"jin shi","tones":[1,2],"category":"wenyan","gender":"m","source":{"text":"锲而不舍，金石可镂","title":"《荀子·劝学》","author":"荀况","dynasty":"战国","genre":"classic"},"meaning":"持之以恒，金石可镂。寓意坚韧不拔、精诚所至。","tags":["坚韧","事业"],"frequency":"legend","verified":true},
+  {"id":"cheng-de","given":"成德","length":2,"pinyin":"cheng de","tones":[2,2],"category":"wenyan","gender":"m","source":{"text":"积善成德，而神明自得","title":"《荀子·劝学》","author":"荀况","dynasty":"战国","genre":"classic"},"meaning":"积善累行而成德。寓意日积月累、德业有成。","tags":["仁善","事业"],"frequency":"classic","verified":true},
+  {"id":"yu-run","given":"玉润","length":2,"pinyin":"yu run","tones":[4,4],"category":"wenyan","gender":"f","source":{"text":"玉在山而草木润，渊生珠而崖不枯","title":"《荀子·劝学》","author":"荀况","dynasty":"战国","genre":"classic"},"meaning":"玉在山中，草木皆润。寓意温润如玉、惠泽及人。","tags":["风雅","仁善"],"frequency":"classic","verified":true},
+  {"id":"tian-xing","given":"天行","length":2,"pinyin":"tian xing","tones":[1,2],"category":"wenyan","gender":"m","source":{"text":"天行有常，不为尧存，不为桀亡","title":"《荀子·天论》","author":"荀况","dynasty":"战国","genre":"classic"},"meaning":"天道运行有其规律。寓意循道而行、刚健守常。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"shang-xian","given":"尚贤","length":2,"pinyin":"shang xian","tones":[4,2],"category":"wenyan","gender":"m","source":{"text":"尚贤者，政之本也","title":"《墨子·尚贤》","author":"墨翟","dynasty":"战国","genre":"classic"},"meaning":"尊崇贤德，为政之本。寓意崇尚贤良、见贤思齐。","tags":["仁善","事业"],"frequency":"classic","verified":true},
+  {"id":"yi-ming","given":"一鸣","length":2,"pinyin":"yi ming","tones":[1,2],"category":"wenyan","gender":"m","source":{"text":"不鸣则已，一鸣惊人","title":"《史记·滑稽列传》","author":"司马迁","dynasty":"汉","genre":"classic"},"meaning":"不飞则已，一飞冲天。寓意厚积薄发、一鸣惊人。","tags":["事业","聪慧"],"frequency":"legend","verified":true},
+  {"id":"hong-hu","given":"鸿鹄","length":2,"pinyin":"hong hu","tones":[2,2],"category":"wenyan","gender":"m","source":{"text":"鸿鹄之志","title":"成语·出自《史记·陈涉世家》","author":"司马迁","dynasty":"汉","genre":"classic"},"meaning":"鸿鹄高飞远举，喻志向远大。寓意胸怀大志、鹏程万里。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"you-zhi-2","given":"有志","length":2,"pinyin":"you zhi","tones":[3,4],"category":"wenyan","gender":"m","source":{"text":"有志者事竟成也","title":"《后汉书·耿弇传》","author":"范晔","dynasty":"南朝宋","genre":"classic"},"meaning":"有志者事竟成。寓意立定志向、终有所成。","tags":["事业","坚韧"],"frequency":"classic","verified":true},
+  {"id":"ju-an","given":"居安","length":2,"pinyin":"ju an","tones":[1,1],"category":"wenyan","gender":"m","source":{"text":"居安思危，思则有备，有备无患","title":"《左传·襄公十一年》","author":"左丘明","dynasty":"春秋","genre":"classic"},"meaning":"身处安宁而思虑忧患。寓意居安思危、深谋远虑。","tags":["平安","事业"],"frequency":"classic","verified":true},
+  {"id":"yi-fang","given":"义方","length":2,"pinyin":"yi fang","tones":[4,1],"category":"wenyan","gender":"m","source":{"text":"爱子，教之以义方","title":"《左传·隐公三年》","author":"左丘明","dynasty":"春秋","genre":"classic"},"meaning":"以正道规范教导。寓意立身方正、教以正道。","tags":["仁善","事业"],"frequency":"classic","verified":true},
+  {"id":"zhu-lian","given":"珠联","length":2,"pinyin":"zhu lian","tones":[1,2],"category":"wenyan","gender":"u","source":{"text":"珠联璧合","title":"成语·出自《汉书·律历志》","author":"班固","dynasty":"汉","genre":"classic"},"meaning":"珠玉相连、璧玉相合。寓意才德相配、完美契合。","tags":["聪慧","风雅"],"frequency":"legend","verified":true},
+  {"id":"bing-xue","given":"冰雪","length":2,"pinyin":"bing xue","tones":[1,3],"category":"wenyan","gender":"f","source":{"text":"冰雪聪明","title":"成语·出自杜甫《送樊二十三侍御赴汉中判官》","author":"杜甫","dynasty":"唐","genre":"classic"},"meaning":"如冰雪般晶莹聪慧。寓意天资颖慧、纯净明澈。","tags":["聪慧","清朗"],"frequency":"legend","verified":true},
+  {"id":"fu-zhi","given":"福至","length":2,"pinyin":"fu zhi","tones":[2,4],"category":"wenyan","gender":"u","source":{"text":"福至心灵","title":"成语·出自宋·罗大经《鹤林玉露》","author":"罗大经","dynasty":"宋","genre":"classic"},"meaning":"福气到来时心思灵巧。寓意福慧双至、顺遂安康。","tags":["福寿","聪慧"],"frequency":"classic","verified":true},
+  {"id":"zi-qi","given":"紫气","length":2,"pinyin":"zi qi","tones":[3,4],"category":"wenyan","gender":"u","source":{"text":"紫气东来","title":"成语·出自汉·刘向《列仙传》","author":"刘向","dynasty":"汉","genre":"classic"},"meaning":"紫气东来，祥瑞之气。寓意吉兆临门、尊贵祥和。","tags":["福寿","富贵"],"frequency":"legend","verified":true},
+  {"id":"wu-hua","given":"物华","length":2,"pinyin":"wu hua","tones":[4,2],"category":"wenyan","gender":"u","source":{"text":"物华天宝","title":"成语·出自王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"classic"},"meaning":"万物精华、天地珍宝。寓意钟灵毓秀、卓然不凡。","tags":["聪慧","富贵"],"frequency":"legend","verified":true},
+  {"id":"yu-xiu","given":"毓秀","length":2,"pinyin":"yu xiu","tones":[4,4],"category":"wenyan","gender":"f","source":{"text":"钟灵毓秀","title":"成语·出自唐·柳宗元《马退山茅亭记》","author":"柳宗元","dynasty":"唐","genre":"classic"},"meaning":"天地灵秀之气所钟育。寓意钟灵毓秀、灵秀出众。","tags":["聪慧","风雅"],"frequency":"legend","verified":true},
+  {"id":"hua-shi","given":"华实","length":2,"pinyin":"hua shi","tones":[2,2],"category":"wenyan","gender":"u","source":{"text":"春华秋实","title":"成语·出自《三国志·魏书·邢颙传》","author":"陈寿","dynasty":"西晋","genre":"classic"},"meaning":"春之华、秋之实。寓意文质兼备、成果丰硕。","tags":["事业","聪慧"],"frequency":"classic","verified":true},
+  {"id":"ye-jing","given":"业精","length":2,"pinyin":"ye jing","tones":[4,1],"category":"wenyan","gender":"m","source":{"text":"业精于勤","title":"成语·出自韩愈《进学解》","author":"韩愈","dynasty":"唐","genre":"classic"},"meaning":"学业精进在于勤奋。寓意勤学精进、业有所成。","tags":["事业","聪慧"],"frequency":"legend","verified":true},
+  {"id":"jin-xin","given":"锦心","length":2,"pinyin":"jin xin","tones":[3,1],"category":"wenyan","gender":"f","source":{"text":"锦心绣口","title":"成语·出自柳宗元《乞巧文》","author":"柳宗元","dynasty":"唐","genre":"classic"},"meaning":"文思如锦绣，口吐珠玉。寓意才思敏捷、文采斐然。","tags":["聪慧","风雅"],"frequency":"legend","verified":true},
+  {"id":"jin-yu","given":"金玉","length":2,"pinyin":"jin yu","tones":[1,4],"category":"wenyan","gender":"u","source":{"text":"金玉满堂","title":"成语·出自《道德经》","author":"老子","dynasty":"春秋","genre":"classic"},"meaning":"金玉满堂，富贵盈门。寓意富足尊贵、福泽满盈。","tags":["富贵","福寿"],"frequency":"legend","verified":true},
+  {"id":"chun-xuan","given":"椿萱","length":2,"pinyin":"chun xuan","tones":[1,1],"category":"wenyan","gender":"u","source":{"text":"椿萱并茂","title":"成语·出自《庄子·逍遥游》","author":"庄周","dynasty":"战国","genre":"classic"},"meaning":"椿萱喻父母，椿萱并茂喻双亲康健。寓意父母安泰、家宅祥和。","tags":["福寿","健康"],"frequency":"classic","verified":true},
+  {"id":"yun-cheng","given":"云程","length":2,"pinyin":"yun cheng","tones":[2,2],"category":"wenyan","gender":"m","source":{"text":"云程发轫","title":"成语·出自《楚辞·离骚》","author":"屈原","dynasty":"战国","genre":"classic"},"meaning":"云程发轫，远大前程自此始。寓意前程似锦、鹏程万里。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"peng-cheng","given":"鹏程","length":2,"pinyin":"peng cheng","tones":[2,2],"category":"wenyan","gender":"m","source":{"text":"鹏程万里","title":"成语·出自《庄子·逍遥游》","author":"庄周","dynasty":"战国","genre":"classic"},"meaning":"大鹏展翅，程途万里。寓意志向高远、前程无量。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"chuan-dao","given":"传道","length":2,"pinyin":"chuan dao","tones":[2,4],"category":"wenyan","gender":"m","source":{"text":"师者，所以传道受业解惑也","title":"韩愈《师说》","author":"韩愈","dynasty":"唐","genre":"classic"},"meaning":"传授道理、教授学业、解除疑惑。寓意承传大道、教化育人。","tags":["仁善","事业"],"frequency":"legend","verified":true},
+  {"id":"xing-si","given":"行思","length":2,"pinyin":"xing si","tones":[2,1],"category":"wenyan","gender":"m","source":{"text":"行成于思，毁于随","title":"韩愈《进学解》","author":"韩愈","dynasty":"唐","genre":"classic"},"meaning":"行事成功在于深思。寓意深思熟虑、谋定后动。","tags":["聪慧","事业"],"frequency":"classic","verified":true},
+  {"id":"han-ying","given":"含英","length":2,"pinyin":"han ying","tones":[2,1],"category":"wenyan","gender":"f","source":{"text":"沉浸醲郁，含英咀华","title":"韩愈《进学解》","author":"韩愈","dynasty":"唐","genre":"classic"},"meaning":"含蕴英华，品味文章精华。寓意腹有诗书、才情内蕴。","tags":["聪慧","风雅"],"frequency":"classic","verified":true},
+  {"id":"shou-zheng","given":"守正","length":2,"pinyin":"shou zheng","tones":[3,4],"category":"wenyan","gender":"m","source":{"text":"荀卿守正，大论是弘","title":"韩愈《进学解》","author":"韩愈","dynasty":"唐","genre":"classic"},"meaning":"持守正道，弘扬大论。寓意守正不阿、耿介端方。","tags":["仁善","坚韧"],"frequency":"classic","verified":true},
+  {"id":"ren-yi","given":"仁义","length":2,"pinyin":"ren yi","tones":[2,4],"category":"wenyan","gender":"m","source":{"text":"仁义不施而攻守之势异也","title":"贾谊《过秦论》","author":"贾谊","dynasty":"汉","genre":"classic"},"meaning":"仁爱道义，立身之本。寓意仁厚重义、德行深厚。","tags":["仁善","事业"],"frequency":"legend","verified":true},
+  {"id":"qi-cai","given":"奇才","length":2,"pinyin":"qi cai","tones":[2,2],"category":"wenyan","gender":"m","source":{"text":"以事秦之心礼天下之奇才","title":"苏洵《六国论》","author":"苏洵","dynasty":"宋","genre":"classic"},"meaning":"出类拔萃的奇俊之才。寓意才华横溢、卓尔不群。","tags":["聪慧","事业"],"frequency":"classic","verified":true},
+  {"id":"cai-mei","given":"才美","length":2,"pinyin":"cai mei","tones":[2,3],"category":"wenyan","gender":"u","source":{"text":"才美不外见","title":"韩愈《马说》","author":"韩愈","dynasty":"唐","genre":"classic"},"meaning":"才华与美德内蕴。寓意才德兼备、含蓄光华。","tags":["聪慧","仁善"],"frequency":"classic","verified":true},
+  {"id":"jun-liang","given":"俊良","length":2,"pinyin":"jun liang","tones":[4,2],"category":"wenyan","gender":"m","source":{"text":"登崇俊良，占小善者率以录","title":"韩愈《进学解》","author":"韩愈","dynasty":"唐","genre":"classic"},"meaning":"俊秀贤良之士。寓意才俊善良、卓然出众。","tags":["聪慧","仁善"],"frequency":"classic","verified":true},
+  {"id":"liang-shi","given":"良实","length":2,"pinyin":"liang shi","tones":[2,2],"category":"wenyan","gender":"m","source":{"text":"此皆良实，志虑忠纯","title":"诸葛亮《出师表》","author":"诸葛亮","dynasty":"三国","genre":"classic"},"meaning":"善良笃实，诸葛亮赞良臣之语。寓意忠厚老实、品性端良。","tags":["仁善","事业"],"frequency":"classic","verified":true},
+  {"id":"wen-da","given":"闻达","length":2,"pinyin":"wen da","tones":[2,2],"category":"wenyan","gender":"m","source":{"text":"不求闻达于诸侯","title":"诸葛亮《出师表》","author":"诸葛亮","dynasty":"三国","genre":"classic"},"meaning":"名声显达，为世所知。寓意声名远播、卓有建树。","tags":["事业","聪慧"],"frequency":"classic","verified":true},
+  {"id":"ya-yan","given":"雅言","length":2,"pinyin":"ya yan","tones":[3,2],"category":"wenyan","gender":"f","source":{"text":"察纳雅言，深追先帝遗诏","title":"诸葛亮《出师表》","author":"诸葛亮","dynasty":"三国","genre":"classic"},"meaning":"雅正之言。寓意言谈文雅、见识高远。","tags":["风雅","聪慧"],"frequency":"classic","verified":true},
+  {"id":"su-qin","given":"素琴","length":2,"pinyin":"su qin","tones":[4,2],"category":"wenyan","gender":"f","source":{"text":"可以调素琴，阅金经","title":"刘禹锡《陋室铭》","author":"刘禹锡","dynasty":"唐","genre":"classic"},"meaning":"无饰之琴，雅人清趣。寓意清雅脱俗、恬淡自适。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"de-xin","given":"德馨","length":2,"pinyin":"de xin","tones":[2,1],"category":"wenyan","gender":"u","source":{"text":"斯是陋室，惟吾德馨","title":"刘禹锡《陋室铭》","author":"刘禹锡","dynasty":"唐","genre":"classic"},"meaning":"德行芬芳，如兰之馨。寓意德望流芳、品性高洁。","tags":["仁善","风雅"],"frequency":"legend","verified":true},
+  {"id":"ting-lan","given":"汀兰","length":2,"pinyin":"ting lan","tones":[1,2],"category":"wenyan","gender":"f","source":{"text":"岸芷汀兰，郁郁青青","title":"范仲淹《岳阳楼记》","author":"范仲淹","dynasty":"宋","genre":"classic"},"meaning":"水边之兰，幽芳清秀。寓意清雅芬芳、秀外慧中。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"shen-xiu","given":"深秀","length":2,"pinyin":"shen xiu","tones":[1,4],"category":"wenyan","gender":"u","source":{"text":"望之蔚然而深秀者，琅琊也","title":"欧阳修《醉翁亭记》","author":"欧阳修","dynasty":"宋","genre":"classic"},"meaning":"幽深秀美，欧阳修状琅琊山之语。寓意内蕴深厚、清秀出众。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"lin-fei","given":"林霏","length":2,"pinyin":"lin fei","tones":[2,1],"category":"wenyan","gender":"f","source":{"text":"若夫日出而林霏开，云归而岩穴暝","title":"欧阳修《醉翁亭记》","author":"欧阳修","dynasty":"宋","genre":"classic"},"meaning":"林间晨雾，日出而散。寓意清新灵秀、明朗通透。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"you-xiang","given":"幽香","length":2,"pinyin":"you xiang","tones":[1,1],"category":"wenyan","gender":"f","source":{"text":"野芳发而幽香，佳木秀而繁阴","title":"欧阳修《醉翁亭记》","author":"欧阳修","dynasty":"宋","genre":"classic"},"meaning":"幽远清雅的香气。寓意气质芳华、内蕴芬芳。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"jia-mu","given":"佳木","length":2,"pinyin":"jia mu","tones":[1,4],"category":"wenyan","gender":"u","source":{"text":"野芳发而幽香，佳木秀而繁阴","title":"欧阳修《醉翁亭记》","author":"欧阳修","dynasty":"宋","genre":"classic"},"meaning":"嘉美之木，挺拔成荫。寓意才俊秀出、卓然成材。","tags":["健康","事业"],"frequency":"common","verified":true},
+  {"id":"ting-quan","given":"听泉","length":2,"pinyin":"ting quan","tones":[1,2],"category":"wenyan","gender":"u","source":{"text":"乃日与滁人仰而望山，俯而听泉","title":"欧阳修《丰乐亭记》","author":"欧阳修","dynasty":"宋","genre":"classic"},"meaning":"静听泉声，心旷神怡。寓意清雅闲适、心性澄明。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"qing-xiu","given":"清秀","length":2,"pinyin":"qing xiu","tones":[1,4],"category":"wenyan","gender":"f","source":{"text":"风霜冰雪，刻露清秀","title":"欧阳修《丰乐亭记》","author":"欧阳修","dynasty":"宋","genre":"classic"},"meaning":"清丽秀美，风霜刻露之态。寓意清雅灵秀、眉目如画。","tags":["清朗","风雅"],"frequency":"common","verified":true},
+  {"id":"feng-cheng","given":"丰成","length":2,"pinyin":"feng cheng","tones":[1,2],"category":"wenyan","gender":"m","source":{"text":"又幸其民乐其岁物之丰成","title":"欧阳修《丰乐亭记》","author":"欧阳修","dynasty":"宋","genre":"classic"},"meaning":"年丰物成，岁稔人和。寓意五谷丰登、事业有成。","tags":["富贵","福寿"],"frequency":"classic","verified":true},
+  {"id":"wu-hui","given":"无悔","length":2,"pinyin":"wu hui","tones":[2,3],"category":"wenyan","gender":"u","source":{"text":"尽吾志也而不能至者，可以无悔矣","title":"王安石《游褒禅山记》","author":"王安石","dynasty":"宋","genre":"classic"},"meaning":"竭尽全力，便可无憾无悔。寓意全力以赴、坦荡无憾。","tags":["坚韧","事业"],"frequency":"legend","verified":true},
+  {"id":"lan-gui","given":"兰桂","length":2,"pinyin":"lan gui","tones":[2,4],"category":"wenyan","gender":"u","source":{"text":"又杂植兰桂竹木于庭，旧时栏楯，亦遂增胜","title":"归有光《项脊轩志》","author":"归有光","dynasty":"明","genre":"classic"},"meaning":"兰桂齐芳，喻子孙贤才。寓意才德芬芳、门庭兴旺。","tags":["风雅","福寿"],"frequency":"classic","verified":true},
+  {"id":"shan-shan","given":"珊珊","length":2,"pinyin":"shan shan","tones":[1,1],"category":"wenyan","gender":"f","source":{"text":"桂影斑驳，风移影动，珊珊可爱","title":"归有光《项脊轩志》","author":"归有光","dynasty":"明","genre":"classic"},"meaning":"风移影动，珊珊可爱。寓意灵动可爱、清雅婉约。","tags":["风雅","聪慧"],"frequency":"common","verified":true},
+  {"id":"shu-zhu","given":"疏竹","length":2,"pinyin":"shu zhu","tones":[1,2],"category":"wenyan","gender":"u","source":{"text":"风来疏竹，风过而竹不留声","title":"《菜根谭》","author":"洪应明","dynasty":"明","genre":"classic"},"meaning":"疏朗之竹，风过无声。寓意高洁清朗、坦荡无滞。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"wen-xin","given":"文心","length":2,"pinyin":"wen xin","tones":[2,1],"category":"wenyan","gender":"u","source":{"text":"夫文心者，言为文之用心也","title":"刘勰《文心雕龙·序志》","author":"刘勰","dynasty":"南朝梁","genre":"classic"},"meaning":"为文之用心，文思之心。寓意文心雕龙、才思精深。","tags":["聪慧","风雅"],"frequency":"classic","verified":true},
+  {"id":"chun-lin","given":"春林","length":2,"pinyin":"chun lin","tones":[1,2],"category":"wenyan","gender":"u","source":{"text":"况清风与明月同夜，白日与春林共朝哉","title":"刘勰《文心雕龙·物色》","author":"刘勰","dynasty":"南朝梁","genre":"classic"},"meaning":"春日之林，生意盎然。寓意朝气蓬勃、欣欣向荣。","tags":["自然","健康"],"frequency":"classic","verified":true},
+  {"id":"xin-yue","given":"欣悦","length":2,"pinyin":"xin yue","tones":[1,4],"category":"wenyan","gender":"u","source":{"text":"俟其欣悦，则又请焉","title":"宋濂《送东阳马生序》","author":"宋濂","dynasty":"明","genre":"classic"},"meaning":"欣喜愉悦，欣然自得。寓意乐观开朗、欢愉常伴。","tags":["健康","清朗"],"frequency":"common","verified":true},
+  {"id":"chang-da","given":"畅达","length":2,"pinyin":"chang da","tones":[4,2],"category":"wenyan","gender":"m","source":{"text":"撰长书以为贽，辞甚畅达","title":"宋濂《送东阳马生序》","author":"宋濂","dynasty":"明","genre":"classic"},"meaning":"言辞畅达，通达无碍。寓意才思通畅、顺遂通达。","tags":["聪慧","事业"],"frequency":"classic","verified":true},
+  {"id":"he-ting","given":"鹤汀","length":2,"pinyin":"he ting","tones":[4,1],"category":"wenyan","gender":"u","source":{"text":"鹤汀凫渚，穷岛屿之萦回","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"classic"},"meaning":"白鹤栖止的水汀。寓意清雅高洁、超然出尘。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"bao-shu","given":"宝树","length":2,"pinyin":"bao shu","tones":[3,4],"category":"wenyan","gender":"m","source":{"text":"非谢家之宝树，接孟氏之芳邻","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"classic"},"meaning":"谢家宝树，喻佳子弟。寓意如宝树琼枝、人中俊杰。","tags":["聪慧","富贵"],"frequency":"classic","verified":true},
+  {"id":"yi-jian","given":"益坚","length":2,"pinyin":"yi jian","tones":[4,1],"category":"wenyan","gender":"m","source":{"text":"穷且益坚，不坠青云之志","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"classic"},"meaning":"处境愈艰，意志愈坚。寓意百折不挠、坚毅不拔。","tags":["坚韧","事业"],"frequency":"classic","verified":true},
+  {"id":"fu-yao","given":"扶摇","length":2,"pinyin":"fu yao","tones":[2,2],"category":"wenyan","gender":"u","source":{"text":"北海虽赊，扶摇可接","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"classic"},"meaning":"扶摇直上，乘风而起。寓意奋发向上、直上青云。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"chang-wan","given":"唱晚","length":2,"pinyin":"chang wan","tones":[4,3],"category":"wenyan","gender":"f","source":{"text":"渔舟唱晚，响穷彭蠡之滨","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"classic"},"meaning":"渔舟晚唱，声传彭蠡。寓意岁月静好、悠然自得。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"ren-jie","given":"人杰","length":2,"pinyin":"ren jie","tones":[2,2],"category":"wenyan","gender":"m","source":{"text":"人杰地灵，徐孺下陈蕃之榻","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"classic"},"meaning":"人中豪杰，才俊超群。寓意出类拔萃、卓尔不凡。","tags":["事业","聪慧"],"frequency":"classic","verified":true},
+  {"id":"yi-fan","given":"懿范","length":2,"pinyin":"yi fan","tones":[4,4],"category":"wenyan","gender":"f","source":{"text":"宇文新州之懿范，襜帷暂驻","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"classic"},"meaning":"美好的风范仪则。寓意德容兼备、风范端庄。","tags":["仁善","风雅"],"frequency":"classic","verified":true},
+  {"id":"jun-cai","given":"俊采","length":2,"pinyin":"jun cai","tones":[4,3],"category":"wenyan","gender":"m","source":{"text":"雄州雾列，俊采星驰","title":"王勃《滕王阁序》","author":"王勃","dynasty":"唐","genre":"classic"},"meaning":"俊杰之才如星驰云涌。寓意人才出众、才华焕发。","tags":["聪慧","事业"],"frequency":"classic","verified":true},
+  {"id":"liang-chen","given":"良辰","length":2,"pinyin":"liang chen","tones":[2,2],"category":"hanfu","gender":"f","source":{"text":"怀良辰以孤往，或植杖而耘耔","title":"陶渊明《归去来兮辞》","author":"陶渊明","dynasty":"东晋","genre":"fu"},"meaning":"美好的时光。寓意吉日良辰、芳华正好。","tags":["福寿","清朗"],"frequency":"common","verified":true},
+  {"id":"yi-an","given":"易安","length":2,"pinyin":"yi an","tones":[4,1],"category":"hanfu","gender":"f","source":{"text":"倚南窗以寄傲，审容膝之易安","title":"陶渊明《归去来兮辞》","author":"陶渊明","dynasty":"东晋","genre":"fu"},"meaning":"随遇而安，心安处即是家园。寓意安然自在、随缘而安。","tags":["平安","清朗"],"frequency":"classic","verified":true},
+  {"id":"xian-jing","given":"闲静","length":2,"pinyin":"xian jing","tones":[2,4],"category":"hanfu","gender":"u","source":{"text":"闲静少言，不慕荣利","title":"陶渊明《五柳先生传》","author":"陶渊明","dynasty":"东晋","genre":"classic"},"meaning":"闲适沉静，淡泊名利。寓意恬淡安然、静水流深。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"yi-ran","given":"怡然","length":2,"pinyin":"yi ran","tones":[2,2],"category":"hanfu","gender":"u","source":{"text":"黄发垂髫，并怡然自乐","title":"陶渊明《桃花源记》","author":"陶渊明","dynasty":"东晋","genre":"classic"},"meaning":"怡然自乐，安乐自足。寓意愉悦安和、内心充实。","tags":["健康","平安"],"frequency":"common","verified":true},
+  {"id":"liu-fang","given":"流芳","length":2,"pinyin":"liu fang","tones":[2,1],"category":"hanfu","gender":"f","source":{"text":"践椒涂之郁烈，步蘅薄而流芳","title":"曹植《洛神赋》","author":"曹植","dynasty":"三国","genre":"fu"},"meaning":"芬芳流溢，美名远播。寓意芳名远扬、流芳百世。","tags":["风雅","富贵"],"frequency":"classic","verified":true},
+  {"id":"gao-feng","given":"高峰","length":2,"pinyin":"gao feng","tones":[1,1],"category":"hanfu","gender":"m","source":{"text":"高峰入云，清流见底","title":"陶弘景《答谢中书书》","author":"陶弘景","dynasty":"南朝梁","genre":"classic"},"meaning":"高峰入云，巍然挺拔。寓意志向高远、卓然自立。","tags":["事业","坚韧"],"frequency":"common","verified":true},
+  {"id":"qing-chuan2","given":"清川","length":2,"pinyin":"qing chuan","tones":[1,1],"category":"hanfu","gender":"f","source":{"text":"绿嶂百重，清川万转","title":"吴均《与施从事书》","author":"吴均","dynasty":"南朝梁","genre":"classic"},"meaning":"清澈的河流，曲折流转。寓意清朗明澈、灵动秀美。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"han-yun","given":"含云","length":2,"pinyin":"han yun","tones":[2,2],"category":"hanfu","gender":"f","source":{"text":"幽岫含云，深溪蓄翠","title":"吴均《与顾章书》","author":"吴均","dynasty":"南朝梁","genre":"classic"},"meaning":"幽谷含云，深溪蓄翠。寓意灵气内蕴、清新脱俗。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"cai-yun","given":"彩云","length":2,"pinyin":"cai yun","tones":[3,2],"category":"tangshi","gender":"f","source":{"text":"朝辞白帝彩云间，千里江陵一日还","title":"《早发白帝城》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"彩云：朝霞映照的彩云，绚烂轻盈、前程似锦。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"qiu-yan","given":"秋雁","length":2,"pinyin":"qiu yan","tones":[1,4],"category":"tangshi","season":[3],"gender":"u","source":{"text":"长风万里送秋雁，对此可以酣高楼","title":"《宣州谢朓楼饯别校书叔云》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"秋雁：长风万里送行的秋雁，志向高远、豪情凌云。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"lan-yue","given":"揽月","length":2,"pinyin":"lan yue","tones":[3,4],"category":"tangshi","gender":"m","source":{"text":"俱怀逸兴壮思飞，欲上青天揽明月","title":"《宣州谢朓楼饯别校书叔云》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"揽月：欲上青天揽取明月，豪情壮志、气概非凡。","tags":["事业","清朗"],"frequency":"classic","verified":true},
+  {"id":"chang-an","given":"长安","length":2,"pinyin":"chang an","tones":[2,1],"category":"tangshi","season":[3],"gender":"u","source":{"text":"长安一片月，万户捣衣声","title":"《子夜吴歌·秋歌》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"长安：千年帝都之名，寓长久安宁、盛世气象。","tags":["平安","清朗"],"frequency":"legend","verified":true},
+  {"id":"qing-ming2","given":"青冥","length":2,"pinyin":"qing ming","tones":[1,2],"category":"tangshi","gender":"m","source":{"text":"青冥浩荡不见底，日月照耀金银台","title":"《梦游天姥吟留别》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"青冥：青苍高远的天际，喻胸襟开阔、志向高远。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"yun-xia","given":"云霞","length":2,"pinyin":"yun xia","tones":[2,2],"category":"tangshi","gender":"f","source":{"text":"越人语天姥，云霞明灭或可睹","title":"《梦游天姥吟留别》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"云霞：云蒸霞蔚，明丽绚烂、气象万千。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"bai-lu","given":"白鹿","length":2,"pinyin":"bai lu","tones":[2,4],"category":"tangshi","gender":"u","source":{"text":"且放白鹿青崖间，须行即骑访名山","title":"《梦游天姥吟留别》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"白鹿：仙家坐骑，喻自由洒脱、超凡脱俗。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"cai-hong","given":"彩虹","length":2,"pinyin":"cai hong","tones":[3,2],"category":"tangshi","gender":"f","source":{"text":"两水夹明镜，双桥落彩虹","title":"《秋登宣城谢朓北楼》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"彩虹：双桥如虹落水，绚烂美好、光彩照人。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"cui-wei","given":"翠微","length":2,"pinyin":"cui wei","tones":[4,1],"category":"tangshi","gender":"f","source":{"text":"却顾所来径，苍苍横翠微","title":"《下终南山过斛斯山人宿置酒》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"翠微：青翠的山色，满目苍翠、生机盎然。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"zi-yan","given":"紫烟","length":2,"pinyin":"zi yan","tones":[3,1],"category":"tangshi","gender":"f","source":{"text":"炉火照天地，红星乱紫烟","title":"《秋浦歌》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"紫烟：炉火映照升腾的紫气烟霞，绚烂夺目。","tags":["风雅","事业"],"frequency":"classic","verified":true},
+  {"id":"xing-zhou","given":"行舟","length":2,"pinyin":"xing zhou","tones":[2,1],"category":"tangshi","gender":"u","source":{"text":"仍怜故乡水，万里送行舟","title":"《渡荆门送别》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"行舟：万里送行的行舟，乘风破浪、前程万里。","tags":["事业","清朗"],"frequency":"classic","verified":true},
+  {"id":"song-yun","given":"松云","length":2,"pinyin":"song yun","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"红颜弃轩冕，白首卧松云","title":"《赠孟浩然》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"松云：松间白云，高洁淡泊的隐者之象。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"ling-shuang","given":"凌霜","length":2,"pinyin":"ling shuang","tones":[2,1],"category":"tangshi","gender":"m","source":{"text":"太华生长松，亭亭凌霜雪","title":"《赠韦侍御黄裳》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"凌霜：傲然挺立、不畏霜雪，喻坚贞不屈的品格。","tags":["坚韧","清朗"],"frequency":"classic","verified":true},
+  {"id":"bi-shan","given":"碧山","length":2,"pinyin":"bi shan","tones":[4,1],"category":"tangshi","gender":"u","source":{"text":"暮从碧山下，山月随人归","title":"《下终南山过斛斯山人宿置酒》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"碧山：青翠的山峦，清新宁静、自然出尘。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"ling-long","given":"玲珑","length":2,"pinyin":"ling long","tones":[2,2],"category":"tangshi","season":[3],"gender":"f","source":{"text":"却下水晶帘，玲珑望秋月","title":"《玉阶怨》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"玲珑：晶莹剔透、精巧灵秀，亦含聪明伶俐之意。","tags":["聪慧","风雅"],"frequency":"classic","verified":true},
+  {"id":"shen-xiu2","given":"神秀","length":2,"pinyin":"shen xiu","tones":[2,4],"category":"tangshi","gender":"u","source":{"text":"造化钟神秀，阴阳割昏晓","title":"《望岳》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"神秀：天地造化凝聚的神奇秀美，钟灵毓秀、出类拔萃。","tags":["聪慧","清朗"],"frequency":"classic","verified":true},
+  {"id":"ceng-yun","given":"层云","length":2,"pinyin":"ceng yun","tones":[2,2],"category":"tangshi","gender":"u","source":{"text":"荡胸生层云，决眦入归鸟","title":"《望岳》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"层云：层层云海荡涤心胸，开阔壮美、气象宏大。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"huang-li","given":"黄鹂","length":2,"pinyin":"huang li","tones":[2,2],"category":"tangshi","season":[1],"gender":"f","source":{"text":"两个黄鹂鸣翠柳，一行白鹭上青天","title":"《绝句》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"黄鹂：春柳间鸣啭的黄莺，明丽欢快、悦耳动听。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"sha-ou","given":"沙鸥","length":2,"pinyin":"sha ou","tones":[1,1],"category":"tangshi","gender":"m","source":{"text":"飘飘何所似，天地一沙鸥","title":"《旅夜书怀》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"沙鸥：天地间自由翱翔的沙鸥，淡泊洒脱、自在无拘。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"wei-feng","given":"微风","length":2,"pinyin":"wei feng","tones":[1,1],"category":"tangshi","season":[1],"gender":"u","source":{"text":"细雨鱼儿出，微风燕子斜","title":"《水槛遣心》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"微风：和煦轻柔的风，温润自在、宜人舒心。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"xi-yu","given":"细雨","length":2,"pinyin":"xi yu","tones":[4,3],"category":"tangshi","season":[1],"gender":"f","source":{"text":"细雨鱼儿出，微风燕子斜","title":"《水槛遣心》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"细雨：濛濛春雨，温柔细腻、润物无声。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"qian-kun","given":"乾坤","length":2,"pinyin":"qian kun","tones":[2,1],"category":"tangshi","gender":"m","source":{"text":"吴楚东南坼，乾坤日夜浮","title":"《登岳阳楼》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"乾坤：天地宇宙，气魄宏大、胸襟广博。","tags":["事业","清朗"],"frequency":"classic","verified":true},
+  {"id":"bi-cao","given":"碧草","length":2,"pinyin":"bi cao","tones":[4,3],"category":"tangshi","season":[1],"gender":"f","source":{"text":"映阶碧草自春色，隔叶黄鹂空好音","title":"《蜀相》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"碧草：阶前青碧的春草，生机清翠、自成春色。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"hua-jing","given":"花径","length":2,"pinyin":"hua jing","tones":[1,4],"category":"tangshi","gender":"f","source":{"text":"花径不曾缘客扫，蓬门今始为君开","title":"《客至》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"花径：落花铺就的小径，雅致待客、真诚好客。","tags":["风雅","仁善"],"frequency":"classic","verified":true},
+  {"id":"qing-jiang","given":"清江","length":2,"pinyin":"qing jiang","tones":[1,1],"category":"tangshi","season":[2],"gender":"u","source":{"text":"清江一曲抱村流，长夏江村事事幽","title":"《江村》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"清江：清澈的江水环绕村居，宁静清幽、岁月静好。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"guang-sha","given":"广厦","length":2,"pinyin":"guang sha","tones":[3,4],"category":"tangshi","gender":"m","source":{"text":"安得广厦千万间，大庇天下寒士俱欢颜","title":"《茅屋为秋风所破歌》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"广厦：广大的屋宇，心怀天下、兼济苍生。","tags":["仁善","事业"],"frequency":"legend","verified":true},
+  {"id":"qian-qiu","given":"千秋","length":2,"pinyin":"qian qiu","tones":[1,1],"category":"tangshi","gender":"u","source":{"text":"窗含西岭千秋雪，门泊东吴万里船","title":"《绝句》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"千秋：千年岁月，寓意长久恒远、福寿绵长。","tags":["福寿","事业"],"frequency":"legend","verified":true},
+  {"id":"yun-qi","given":"云起","length":2,"pinyin":"yun qi","tones":[2,3],"category":"tangshi","gender":"m","source":{"text":"行到水穷处，坐看云起时","title":"《终南别业》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"云起：行到水穷、坐看云起，从容豁达、随遇而安。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"zhao-yu","given":"朝雨","length":2,"pinyin":"zhao yu","tones":[1,3],"category":"tangshi","season":[1],"gender":"f","source":{"text":"渭城朝雨浥轻尘，客舍青青柳色新","title":"《送元二使安西》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"朝雨：清晨的细雨洗去轻尘，清新明净。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"qing-song","given":"青松","length":2,"pinyin":"qing song","tones":[1,1],"category":"tangshi","gender":"m","source":{"text":"泉声咽危石，日色冷青松","title":"《过香积寺》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"青松：苍翠的松树，坚毅挺拔、历久常青。","tags":["坚韧","自然"],"frequency":"classic","verified":true},
+  {"id":"bo-lan","given":"波澜","length":2,"pinyin":"bo lan","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"郡邑浮前浦，波澜动远空","title":"《汉江临眺》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"波澜：浩渺江波涌动远空，胸有丘壑、气象开阔。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"chun-fang","given":"春芳","length":2,"pinyin":"chun fang","tones":[1,1],"category":"tangshi","season":[1],"gender":"f","source":{"text":"随意春芳歇，王孙自可留","title":"《山居秋暝》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"春芳：春天的芬芳花草，温婉美好、清新怡人。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"yu-zhou","given":"渔舟","length":2,"pinyin":"yu zhou","tones":[2,1],"category":"tangshi","season":[3],"gender":"u","source":{"text":"竹喧归浣女，莲动下渔舟","title":"《山居秋暝》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"渔舟：莲动处归来的渔舟，恬淡悠然的山居之乐。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"hong-ye","given":"红叶","length":2,"pinyin":"hong ye","tones":[2,4],"category":"tangshi","season":[3],"gender":"f","source":{"text":"荆溪白石出，天寒红叶稀","title":"《山中》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"红叶：深秋的红叶，绚烂明艳、诗意盎然。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"xia-mu","given":"夏木","length":2,"pinyin":"xia mu","tones":[4,4],"category":"tangshi","season":[2],"gender":"u","source":{"text":"漠漠水田飞白鹭，阴阴夏木啭黄鹂","title":"《积雨辋川庄作》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"夏木：夏日浓阴的树木，蓊郁清凉、生机勃勃。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"mu-yun","given":"暮云","length":2,"pinyin":"mu yun","tones":[4,2],"category":"tangshi","season":[4],"gender":"u","source":{"text":"回看射雕处，千里暮云平","title":"《观猎》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"暮云：千里平展的暮云，雄浑开阔、气度从容。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"han-shan","given":"寒山","length":2,"pinyin":"han shan","tones":[2,1],"category":"tangshi","season":[3],"gender":"u","source":{"text":"寒山转苍翠，秋水日潺湲","title":"《辋川闲居赠裴秀才迪》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"寒山：秋日的山峦，苍翠清寒、幽静致远。","tags":["清朗","坚韧"],"frequency":"classic","verified":true},
+  {"id":"xin-qing","given":"新晴","length":2,"pinyin":"xin qing","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"新晴原野旷，极目无氛垢","title":"《新晴野望》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"新晴：雨后初晴，天朗气清、豁然开朗。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"hai-ou","given":"海鸥","length":2,"pinyin":"hai ou","tones":[3,1],"category":"tangshi","season":[2],"gender":"u","source":{"text":"海鸥何事更相疑","title":"《积雨辋川庄作》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"海鸥：自由不疑的海鸥，喻坦荡无猜、心境澄明。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"qing-cui","given":"晴翠","length":2,"pinyin":"qing cui","tones":[2,4],"category":"tangshi","season":[1],"gender":"f","source":{"text":"远芳侵古道，晴翠接荒城","title":"《赋得古原草送别》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"晴翠：阳光下青翠的原野，明丽鲜活、生机蓬勃。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"yuan-fang","given":"远芳","length":2,"pinyin":"yuan fang","tones":[3,1],"category":"tangshi","season":[1],"gender":"f","source":{"text":"远芳侵古道，晴翠接荒城","title":"《赋得古原草送别》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"远芳：绵延远去的芳草，清香远播、生机绵长。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"lv-yang","given":"绿杨","length":2,"pinyin":"lv yang","tones":[4,2],"category":"tangshi","season":[1],"gender":"f","source":{"text":"最爱湖东行不足，绿杨阴里白沙堤","title":"《钱塘湖春行》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"绿杨：春堤上的绿杨，依依柔美、春意盎然。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"jiang-hua","given":"江花","length":2,"pinyin":"jiang hua","tones":[1,1],"category":"tangshi","season":[1],"gender":"f","source":{"text":"日出江花红胜火，春来江水绿如蓝","title":"《忆江南》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"江花：江畔红胜火的花，明艳灿烂、热烈美好。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"bai-lian","given":"白莲","length":2,"pinyin":"bai lian","tones":[2,2],"category":"tangshi","season":[2],"gender":"f","source":{"text":"小娃撑小艇，偷采白莲回","title":"《池上》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"白莲：纯洁的白莲花，清雅高洁、一尘不染。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"bi-luo","given":"碧落","length":2,"pinyin":"bi luo","tones":[4,4],"category":"tangshi","gender":"f","source":{"text":"上穷碧落下黄泉，两处茫茫皆不见","title":"《长恨歌》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"碧落：青天高空，深远澄澈、浩渺无边。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"xing-chen","given":"星辰","length":2,"pinyin":"xing chen","tones":[1,2],"category":"tangshi","season":[1],"gender":"u","source":{"text":"昨夜星辰昨夜风，画楼西畔桂堂东","title":"《无题》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"星辰：满天星斗，璀璨夺目、恒久明亮。","tags":["清朗","风雅"],"frequency":"legend","verified":true},
+  {"id":"gui-tang","given":"桂堂","length":2,"pinyin":"gui tang","tones":[4,2],"category":"tangshi","season":[1],"gender":"u","source":{"text":"昨夜星辰昨夜风，画楼西畔桂堂东","title":"《无题》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"桂堂：桂香满堂，雅致芬芳、富贵吉祥。","tags":["风雅","富贵"],"frequency":"legend","verified":true},
+  {"id":"cai-feng","given":"彩凤","length":2,"pinyin":"cai feng","tones":[3,4],"category":"tangshi","gender":"f","source":{"text":"身无彩凤双飞翼，心有灵犀一点通","title":"《无题》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"彩凤：五彩凤凰，华丽高贵、吉祥如意。","tags":["风雅","富贵"],"frequency":"legend","verified":true},
+  {"id":"tao-ran","given":"陶然","length":2,"pinyin":"tao ran","tones":[2,2],"category":"tangshi","gender":"u","source":{"text":"陶然共忘机","title":"《下终南山过斛斯山人宿置酒》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"陶然：欣然自得、陶陶然乐在其中，安然自适。","tags":["清朗","仁善"],"frequency":"classic","verified":true},
+  {"id":"ding-xiang","given":"丁香","length":2,"pinyin":"ding xiang","tones":[1,1],"category":"tangshi","season":[1],"gender":"f","source":{"text":"芭蕉不展丁香结，同向春风各自愁","title":"《代赠》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"丁香：幽香淡雅的花，含蓄内敛、清雅可人。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"yao-chi","given":"瑶池","length":2,"pinyin":"yao chi","tones":[2,2],"category":"tangshi","gender":"f","source":{"text":"瑶池阿母绮窗开，黄竹歌声动地哀","title":"《瑶池》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"瑶池：西王母的仙池，仙境般美好、高雅脱俗。","tags":["风雅","富贵"],"frequency":"classic","verified":true},
+  {"id":"you-cao","given":"幽草","length":2,"pinyin":"you cao","tones":[1,3],"category":"tangshi","season":[2],"gender":"u","source":{"text":"天意怜幽草，人间重晚晴","title":"《晚晴》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"幽草：幽处生长的草，受天之怜、坚韧自守。","tags":["坚韧","自然"],"frequency":"classic","verified":true},
+  {"id":"bi-hai","given":"碧海","length":2,"pinyin":"bi hai","tones":[4,3],"category":"tangshi","gender":"f","source":{"text":"嫦娥应悔偷灵药，碧海青天夜夜心","title":"《嫦娥》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"碧海：碧蓝的大海，广阔深邃、澄澈明净。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"qing-niao","given":"青鸟","length":2,"pinyin":"qing niao","tones":[1,3],"category":"tangshi","gender":"f","source":{"text":"蓬山此去无多路，青鸟殷勤为探看","title":"《无题》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"青鸟：传信的仙鸟，殷勤灵巧、传递美好。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"qing-luo","given":"轻罗","length":2,"pinyin":"qing luo","tones":[1,2],"category":"tangshi","season":[3],"gender":"f","source":{"text":"银烛秋光冷画屏，轻罗小扇扑流萤","title":"《秋夕》","author":"杜牧","dynasty":"唐","genre":"shi"},"meaning":"轻罗：轻薄的丝罗，轻盈柔美、温婉细腻。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"xin-yu","given":"新雨","length":2,"pinyin":"xin yu","tones":[1,3],"category":"tangshi","season":[3],"gender":"u","source":{"text":"空山新雨后，天气晚来秋","title":"《山居秋暝》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"新雨：初秋新降的雨，清新润泽、明净怡人。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"zi-wei","given":"紫薇","length":2,"pinyin":"zi wei","tones":[3,1],"category":"tangshi","season":[3],"gender":"f","source":{"text":"独坐黄昏谁是伴，紫薇花对紫微郎","title":"白居易《直中书省》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"紫薇：紫薇花对紫微郎。唐中书省称紫微省，此花与文华相伴。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"yu-ren","given":"玉人","length":2,"pinyin":"yu ren","tones":[4,2],"category":"tangshi","season":[3],"gender":"f","source":{"text":"二十四桥明月夜，玉人何处教吹箫","title":"《寄扬州韩绰判官》","author":"杜牧","dynasty":"唐","genre":"shi"},"meaning":"玉人：如玉之人，温润美好、风姿绰约。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"mu-tong","given":"牧童","length":2,"pinyin":"mu tong","tones":[4,2],"category":"tangshi","gender":"m","source":{"text":"借问酒家何处有，牧童遥指杏花村","title":"《清明》","author":"杜牧","dynasty":"唐","genre":"shi"},"meaning":"牧童：田野间自在的牧童，纯真质朴、天真烂漫。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"feng-lin","given":"枫林","length":2,"pinyin":"feng lin","tones":[1,2],"category":"tangshi","season":[3],"gender":"u","source":{"text":"停车坐爱枫林晚，霜叶红于二月花","title":"《山行》","author":"杜牧","dynasty":"唐","genre":"shi"},"meaning":"枫林：经霜的枫林红于春花，绚烂热烈、坚韧昂扬。","tags":["自然","坚韧"],"frequency":"legend","verified":true},
+  {"id":"bai-ou","given":"白鸥","length":2,"pinyin":"bai ou","tones":[2,1],"category":"tangshi","season":[1],"gender":"u","source":{"text":"溶溶漾漾白鸥飞，绿净春深好染衣","title":"《汉江》","author":"杜牧","dynasty":"唐","genre":"shi"},"meaning":"白鸥：春江上飞翔的白鸥，洁白自由、悠然自在。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"chu-yun","given":"楚云","length":2,"pinyin":"chu yun","tones":[3,2],"category":"tangshi","season":[3],"gender":"u","source":{"text":"我家襄水曲，遥隔楚云端","title":"《早寒江上有怀》","author":"孟浩然","dynasty":"唐","genre":"shi"},"meaning":"楚云：楚天之云，飘远绵长、寄寓乡思。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"yun-meng","given":"云梦","length":2,"pinyin":"yun meng","tones":[2,4],"category":"tangshi","season":[3],"gender":"u","source":{"text":"气蒸云梦泽，波撼岳阳城","title":"《望洞庭湖赠张丞相》","author":"孟浩然","dynasty":"唐","genre":"shi"},"meaning":"云梦：云梦大泽，气象万千、浩瀚壮阔。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"han-xu","given":"涵虚","length":2,"pinyin":"han xu","tones":[2,1],"category":"tangshi","season":[3],"gender":"u","source":{"text":"八月湖水平，涵虚混太清","title":"《望洞庭湖赠张丞相》","author":"孟浩然","dynasty":"唐","genre":"shi"},"meaning":"涵虚：水天相接、涵容虚空，胸襟开阔、气度不凡。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"nan-feng","given":"南风","length":2,"pinyin":"nan feng","tones":[2,1],"category":"tangshi","season":[2],"gender":"u","source":{"text":"夜来南风起，小麦覆陇黄","title":"《观刈麦》","author":"白居易","dynasty":"唐","genre":"shi"},"meaning":"南风：和暖的夏风，温煦宜人、顺遂安然。","tags":["自然","平安"],"frequency":"classic","verified":true},
+  {"id":"yan-bo","given":"烟波","length":2,"pinyin":"yan bo","tones":[1,1],"category":"tangshi","gender":"u","source":{"text":"日暮乡关何处是，烟波江上使人愁","title":"《黄鹤楼》","author":"崔颢","dynasty":"唐","genre":"shi"},"meaning":"烟波：江上浩渺的烟霭水波，迷离悠远、气象朦胧。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"gao-lin","given":"高林","length":2,"pinyin":"gao lin","tones":[1,2],"category":"tangshi","gender":"m","source":{"text":"清晨入古寺，初日照高林","title":"《题破山寺后禅院》","author":"常建","dynasty":"唐","genre":"shi"},"meaning":"高林：初日映照的高林，清朗挺拔、朝气初升。","tags":["清朗","坚韧"],"frequency":"classic","verified":true},
+  {"id":"ji-se","given":"霁色","length":2,"pinyin":"ji se","tones":[4,4],"category":"tangshi","season":[4],"gender":"u","source":{"text":"林表明霁色，城中增暮寒","title":"《终南望余雪》","author":"祖咏","dynasty":"唐","genre":"shi"},"meaning":"霁色：雪后初晴的天色，清朗明净、焕然一新。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"qian-fan","given":"千帆","length":2,"pinyin":"qian fan","tones":[1,1],"category":"tangshi","gender":"m","source":{"text":"沉舟侧畔千帆过，病树前头万木春","title":"《酬乐天扬州初逢席上见赠》","author":"刘禹锡","dynasty":"唐","genre":"shi"},"meaning":"千帆：千帆竞发，奋发向上、前程远大。","tags":["事业","坚韧"],"frequency":"legend","verified":true},
+  {"id":"chun-zhao","given":"春朝","length":2,"pinyin":"chun zhao","tones":[1,1],"category":"tangshi","gender":"u","source":{"text":"自古逢秋悲寂寥，我言秋日胜春朝","title":"《秋词》","author":"刘禹锡","dynasty":"唐","genre":"shi"},"meaning":"春朝：春日之晨，朝气蓬勃、积极向上。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"hai-ri","given":"海日","length":2,"pinyin":"hai ri","tones":[3,4],"category":"tangshi","gender":"m","source":{"text":"海日生残夜，江春入旧年","title":"《次北固山下》","author":"王湾","dynasty":"唐","genre":"shi"},"meaning":"海日：海上初升的太阳，光明新生、蒸蒸日上。","tags":["事业","清朗"],"frequency":"classic","verified":true},
+  {"id":"jiang-chun","given":"江春","length":2,"pinyin":"jiang chun","tones":[1,1],"category":"tangshi","season":[1],"gender":"u","source":{"text":"海日生残夜，江春入旧年","title":"《次北固山下》","author":"王湾","dynasty":"唐","genre":"shi"},"meaning":"江春：江上早到的春意，生机涌动、万象更新。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"chao-ping","given":"潮平","length":2,"pinyin":"chao ping","tones":[2,2],"category":"tangshi","gender":"u","source":{"text":"潮平两岸阔，风正一帆悬","title":"《次北固山下》","author":"王湾","dynasty":"唐","genre":"shi"},"meaning":"潮平：潮水涨平、两岸开阔，顺遂安稳、前景开阔。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"xie-yang","given":"斜阳","length":2,"pinyin":"xie yang","tones":[2,2],"category":"tangshi","gender":"u","source":{"text":"荷笠带斜阳，青山独归远","title":"《送灵澈上人》","author":"刘长卿","dynasty":"唐","genre":"shi"},"meaning":"斜阳：落日余晖，温煦悠远、从容淡泊。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"hai-yan","given":"海燕","length":2,"pinyin":"hai yan","tones":[3,4],"category":"tangshi","gender":"f","source":{"text":"卢家少妇郁金堂，海燕双栖玳瑁梁","title":"《独不见》","author":"沈佺期","dynasty":"唐","genre":"shi"},"meaning":"海燕：海上的燕子，矫健灵巧、勇敢坚定。","tags":["清朗","坚韧"],"frequency":"classic","verified":true},
+  {"id":"bai-yu","given":"白羽","length":2,"pinyin":"bai yu","tones":[2,3],"category":"tangshi","gender":"u","source":{"text":"平明寻白羽，没在石棱中","title":"《塞下曲》","author":"卢纶","dynasty":"唐","genre":"shi"},"meaning":"白羽：洁白的羽箭，果敢有力、力量内蕴。","tags":["清朗","坚韧"],"frequency":"classic","verified":true},
+  {"id":"yun-shen","given":"云深","length":2,"pinyin":"yun shen","tones":[2,1],"category":"tangshi","gender":"u","source":{"text":"只在此山中，云深不知处","title":"《寻隐者不遇》","author":"贾岛","dynasty":"唐","genre":"shi"},"meaning":"云深：白云深处，幽远神秘、高雅脱俗。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"xiao-xiang","given":"潇湘","length":2,"pinyin":"xiao xiang","tones":[1,1],"category":"tangshi","season":[3],"gender":"f","source":{"text":"雁声远过潇湘去，十二楼中月自明","title":"《瑶瑟怨》","author":"温庭筠","dynasty":"唐","genre":"shi"},"meaning":"潇湘：湘江潇水，清幽秀美、诗意绵长。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"jiang-yu","given":"江雨","length":2,"pinyin":"jiang yu","tones":[1,3],"category":"tangshi","season":[1],"gender":"u","source":{"text":"江雨霏霏江草齐，六朝如梦鸟空啼","title":"《台城》","author":"韦庄","dynasty":"唐","genre":"shi"},"meaning":"江雨：江上霏霏细雨，迷蒙清润、意境悠远。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"bai-hua","given":"百花","length":2,"pinyin":"bai hua","tones":[3,1],"category":"tangshi","gender":"f","source":{"text":"采得百花成蜜后，为谁辛苦为谁甜","title":"《蜂》","author":"罗隐","dynasty":"唐","genre":"shi"},"meaning":"百花：百花争艳，繁盛美好、甘于奉献。","tags":["自然","仁善"],"frequency":"classic","verified":true},
+  {"id":"gui-hua2","given":"桂华","length":2,"pinyin":"gui hua","tones":[4,2],"category":"tangshi","season":[3],"gender":"f","source":{"text":"兰叶春葳蕤，桂华秋皎洁","title":"《感遇》","author":"张九龄","dynasty":"唐","genre":"shi"},"meaning":"桂华：秋日皎洁的桂花，清雅芬芳、高洁自持。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"you-zhu","given":"幽竹","length":2,"pinyin":"you zhu","tones":[1,2],"category":"tangshi","season":[1],"gender":"u","source":{"text":"始怜幽竹山窗下，不改清阴待我归","title":"《暮春归故山草堂》","author":"钱起","dynasty":"唐","genre":"shi"},"meaning":"幽竹：窗下的幽竹不改清阴，坚贞守诺、风骨自持。","tags":["风雅","坚韧"],"frequency":"classic","verified":true},
+  {"id":"shan-qing2","given":"山青","length":2,"pinyin":"shan qing","tones":[1,1],"category":"tangshi","season":[1],"gender":"u","source":{"text":"江碧鸟逾白，山青花欲燃","title":"《绝句二首》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"山青：青山如染，春意盎然、明丽清新。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"tian-shan","given":"天山","length":2,"pinyin":"tian shan","tones":[1,1],"category":"tangshi","gender":"m","source":{"text":"五月天山雪，无花只有寒","title":"《塞下曲》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"天山：巍峨雄壮的天山，气魄宏伟、坚韧刚毅。","tags":["坚韧","清朗"],"frequency":"classic","verified":true},
+  {"id":"xue-shan","given":"雪山","length":2,"pinyin":"xue shan","tones":[3,1],"category":"tangshi","gender":"u","source":{"text":"青海长云暗雪山，孤城遥望玉门关","title":"《从军行》","author":"王昌龄","dynasty":"唐","genre":"shi"},"meaning":"雪山：终年积雪的雪山，纯净高远、不染纤尘。","tags":["清朗","坚韧"],"frequency":"classic","verified":true},
+  {"id":"ping-an","given":"平安","length":2,"pinyin":"ping an","tones":[2,1],"category":"tangshi","gender":"u","source":{"text":"马上相逢无纸笔，凭君传语报平安","title":"《逢入京使》","author":"岑参","dynasty":"唐","genre":"shi"},"meaning":"平安：安然无恙、平顺安康，最朴素的祝福。","tags":["平安","福寿"],"frequency":"classic","verified":true},
+  {"id":"lin-quan","given":"林泉","length":2,"pinyin":"lin quan","tones":[2,2],"category":"tangshi","gender":"u","source":{"text":"主人不相识，偶坐为林泉","title":"《题袁氏别业》","author":"贺知章","dynasty":"唐","genre":"shi"},"meaning":"林泉：山林泉石，高雅闲适的隐逸之趣。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"jing-hu","given":"镜湖","length":2,"pinyin":"jing hu","tones":[4,2],"category":"tangshi","gender":"f","source":{"text":"惟有门前镜湖水，春风不改旧时波","title":"《回乡偶书·其二》","author":"贺知章","dynasty":"唐","genre":"shi"},"meaning":"镜湖：水平如镜的湖泊，澄澈明净、温婉安宁。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"lv-qi","given":"绿绮","length":2,"pinyin":"lv qi","tones":[4,3],"category":"tangshi","gender":"f","source":{"text":"蜀僧抱绿绮，西下峨眉峰","title":"《听蜀僧濬弹琴》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"绿绮：古代名琴，风雅多才、气韵清远。","tags":["风雅","聪慧"],"frequency":"classic","verified":true},
+  {"id":"meng-die","given":"梦蝶","length":2,"pinyin":"meng die","tones":[4,2],"category":"tangshi","gender":"u","source":{"text":"庄生晓梦迷蝴蝶，望帝春心托杜鹃","title":"《锦瑟》","author":"李商隐","dynasty":"唐","genre":"shi"},"meaning":"梦蝶：庄周梦蝶，超然物外、诗意浪漫。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"huan-yan","given":"欢颜","length":2,"pinyin":"huan yan","tones":[1,2],"category":"tangshi","gender":"u","source":{"text":"安得广厦千万间，大庇天下寒士俱欢颜","title":"《茅屋为秋风所破歌》","author":"杜甫","dynasty":"唐","genre":"shi"},"meaning":"欢颜：欢欣的笑颜，心怀天下、悲悯仁善。","tags":["仁善","平安"],"frequency":"legend","verified":true},
+  {"id":"cang-cui","given":"苍翠","length":2,"pinyin":"cang cui","tones":[1,4],"category":"tangshi","season":[3],"gender":"u","source":{"text":"寒山转苍翠，秋水日潺湲","title":"《辋川闲居赠裴秀才迪》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"苍翠：青翠苍郁的山色，生机葱茏、清幽旷远。","tags":["自然","清朗"],"frequency":"classic","verified":true},
+  {"id":"ting-ting","given":"亭亭","length":2,"pinyin":"ting ting","tones":[2,2],"category":"tangshi","gender":"f","source":{"text":"太华生长松，亭亭凌霜雪","title":"《赠韦侍御黄裳》","author":"李白","dynasty":"唐","genre":"shi"},"meaning":"亭亭：亭亭玉立，姿态秀美、风姿出众。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"tian-du","given":"天都","length":2,"pinyin":"tian du","tones":[1,1],"category":"tangshi","gender":"u","source":{"text":"太乙近天都，连山接海隅","title":"《终南山》","author":"王维","dynasty":"唐","genre":"shi"},"meaning":"天都：天帝所居之处，高远壮阔、气象非凡。","tags":["清朗","事业"],"frequency":"classic","verified":true},
+  {"id":"qing-zhou","given":"轻舟","length":2,"pinyin":"qing zhou","tones":[1,1],"category":"songci","gender":"u","source":{"text":"轻舟短棹西湖好，绿水逶迤","title":"《采桑子·轻舟短棹西湖好》","author":"欧阳修","dynasty":"宋","genre":"ci"},"meaning":"轻舟：轻快的小船，轻盈自在、悠然快意。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"lian-yi","given":"涟漪","length":2,"pinyin":"lian yi","tones":[2,1],"category":"songci","gender":"f","source":{"text":"无风水面琉璃滑，不觉船移。微动涟漪","title":"《采桑子·轻舟短棹西湖好》","author":"欧阳修","dynasty":"宋","genre":"ci"},"meaning":"涟漪：水面细细的波纹，清柔灵动、静中有致。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"chu-yang","given":"初阳","length":2,"pinyin":"chu yang","tones":[1,2],"category":"songci","season":[2],"gender":"m","source":{"text":"叶上初阳干宿雨，水面清圆，一一风荷举","title":"《苏幕遮》","author":"周邦彦","dynasty":"宋","genre":"ci"},"meaning":"初阳：清晨初升的太阳，朝气蓬勃、蒸蒸日上。","tags":["事业","清朗"],"frequency":"classic","verified":true},
+  {"id":"sheng-xue","given":"胜雪","length":2,"pinyin":"sheng xue","tones":[4,3],"category":"songci","gender":"f","source":{"text":"并刀如水，吴盐胜雪，纤手破新橙","title":"《少年游》","author":"周邦彦","dynasty":"宋","genre":"ci"},"meaning":"胜雪：洁白胜过雪，纯净无瑕、清雅出尘。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"jing-tao","given":"惊涛","length":2,"pinyin":"jing tao","tones":[1,1],"category":"songci","gender":"m","source":{"text":"乱石穿空，惊涛拍岸，卷起千堆雪","title":"《念奴娇·赤壁怀古》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"惊涛：奔涌拍岸的巨浪，气势磅礴、雄健有力。","tags":["坚韧","事业"],"frequency":"legend","verified":true},
+  {"id":"qing-ying","given":"清影","length":2,"pinyin":"qing ying","tones":[1,3],"category":"songci","season":[3],"gender":"u","source":{"text":"起舞弄清影，何似在人间","title":"《水调歌头》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"清影：清朗的身影，超然洒脱、飘逸出尘。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"cheng-feng","given":"乘风","length":2,"pinyin":"cheng feng","tones":[2,1],"category":"songci","season":[3],"gender":"u","source":{"text":"我欲乘风归去，又恐琼楼玉宇","title":"《水调歌头》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"乘风：乘风而行，志向高远、一往无前。","tags":["事业","清朗"],"frequency":"legend","verified":true},
+  {"id":"xiao-han2","given":"晓寒","length":2,"pinyin":"xiao han","tones":[3,2],"category":"songci","season":[1],"gender":"u","source":{"text":"细雨斜风作晓寒，淡烟疏柳媚晴滩","title":"《浣溪沙·细雨斜风作晓寒》","author":"苏轼","dynasty":"宋","genre":"ci"},"meaning":"晓寒：清晨的微寒，清冽醒神、宁静自若。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"ao-shuang","given":"傲霜","length":2,"pinyin":"ao shuang","tones":[4,1],"category":"songci","season":[3],"gender":"m","source":{"text":"荷尽已无擎雨盖，菊残犹有傲霜枝","title":"《赠刘景文》","author":"苏轼","dynasty":"宋","genre":"shi"},"meaning":"傲霜：傲然凌霜，坚贞不屈、风骨凛然。","tags":["坚韧","清朗"],"frequency":"classic","verified":true},
+  {"id":"xiang-yi","given":"相宜","length":2,"pinyin":"xiang yi","tones":[1,2],"category":"songci","gender":"f","source":{"text":"欲把西湖比西子，淡妆浓抹总相宜","title":"《饮湖上初晴后雨》","author":"苏轼","dynasty":"宋","genre":"shi"},"meaning":"相宜：恰到好处、自然和谐，端庄大方。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"ou-lu","given":"鸥鹭","length":2,"pinyin":"ou lu","tones":[1,4],"category":"songci","season":[2],"gender":"u","source":{"text":"争渡，争渡，惊起一滩鸥鹭","title":"《如梦令》","author":"李清照","dynasty":"宋","genre":"ci"},"meaning":"鸥鹭：水边的鸥鸟白鹭，自由欢快、生机盎然。","tags":["清朗","自然"],"frequency":"legend","verified":true},
+  {"id":"xi-ting","given":"溪亭","length":2,"pinyin":"xi ting","tones":[1,2],"category":"songci","season":[2],"gender":"u","source":{"text":"常记溪亭日暮，沉醉不知归路","title":"《如梦令》","author":"李清照","dynasty":"宋","genre":"ci"},"meaning":"溪亭：溪边的亭子，清雅悠然、山水相映。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"chun-rou","given":"春柔","length":2,"pinyin":"chun rou","tones":[1,2],"category":"songci","season":[1],"gender":"f","source":{"text":"西城杨柳弄春柔，动离忧，泪难收","title":"《江城子·西城杨柳弄春柔》","author":"秦观","dynasty":"宋","genre":"ci"},"meaning":"春柔：春日的柔美，温婉多情、细腻动人。","tags":["风雅","自然"],"frequency":"classic","verified":true},
+  {"id":"you-meng","given":"幽梦","length":2,"pinyin":"you meng","tones":[1,4],"category":"songci","season":[1],"gender":"f","source":{"text":"夜月一帘幽梦，春风十里柔情","title":"《八六子》","author":"秦观","dynasty":"宋","genre":"ci"},"meaning":"幽梦：清幽的梦境，浪漫含蓄、柔美缱绻。","tags":["风雅"],"frequency":"classic","verified":true},
+  {"id":"yao-qin","given":"瑶琴","length":2,"pinyin":"yao qin","tones":[2,2],"category":"songci","gender":"u","source":{"text":"欲将心事付瑶琴，知音少，弦断有谁听","title":"《小重山》","author":"岳飞","dynasty":"宋","genre":"ci"},"meaning":"瑶琴：饰玉的琴，高雅清逸、才情卓然。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"jin-bo","given":"金波","length":2,"pinyin":"jin bo","tones":[1,1],"category":"songci","season":[3],"gender":"u","source":{"text":"一轮秋影转金波，飞镜又重磨","title":"《太常引·建康中秋夜为吕叔潜赋》","author":"辛弃疾","dynasty":"宋","genre":"ci"},"meaning":"金波：月光照水如金波荡漾，明亮美好、流光溢彩。","tags":["清朗","富贵"],"frequency":"classic","verified":true},
+  {"id":"ying-ying","given":"盈盈","length":2,"pinyin":"ying ying","tones":[2,2],"category":"songci","gender":"f","source":{"text":"蛾儿雪柳黄金缕，笑语盈盈暗香去","title":"《青玉案·元夕》","author":"辛弃疾","dynasty":"宋","genre":"ci"},"meaning":"盈盈：仪态轻盈美好，笑语盈盈、灵动可人。","tags":["风雅","清朗"],"frequency":"legend","verified":true},
+  {"id":"tao-ye","given":"桃叶","length":2,"pinyin":"tao ye","tones":[2,4],"category":"songci","season":[1],"gender":"f","source":{"text":"宝钗分，桃叶渡，烟柳暗南浦","title":"《祝英台近·晚春》","author":"辛弃疾","dynasty":"宋","genre":"ci"},"meaning":"桃叶：桃树的嫩叶，明丽清新、春意萌发。","tags":["自然","风雅"],"frequency":"classic","verified":true},
+  {"id":"ru-gu","given":"如故","length":2,"pinyin":"ru gu","tones":[2,4],"category":"songci","season":[4],"gender":"f","source":{"text":"零落成泥碾作尘，只有香如故","title":"《卜算子·咏梅》","author":"陆游","dynasty":"宋","genre":"ci"},"meaning":"如故：只有香如故。亦「一见如故」，初心不改，情谊长存。","tags":["坚韧","风雅"],"frequency":"legend","verified":true},
+  {"id":"su-yi","given":"素衣","length":2,"pinyin":"su yi","tones":[4,1],"category":"songci","season":[1],"gender":"f","source":{"text":"素衣莫起风尘叹，犹及清明可到家","title":"《临安春雨初霁》","author":"陆游","dynasty":"宋","genre":"shi"},"meaning":"素衣：洁白的衣衫，高洁自守、素雅从容。","tags":["风雅","清朗"],"frequency":"classic","verified":true},
+  {"id":"bing-he","given":"冰河","length":2,"pinyin":"bing he","tones":[1,2],"category":"songci","season":[4],"gender":"m","source":{"text":"夜阑卧听风吹雨，铁马冰河入梦来","title":"《十一月四日风雨大作》","author":"陆游","dynasty":"宋","genre":"shi"},"meaning":"冰河：冰封的河流，气魄雄浑、意志刚毅。","tags":["坚韧","清朗"],"frequency":"classic","verified":true},
+  {"id":"ling-han","given":"凌寒","length":2,"pinyin":"ling han","tones":[2,2],"category":"songci","season":[4],"gender":"u","source":{"text":"墙角数枝梅，凌寒独自开","title":"《梅花》","author":"王安石","dynasty":"宋","genre":"shi"},"meaning":"凌寒：凌越严寒，傲然绽放、坚韧不拔。","tags":["坚韧","清朗"],"frequency":"legend","verified":true},
+  {"id":"dan-xin3","given":"丹心","length":2,"pinyin":"dan xin","tones":[1,1],"category":"songci","gender":"m","source":{"text":"人生自古谁无死，留取丹心照汗青","title":"《过零丁洋》","author":"文天祥","dynasty":"宋","genre":"shi"},"meaning":"丹心：赤诚之心，忠贞不渝、光明磊落。","tags":["仁善","坚韧"],"frequency":"legend","verified":true},
+  {"id":"xun-fang","given":"寻芳","length":2,"pinyin":"xun fang","tones":[2,1],"category":"songci","season":[1],"gender":"u","source":{"text":"胜日寻芳泗水滨，无边光景一时新","title":"《春日》","author":"朱熹","dynasty":"宋","genre":"shi"},"meaning":"寻芳：寻访春芳，热爱生活、探求美好。","tags":["自然","风雅"],"frequency":"legend","verified":true},
+  {"id":"ting-zhou","given":"汀洲","length":2,"pinyin":"ting zhou","tones":[1,1],"category":"songci","season":[3],"gender":"u","source":{"text":"芦叶满汀洲，寒沙带浅流","title":"《唐多令·芦叶满汀洲》","author":"刘过","dynasty":"宋","genre":"ci"},"meaning":"汀洲：水边的小洲，清幽旷远、意境萧疏。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"qing-jia","given":"清嘉","length":2,"pinyin":"qing jia","tones":[1,1],"category":"songci","gender":"u","source":{"text":"重湖叠巘清嘉，有三秋桂子，十里荷花","title":"《望海潮》","author":"柳永","dynasty":"宋","genre":"ci"},"meaning":"清嘉：清丽美好，风华秀美、景色宜人。","tags":["清朗","风雅"],"frequency":"classic","verified":true},
+  {"id":"liu-yue","given":"流月","length":2,"pinyin":"liu yue","tones":[2,4],"category":"songci","season":[1],"gender":"u","source":{"text":"长沟流月去无声。杏花疏影里，吹笛到天明","title":"《临江仙·夜登小阁忆洛中旧游》","author":"陈与义","dynasty":"宋","genre":"ci"},"meaning":"流月：月光随水流淌，清雅静谧、诗意悠远。","tags":["清朗","自然"],"frequency":"classic","verified":true},
+  {"id":"feng-peng","given":"风鹏","length":2,"pinyin":"feng peng","tones":[1,2],"category":"songci","gender":"m","source":{"text":"九万里风鹏正举，风休住","title":"《渔家傲》","author":"李清照","dynasty":"宋","genre":"ci"},"meaning":"风鹏：乘风的大鹏，志向远大、扶摇直上。","tags":["事业","清朗"],"frequency":"classic","verified":true},
+  {"id":"lian-ye","given":"莲叶","length":2,"pinyin":"lian ye","tones":[2,4],"category":"songci","season":[2],"gender":"f","source":{"text":"接天莲叶无穷碧，映日荷花别样红","title":"《晓出净慈寺送林子方》","author":"杨万里","dynasty":"宋","genre":"shi"},"meaning":"莲叶：接天无穷碧的莲叶，生机蓬勃、清朗开阔。","tags":["自然","清朗"],"frequency":"legend","verified":true},
+  {"id":"hua-ying","given":"花影","length":2,"pinyin":"hua ying","tones":[1,3],"category":"songci","season":[1],"gender":"f","source":{"text":"云破月来花弄影","title":"《天仙子》","author":"张先","dynasty":"宋","genre":"ci"},"meaning":"花影：月下摇曳的花影，朦胧柔美、意趣盎然。","tags":["风雅","自然"],"frequency":"legend","verified":true}
 ];

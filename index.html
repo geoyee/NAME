@@ -22,19 +22,57 @@
     <!-- ============ 表单区 ============ -->
     <aside class="form-panel">
       <div class="field">
+        <label>取名模式</label>
+        <div class="pill-group" id="mode-switch">
+          <button type="button" class="pill active" data-value="single">单名取名</button>
+          <button type="button" class="pill" data-value="pair">配对取名（双胞胎/龙凤胎）</button>
+        </div>
+      </div>
+
+      <div class="field" id="pair-type-field" style="display:none;">
+        <label>宝宝组合</label>
+        <div class="pill-group" id="pair-type-group">
+          <button type="button" class="pill" data-value="mm">双胞胎（兄弟）</button>
+          <button type="button" class="pill active" data-value="mf">龙凤胎</button>
+          <button type="button" class="pill" data-value="ff">双胞胎（姐妹）</button>
+        </div>
+      </div>
+
+      <div class="field" id="pair-split-field" style="display:none;">
+        <label>随姓方式 <span class="opt">（填了母亲姓氏后可选）</span></label>
+        <div class="chip-group" id="pair-split-group">
+          <button type="button" class="chip active" data-value="ff">均随父姓</button>
+          <button type="button" class="chip" data-value="fm">均随母姓</button>
+          <button type="button" class="chip" data-value="fmOrder">长随父姓·幼随母姓</button>
+          <button type="button" class="chip" data-value="mfOrder">长随母姓·幼随父姓</button>
+        </div>
+        <div class="chip-group" id="pair-split-mf" style="display:none;margin-top:6px;">
+          <button type="button" class="chip" data-value="genderA">男随父姓·女随母姓</button>
+          <button type="button" class="chip" data-value="genderB">女随父姓·男随母姓</button>
+        </div>
+      </div>
+
+      <div class="field">
         <label for="father">父亲姓氏 <span class="req">*</span></label>
         <input id="father" type="text" maxlength="2" placeholder="如：王 / 欧阳">
         <div id="father-hint" class="hint"></div>
       </div>
 
-      <div class="field">
+      <div class="field" id="mother-field">
         <label for="mother">母亲姓氏 <span class="opt">（可选）</span></label>
         <input id="mother" type="text" maxlength="2" placeholder="如：林">
         <div id="mother-hint" class="hint"></div>
-        <label class="check-line"><input type="checkbox" id="use-mother"> 母姓入名（勾选后可用四字名：父姓+母姓+双字）</label>
+        <label class="check-line" id="use-mother-line"><input type="checkbox" id="use-mother"> 母姓入名（勾选后名字长度处解锁三字名/四字名）</label>
+        <div class="field" id="mother-order-field" style="display:none;margin-top:10px;">
+          <label>排列方式</label>
+          <div class="pill-group" id="mother-order-group">
+            <button type="button" class="pill active" data-value="father">父姓在前（父姓+母姓+名字）</button>
+            <button type="button" class="pill" data-value="mother">母姓在前（母姓+父姓+名字）</button>
+          </div>
+        </div>
       </div>
 
-      <div class="field">
+      <div class="field" id="gender-field">
         <label>性别</label>
         <div class="pill-group" id="gender-group">
           <button type="button" class="pill" data-value="m">男</button>
@@ -54,12 +92,13 @@
         </div>
       </div>
 
-      <div class="field">
+      <div class="field" id="length-field">
         <label>名字长度</label>
         <div class="chip-group" id="mode-group">
           <button type="button" class="chip active" data-value="double">双字名</button>
           <button type="button" class="chip" data-value="single">单字名</button>
-          <button type="button" class="chip" data-value="quad" id="mode-quad" disabled>四字名（父姓+母姓+双字）</button>
+          <button type="button" class="chip" data-value="tri" id="mode-tri" disabled>三字名（母姓入名·单字）</button>
+          <button type="button" class="chip" data-value="quad" id="mode-quad" disabled>四字名（母姓入名·双字）</button>
         </div>
       </div>
 
@@ -77,6 +116,17 @@
       <div class="field">
         <label>期望的祝福方向（可多选，不选则不限）</label>
         <div class="chip-group" id="blessing-group"></div>
+      </div>
+
+      <div class="field">
+        <label>打分权重（可拖动调整，自动按比例归一）
+          <button id="btn-weight-reset" class="btn-ghost btn-mini" type="button">恢复默认</button>
+        </label>
+        <div class="weight-row"><span class="w-label">音律</span><input type="range" id="w-phonetic" min="0" max="100" step="1"><b class="w-val" id="wv-phonetic"></b></div>
+        <div class="weight-row"><span class="w-label">形美</span><input type="range" id="w-shape" min="0" max="100" step="1"><b class="w-val" id="wv-shape"></b></div>
+        <div class="weight-row"><span class="w-label">寓意</span><input type="range" id="w-meaning" min="0" max="100" step="1"><b class="w-val" id="wv-meaning"></b></div>
+        <div class="weight-row"><span class="w-label">性别</span><input type="range" id="w-gender" min="0" max="100" step="1"><b class="w-val" id="wv-gender"></b></div>
+        <div class="weight-row"><span class="w-label">字频</span><input type="range" id="w-freq" min="0" max="100" step="1"><b class="w-val" id="wv-freq"></b></div>
       </div>
 
       <div class="field">
@@ -110,6 +160,7 @@
           <button type="button" class="chip" data-value="shape">书写优先</button>
           <button type="button" class="chip" data-value="meaning">寓意优先</button>
         </div>
+        <button type="button" id="btn-next-batch" class="btn-ghost btn-next hidden">换一批 ⟳</button>
       </div>
       <div id="cards" class="cards"></div>
       <div id="empty" class="empty hidden">
@@ -147,11 +198,13 @@
   <script src="data/bad_homophones.js"></script>
   <script src="data/chars.js"></script>
   <script src="data/names.js"></script>
+  <script src="data/pairs.js"></script>
   <script src="js/phonetics.js"></script>
   <script src="js/calligraphy.js"></script>
   <script src="js/meaning.js"></script>
   <script src="js/scoring.js"></script>
   <script src="js/candidate.js"></script>
+  <script src="js/pairs.js"></script>
   <script src="js/ui/form.js"></script>
   <script src="js/ui/results.js"></script>
   <script src="js/ui/detail.js"></script>

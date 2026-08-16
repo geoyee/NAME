@@ -176,12 +176,39 @@ window.NamesApp.TestFixtures = (function () {
       }
     },
     {
-      name: "四字名妙配：母姓白+「玉露」命中白+玉双关",
+      name: "三字名（母姓入名·单字）：王林×",
       fn: () => {
-        const r = C.generate(makeInput({ fatherSurname: "王", motherSurname: "白", modes: ["quad"], gender: "any" }));
-        const yulu = r.candidates.find(c => c.entry.given === "玉露");
-        assert(yulu, "应有「王白玉露」候选");
-        assert(yulu.dims.meaning.notes.some(n => n.key === "compat"), "应命中白+玉妙配");
+        const r = C.generate(makeInput({ motherSurname: "林", modes: ["tri"] }));
+        assert(r.candidates.length > 0, "三字名无候选");
+        assert(r.candidates.every(c => c.fullName.indexOf("王林") === 0 && c.fullName.length === 3),
+          "三字名应为「王林+单字」");
+      }
+    },
+    {
+      name: "母姓在前：母姓+父姓+双字",
+      fn: () => {
+        const r = C.generate(makeInput({ motherSurname: "林", modes: ["quad"], motherFirst: true }));
+        assert(r.candidates.length > 0, "母姓在前无候选");
+        assert(r.candidates.every(c => c.fullName.indexOf("林王") === 0 && c.fullName.length === 4),
+          "母姓在前应为「林王+双字」");
+      }
+    },
+    {
+      name: "母姓在前+妙配：母姓白在前仍命中白+玉双关",
+      fn: () => {
+        const r = C.generate(makeInput({ fatherSurname: "王", motherSurname: "白", modes: ["quad"], motherFirst: true, count: 30 }));
+        const yu = r.candidates.filter(c => c.entry.given[0] === "玉");
+        assert(yu.length > 0, "应有「白王玉×」候选");
+        assert(yu.every(c => c.dims.meaning.notes.some(n => n.key === "compat")), "应命中白+玉妙配");
+      }
+    },
+    {
+      name: "四字名妙配：母姓白+「玉×」命中白+玉双关",
+      fn: () => {
+        const r = C.generate(makeInput({ fatherSurname: "王", motherSurname: "白", modes: ["quad"], gender: "any", count: 30 }));
+        const yu = r.candidates.filter(c => c.entry.given[0] === "玉");
+        assert(yu.length > 0, "应有「王白玉×」候选");
+        assert(yu.every(c => c.dims.meaning.notes.some(n => n.key === "compat")), "应命中白+玉妙配");
       }
     },
     {
@@ -236,6 +263,168 @@ window.NamesApp.TestFixtures = (function () {
           assert(c.dims.shape.score >= 0 && c.dims.shape.score <= 100, c.fullName + " 形美分越界");
           assert(c.dims.meaning.score >= 0 && c.dims.meaning.score <= 100, c.fullName + " 寓意分越界");
         }
+      }
+    },
+    {
+      name: "多样性：Top15 中同一首字不超过 3 个",
+      fn: () => {
+        const r = C.generate(makeInput({ count: 15 }));
+        assert(r.candidates.length > 0, "无候选");
+        const firstCount = {};
+        r.candidates.forEach(c => {
+          const k = c.entry.given[0];
+          firstCount[k] = (firstCount[k] || 0) + 1;
+          assert(firstCount[k] <= 3, "首字「" + k + "」出现超过 3 次：" + c.fullName);
+        });
+        const distinct = Object.keys(firstCount).length;
+        assert(distinct >= 5, "Top15 首字种类过少：" + distinct);
+      }
+    },
+    {
+      name: "龙凤胎：金风玉露配对可生成",
+      fn: () => {
+        const P = A.Pairs;
+        const r = P.generate(makeInput({ pairType: "mf", count: 100 }));
+        const hit = r.pairs.find(p => p.pair.a.given === "金风" && p.pair.b.given === "玉露");
+        assert(hit, "应有金风+玉露配对");
+        assert(hit.a.fullName === "王金风" && hit.b.fullName === "王玉露", "全名应为王金风/王玉露");
+      }
+    },
+    {
+      name: "龙凤胎：知行配对可生成",
+      fn: () => {
+        const P = A.Pairs;
+        const r = P.generate(makeInput({ pairType: "mf", count: 100 }));
+        assert(r.pairs.some(p => p.pair.id === "zhi-xing"), "应有知行配对");
+      }
+    },
+    {
+      name: "兄弟双胞胎不含女女专属配对（磐石+蒲苇）",
+      fn: () => {
+        const P = A.Pairs;
+        const r = P.generate(makeInput({ pairType: "mm", count: 200 }));
+        assert(!r.pairs.some(p => p.pair.id === "panshi-puwei"), "男男模式不应出现蒲苇");
+        assert(r.pairs.some(p => p.pair.id === "kun-peng"), "应有鲲鹏配对");
+      }
+    },
+    {
+      name: "配对名过滤避讳字",
+      fn: () => {
+        const P = A.Pairs;
+        const r = P.generate(makeInput({ pairType: "mf", count: 200, taboo: ["金"] }));
+        assert(!r.pairs.some(p => p.pair.id === "jinfeng-yulu"), "避「金」应过滤金风玉露");
+      }
+    },
+    {
+      name: "配对随姓：长随父姓·幼随母姓（王金风·林玉露）",
+      fn: () => {
+        const P = A.Pairs;
+        const r = P.generate(makeInput({ pairType: "mf", motherSurname: "林", splitMode: "fmOrder", count: 200 }));
+        const hit = r.pairs.find(p => p.pair.id === "jinfeng-yulu");
+        assert(hit, "应有金风玉露配对");
+        assert(hit.a.fullName === "王金风" && hit.b.fullName === "林玉露",
+          "应为长随父（王金风）幼随母（林玉露），实际：" + hit.a.fullName + "/" + hit.b.fullName);
+      }
+    },
+    {
+      name: "配对随姓：男随父姓·女随母姓（龙凤胎）",
+      fn: () => {
+        const P = A.Pairs;
+        const r = P.generate(makeInput({ pairType: "mf", motherSurname: "林", splitMode: "genderA", count: 200 }));
+        const hit = r.pairs.find(p => p.pair.id === "panshi-puwei");
+        assert(hit, "应有磐石蒲苇配对");
+        assert(hit.a.fullName === "王磐石" && hit.b.fullName === "林蒲苇",
+          "应为男随父（王磐石）女随母（林蒲苇），实际：" + hit.a.fullName + "/" + hit.b.fullName);
+      }
+    },
+    {
+      name: "配对随姓：母姓妙配在母姓半侧生效（白+玉）",
+      fn: () => {
+        const P = A.Pairs;
+        const r = P.generate(makeInput({ pairType: "mf", motherSurname: "白", splitMode: "fmOrder", count: 200 }));
+        const hit = r.pairs.find(p => p.pair.id === "jinfeng-yulu");
+        assert(hit, "应有金风玉露配对");
+        assert(hit.b.fullName === "白玉露", "幼随母姓应为白玉露");
+        assert(hit.b.dims.meaning.notes.some(n => n.key === "compat"), "白玉露应命中白+玉妙配");
+      }
+    },
+    {
+      name: "乱输入：英文/数字姓氏返回空结果不崩溃",
+      fn: () => {
+        const r1 = C.generate(makeInput({ fatherSurname: "abc123" }));
+        assert(r1.candidates.length === 0, "英文姓氏应返回空");
+        const r2 = C.generate(makeInput({ fatherSurname: "王👶" }));
+        assert(r2.candidates.length === 0, "含 emoji 姓氏应返回空");
+        const P = A.Pairs;
+        const r3 = P.generate(makeInput({ pairType: "mf", fatherSurname: "!!!" }));
+        assert(r3.pairs.length === 0, "配对模式乱输入应返回空");
+      }
+    },
+    {
+      name: "乱输入：母姓为英文时不生成母姓名",
+      fn: () => {
+        const r = C.generate(makeInput({ motherSurname: "Lin", modes: ["quad", "tri"] }));
+        assert(r.candidates.every(c => c.fullName.indexOf("Lin") < 0), "英文母姓不应入名");
+      }
+    },
+    {
+      name: "边界：count 负数/0/超大自动收敛",
+      fn: () => {
+        const r1 = C.generate(makeInput({ count: -5 }));
+        assert(r1.candidates.length >= 1, "负数 count 应至少 1 条");
+        const r2 = C.generate(makeInput({ count: 99999 }));
+        assert(r2.candidates.length <= 100, "超大 count 应限制在 100");
+      }
+    },
+    {
+      name: "边界：modes 为空数组/缺失不崩溃",
+      fn: () => {
+        const r1 = C.generate(makeInput({ modes: [] }));
+        assert(Array.isArray(r1.candidates), "空 modes 应返回空数组");
+        const inp = makeInput();
+        delete inp.modes;
+        const r2 = C.generate(inp);
+        assert(r2.candidates.length > 0, "缺失 modes 应回退默认双字名");
+      }
+    },
+    {
+      name: "边界：避讳字乱输入不影响生成",
+      fn: () => {
+        const r = C.generate(makeInput({ taboo: ["abc", "，", "💩", "玉"] }));
+        assert(r.candidates.every(c => !c.givenChars.includes("玉")), "正常避讳字应生效");
+      }
+    },
+    {
+      name: "边界：母姓为空时母姓模式无候选但不崩溃",
+      fn: () => {
+        const r = C.generate(makeInput({ motherSurname: "", modes: ["quad", "tri"] }));
+        assert(r.candidates.every(c => c.fullName.length <= 4), "无母姓时不应有母姓名");
+        assert(Array.isArray(r.candidates), "不崩溃");
+      }
+    },
+    {
+      name: "换一批：all 含多批数据且 candidates 为首批",
+      fn: () => {
+        const r = C.generate(makeInput({ count: 10 }));
+        assert(Array.isArray(r.all) && r.all.length >= 20, "all 应含至少 2 批数据");
+        assert(r.candidates.length === 10, "首批应为 10 个");
+        assert(r.candidates[0].fullName === r.all[0].fullName, "candidates 应为 all 的前 count 个");
+        // 多样性在整批列表内仍成立
+        const firstCount = {};
+        r.all.forEach(c => {
+          const k = c.entry.given[0];
+          firstCount[k] = (firstCount[k] || 0) + 1;
+          assert(firstCount[k] <= 3, "整批列表首字「" + k + "」超限");
+        });
+      }
+    },
+    {
+      name: "换一批：配对模式 all 含多批",
+      fn: () => {
+        const P = A.Pairs;
+        const r = P.generate(makeInput({ pairType: "mf", count: 5 }));
+        assert(r.pairs.length === 5, "首批应为 5 对");
+        assert(Array.isArray(r.all) && r.all.length >= 10, "配对 all 应含至少 2 批");
       }
     }
   ];

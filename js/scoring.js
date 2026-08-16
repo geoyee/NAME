@@ -41,7 +41,9 @@ window.NamesApp.Scoring = (function () {
     const f = freqScore(cand.givenChars);
 
     const w = config().weights;
-    const total = w.phonetic * p.score + w.shape * s.score + w.meaning * m.score + w.gender * g + w.freq * f;
+    // 按比例归一：用户滑杆无需合计 100
+    const wsum = w.phonetic + w.shape + w.meaning + w.gender + w.freq || 1;
+    const total = (w.phonetic * p.score + w.shape * s.score + w.meaning * m.score + w.gender * g + w.freq * f) / wsum;
 
     return {
       total: Math.round(total * 10) / 10,
