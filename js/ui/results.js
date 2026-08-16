@@ -11,9 +11,12 @@ window.NamesApp.UI.Results = (function () {
 
   function $(id) { return document.getElementById(id); }
 
+  function pageSize() {
+    return input && input.count ? input.count : 15;
+  }
+
   function pageCount() {
-    const n = input && input.count ? input.count : 15;
-    return Math.max(1, Math.ceil(allList.length / n));
+    return Math.max(1, Math.ceil(allList.length / pageSize()));
   }
 
   function render(result, inp) {
@@ -23,6 +26,10 @@ window.NamesApp.UI.Results = (function () {
     input = inp;
     pageStart = 0;
     applySort(window.NamesApp.UI.Form.getState().sort);
+
+    // 单名模式恢复排序控件（配对模式隐藏排序、保留「换一批」）
+    $("sort-label").style.display = "";
+    $("sort-group").style.display = "";
 
     const summary = $("summary");
     summary.classList.remove("hidden");
@@ -44,7 +51,7 @@ window.NamesApp.UI.Results = (function () {
 
   function updateBatchLabel() {
     const btn = $("btn-next-batch");
-    const n = input && input.count ? input.count : 15;
+    const n = pageSize();
     const pages = pageCount();
     if (allList.length > n) {
       btn.classList.remove("hidden");
@@ -55,7 +62,7 @@ window.NamesApp.UI.Results = (function () {
   }
 
   function nextBatch() {
-    const n = input && input.count ? input.count : 15;
+    const n = pageSize();
     if (allList.length <= n) return;
     pageStart += n;
     if (pageStart >= allList.length) pageStart = 0;   // 循环换批
@@ -75,8 +82,8 @@ window.NamesApp.UI.Results = (function () {
     sortedAll = allList.slice().sort(function (a, b) {
       return access(b) - access(a) || b.dims.meaning.score - a.dims.meaning.score;
     });
-    candidates = sortedAll.slice(0, input && input.count ? input.count : 15);
-    const n = input && input.count ? input.count : 15;
+    candidates = sortedAll.slice(0, pageSize());
+    const n = pageSize();
     drawCards(sortedAll.slice(pageStart, pageStart + n));
   }
 
@@ -95,7 +102,10 @@ window.NamesApp.UI.Results = (function () {
     pairMode = true;
     input = inp;
     pageStart = 0;
-    $("sort-row").classList.add("hidden");
+    // 配对模式：保留「换一批」，隐藏排序控件（配对按平均分排序，不支持重排）
+    $("sort-row").classList.remove("hidden");
+    $("sort-label").style.display = "none";
+    $("sort-group").style.display = "none";
 
     const summary = $("summary");
     const typeLabel = { mm: "双胞胎（兄弟）", ff: "双胞胎（姐妹）", mf: "龙凤胎" }[inp.pairType] || "";
@@ -103,7 +113,7 @@ window.NamesApp.UI.Results = (function () {
     summary.classList.remove("hidden");
     updateBatchLabel();
 
-    drawPairCards(allList.slice(0, input.count || 10));
+    drawPairCards(allList.slice(0, pageSize()));
 
     const empty = $("empty");
     if (allList.length === 0) empty.classList.remove("hidden");
